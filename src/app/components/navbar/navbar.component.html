@@ -1,0 +1,20 @@
+<div class="navbar">
+  <div class="background-image">
+    <img [src]="location.banner"/>
+  </div>
+  <div (click)="toggleSidenav()" class="menu-button">
+    ☰
+  </div>
+  <div class="logo left">
+    <img [src]="'assets/images/FS-white.png'"/>
+  </div>
+  <div class="title">
+    {{location.title}}
+  </div>
+  <div class="logout-button">
+    ➲
+  </div>
+  <div class="logo right">
+    <img [src]="'assets/images/BLM_Shield.png'"/>
+  </div>
+</div>
