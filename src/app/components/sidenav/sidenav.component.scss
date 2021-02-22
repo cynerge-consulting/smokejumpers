@@ -17,7 +17,6 @@
     cursor: pointer;
     min-height: 48px;
     justify-content: space-between;
-    // align-items: center;
     flex-direction: column;
 
     .item-container {
@@ -35,6 +34,10 @@
         text-align: left;
         display: flex;
         align-items: center;
+      }
+
+      &:hover {
+        color: #006632;
       }
 
       .expand-button {
@@ -61,13 +64,22 @@
 
     &:hover {
       background: #ededed;
+
       .subitem {
         background: white;
       }
     }
 
     &.selected {
-      color: #006632;
+      background: #006632;
+      color: white;
+      font-weight: bold;
+
+      &:hover {
+        .name {
+          color: white;
+        }
+      }
     }
 
     .subitem {
@@ -78,8 +90,16 @@
       width: 100%;
       align-items: center;
       cursor: pointer;
+
       &:hover {
         background: #ededed;
+        color: #006632;
+      }
+
+      &.selected {
+        background: #006632;
+        color: white;
+        font-weight: bold;
       }
     }
   }

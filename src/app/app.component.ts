@@ -11,7 +11,7 @@ export class AppComponent {
     banner: 'assets/images/dashBanner.png',
     title: 'Dashboard'
   }
-  title = 'smokejumpers';
+  title = 'MADB/MARS - Smokejumpers';
   showingSidenav = true;
 
   onToggledSidenav = (event) => {

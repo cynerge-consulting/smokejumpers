@@ -9,7 +9,7 @@
       </div>
     </div>
     <div *ngIf="item.expanded" class="subitems">
-      <div *ngFor="let subitem of item.items" class="subitem">
+      <div (click)="select(subitem)" *ngFor="let subitem of item.items" class="subitem" [ngClass]="selected === subitem.name ? 'selected' : ''">
         {{subitem.name}}
       </div>
     </div>
