@@ -10,7 +10,7 @@
   overflow: hidden;
   transition: all 0.33s ease;
   padding-top: 25px;
-
+  opacity: 0;
   .item {
     width: 100%;
     display: flex;
@@ -107,5 +107,6 @@
   &.expanded {
     width: 250px;
     box-shadow: gray 0 6px 5px 5px;
+    opacity: 1;
   }
 }

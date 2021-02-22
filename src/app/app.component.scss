@@ -1,0 +1,11 @@
+.viewport {
+  position: absolute;
+  top: 64px;
+  width: calc(100% - 250px);
+  left: 250px;
+  transition: all .33s ease;
+  &.fullwidth {
+    left: 0px;
+    width: 100%;
+  }
+}

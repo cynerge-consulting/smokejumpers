@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-sidenav',
@@ -7,11 +8,13 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class SidenavComponent implements OnInit {
   @Input() expanded: boolean;
+  @Output() selectedNavItem = new EventEmitter<Object>();
 
   selected: ''
   menuItems = [{
     name: 'DASHBOARD',
-    icon: 'blabla.png',
+    route: 'dashboard',
+    banner: 'assets/images/dashBanner.png',
     hasItems: false
   }, {
     name: 'Incidents',
@@ -19,11 +22,17 @@ export class SidenavComponent implements OnInit {
     hasItems: true,
     expanded: false,
     items: [{
-      name: 'New Incident'
+      name: 'New Incident',
+      route: 'incidents',
+      banner: 'assets/images/incBanner.png'
     }, {
-      name: 'View/Edit Current Year'
+      name: 'View/Edit Current Year',
+      route: 'incidents',
+      banner: 'assets/images/incBanner.png'
     }, {
-      name: 'View Previous Years'
+      name: 'View Previous Years',
+      route: 'incidents',
+      banner: 'assets/images/incBanner.png'
     }]
   }, {
     name: 'Reports',
@@ -41,7 +50,9 @@ export class SidenavComponent implements OnInit {
     }]
   }]
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
   }
@@ -51,6 +62,10 @@ export class SidenavComponent implements OnInit {
       item.expanded = !item.expanded
     } else {
       this.selected = item.name
+      if (item.route) {
+        this.router.navigate([item.route])
+        this.selectedNavItem.emit(item);
+      }
     }
   }
 

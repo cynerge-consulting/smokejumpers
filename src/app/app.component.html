@@ -1,3 +1,5 @@
 <app-navbar (toggledSidenav)="onToggledSidenav($event)" [location]="location"></app-navbar>
-<app-sidenav [expanded]="showingSidenav"></app-sidenav>
-<router-outlet></router-outlet>
+<app-sidenav (selectedNavItem)="onSelectedNavItem($event)" [expanded]="showingSidenav"></app-sidenav>
+<div class="viewport" [ngClass]="showingSidenav ? '' : 'fullwidth'">
+  <router-outlet></router-outlet>
+</div>
