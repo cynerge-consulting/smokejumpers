@@ -7,7 +7,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "p:fix": "prettier --config ./.prettierrc --write \"src{app,environments}/**/*{.ts,.html,.scss}\"",
+    "p:verify": "prettier --config ./.prettierrc --list-different \"src{app,environments}/**/*{.ts,.html,.scss}\""
   },
   "private": true,
   "dependencies": {
