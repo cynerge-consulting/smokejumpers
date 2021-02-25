@@ -7,6 +7,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { IncidentsComponent } from './routes/incidents/incidents.component';
+import { DropdownComponent } from './components/dropdown/dropdown.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { IncidentsComponent } from './routes/incidents/incidents.component';
     SidenavComponent,
     NavbarComponent,
     DashboardComponent,
-    IncidentsComponent
+    IncidentsComponent,
+    DropdownComponent
   ],
   imports: [
     BrowserModule,
