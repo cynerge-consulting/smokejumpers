@@ -44,3 +44,10 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Environment Variables / Sensitive Data
+env.js
+/src/environments/environment.ts
+/src/environments/environment.prod.ts
+src/environments/environment.ts
+src/environments/environment.prod.ts
