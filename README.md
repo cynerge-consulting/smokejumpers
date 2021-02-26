@@ -1,6 +1,11 @@
 # Smokejumpers
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.2.
+Smokejumpers
+
+## Generating environment variables
+
+Edit `env.js` according to instructions within it's code comments.
+Run `node env.js`.
 
 ## Development server
 
