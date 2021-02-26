@@ -1,1 +1,18 @@
-<p>dropdown works!</p>
+<div class="dropdown-wrapper">
+  <div class="dropdown" [ngClass]="{ open: isOpen }">
+    <div class="dropdown-inner" (click)="toggleDropdown()">
+      <span>{{ placeholder }}</span>
+      <div class="arrow"></div>
+    </div>
+    <div class="dropdown-options" *ngIf="isOpen">
+      <span
+        class="dropdown-option"
+        *ngFor="let option of dropdownOptions; let i = index"
+        [value]="option.value"
+        (click)="changeOption($event)"
+      >
+        {{ option.name }}
+      </span>
+    </div>
+  </div>
+</div>

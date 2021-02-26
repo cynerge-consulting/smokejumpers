@@ -1,0 +1,80 @@
+.dropdown-wrapper {
+  position: relative;
+  width: 16em;
+}
+.dropdown {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-width: 0 1px 0 1px;
+  border-style: solid;
+  border-color: #006632;
+}
+.dropdown-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  font-size: 18px;
+  height: 45px;
+  cursor: pointer;
+  border-width: 1px 0 1px 0;
+  border-style: solid;
+  border-color: #006632;
+}
+.dropdown-options {
+  display: block;
+  border-bottom: 1px solid #006632;
+  border-top: 0;
+}
+.dropdown-option {
+  position: relative;
+  display: block;
+  padding: 0 22px 0 22px;
+  font-size: 18px;
+  line-height: 40px;
+  cursor: pointer;
+}
+.dropdown-option:hover {
+  cursor: pointer;
+  background-color: #b2b2b2;
+}
+.dropdown-option.selected {
+  color: #ffffff;
+  background-color: #006632;
+}
+
+// Arrow CSS
+.arrow {
+  position: relative;
+  height: 15px;
+  width: 15px;
+}
+.arrow::before,
+.arrow::after {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  width: 0.15rem;
+  height: 100%;
+  transition: all 0.5s;
+}
+.arrow::before {
+  left: -5px;
+  transform: rotate(45deg);
+  background-color: #394a6d;
+}
+.arrow::after {
+  left: 5px;
+  transform: rotate(-45deg);
+  background-color: #394a6d;
+}
+.open .arrow::before {
+  left: -5px;
+  transform: rotate(-45deg);
+}
+.open .arrow::after {
+  left: 5px;
+  transform: rotate(45deg);
+}
