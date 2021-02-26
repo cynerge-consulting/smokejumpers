@@ -32,6 +32,7 @@ export class DropdownComponent implements OnInit {
     }
   ];
 
+  // This will be removed later once app-clickmask component is implemented
   @HostListener('document:click', ['$event.target']) public onClick(target) {
     const clickedInside = this.elementRef.nativeElement.contains(target);
     if (!clickedInside) {
