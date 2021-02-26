@@ -1,0 +1,22 @@
+<div class="table">
+  <div class="row headings">
+    <div *ngFor="let column of columns" class="cell heading">
+      <span>{{ column.label }}</span>
+    </div>
+    <div (click)="showSettings()" class="heading settings">⋮</div>
+  </div>
+  <div class="rows">
+    <div
+      *ngFor="let row of rows"
+      class="row"
+      (click)="selected = row"
+      [ngClass]="selected === row ? 'selected' : ''"
+    >
+      <div *ngFor="let column of columns" class="cell">
+        <span>{{ row[column.key] }}</span>
+      </div>
+      <!-- TODO: replace this menu with a dropdown component -->
+      <div (click)="showMenu(row)" class="menu">⋮</div>
+    </div>
+  </div>
+</div>
