@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import axios from 'axios';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-incidents',
@@ -6,34 +8,30 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./incidents.component.scss']
 })
 export class IncidentsComponent implements OnInit {
-  incidents = [{
-    name: 'incident 1',
-    type: 'parachute',
-    user: 'bobby jumper',
-    date: Date.now()
-  }, {
-    name: '2nd incident',
-    type: 'aircraft',
-    user: 'pilot tom',
-    date: Date.now()
-  }]
-  headings = [{
-    label: 'Incident',
-    key: 'name'
-  }, {
-    label: 'Type',
-    key: 'type',
-  }, {
-    label: 'Name',
-    key: 'user'
-  }, {
-    label: 'Date',
-    key: 'date'
-  }]
+  incidents = [];
+  headings = [
+    {
+      label: 'Incident',
+      key: '_mission'
+    },
+    {
+      label: 'Type',
+      key: '_mode'
+    },
+    {
+      label: 'Name',
+      key: '_nameofIncident'
+    },
+    {
+      label: 'Date',
+      key: '_incidentDate'
+    }
+  ];
 
   constructor() { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    let incs = await axios.get(environment.API_URL + '/api/incidents');
+    this.incidents = incs.data.value;
   }
-
 }
