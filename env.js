@@ -1,26 +1,32 @@
 fs = require('fs');
+require('dotenv').config();
 
-// fill in the following variables with the correct values
-let production = false;
-let API_URL = 'http://localhost:6977';
-// don't touch anything below here
+// read in env vars
+let production = process.env.PRODUCTION;
+let API_URL = process.env.API_URL;
 
+// determine the path
 let pwd = process.cwd();
 let path = pwd;
-path += production
-  ? '/src/environments/environment.prod.ts'
-  : '/src/environments/environment.ts';
+if (production === 'true') {
+  path = path + '/src/environments/environment.prod.ts';
+} else {
+  path = path + '/src/environments/environment.ts';
+}
 
+// create the file contents based on the template and the env var values
 let template = `export const environment = {
   production: ${production},
   API_URL: '${API_URL}'
 };`;
 
-if (!fs.existsSync(pwd + '/src/environments')){
-    fs.mkdirSync(pwd + '/src/environments');
+// create environment file if it doesn't exist
+if (!fs.existsSync(pwd + '/src/environments')) {
+  fs.mkdirSync(pwd + '/src/environments');
 }
 
-fs.writeFile(path, template, {flag: 'w+'}, function (err) {
+// write env vars to angular environment file
+fs.writeFile(path, template, { flag: 'w+' }, function (err) {
   if (err) {
     return console.log(err);
   }
