@@ -7,6 +7,9 @@ const routes: Routes = [
   { path: '', component: DashboardComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'incidents', component: IncidentsComponent },
+  { path: 'jumpers', component: IncidentsComponent },
+  { path: 'equipment', component: IncidentsComponent },
+  { path: 'bases', component: IncidentsComponent },
 ];
 
 @NgModule({

@@ -37,8 +37,15 @@
       transition: all 0.33s ease;
     }
     &:hover {
+        background: #ededed;
+        color: #006632;
       .menu-button {
         opacity: 1;
+      }
+    }
+    &.headings {
+      &:hover {
+        background: white;
       }
     }
     &.selected {

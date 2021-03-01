@@ -12,42 +12,25 @@ export class SidenavComponent implements OnInit {
 
   selected: ''
   menuItems = [{
-    name: 'DASHBOARD',
+    name: 'Dashboard',
     route: 'dashboard',
-    banner: 'assets/images/dashBanner.png',
-    hasItems: false
+    banner: 'assets/images/dashBanner.png'
   }, {
     name: 'Incidents',
-    icon: 'incidents.png',
-    hasItems: true,
-    expanded: false,
-    items: [{
-      name: 'New Incident',
-      route: 'incidents',
-      banner: 'assets/images/incBanner.png'
-    }, {
-      name: 'View/Edit Current Year',
-      route: 'incidents',
-      banner: 'assets/images/incBanner.png'
-    }, {
-      name: 'View Previous Years',
-      route: 'incidents',
-      banner: 'assets/images/incBanner.png'
-    }]
+    route: 'incidents',
+    banner: 'assets/images/incBanner.png'
   }, {
-    name: 'Reports',
-    icon: 'reports.png',
-    hasItems: true,
-    expanded: false,
-    items: [{
-      name: 'Reports Dashboard'
-    }, {
-      name: 'Base Roster'
-    }, {
-      name: 'Booster Sheet'
-    }, {
-      name: 'Days Off'
-    }]
+    name: 'Jumpers',
+    route: 'jumpers',
+    banner: 'assets/images/repBanner.png'
+  }, {
+    name: 'Equipment',
+    route: 'equipment',
+    banner: 'assets/images/dbmBanner.png'
+  }, {
+    name: 'Bases',
+    route: 'bases',
+    banner: 'assets/images/MarsBanner.jpg'
   }]
 
   constructor(
@@ -58,14 +41,10 @@ export class SidenavComponent implements OnInit {
   }
 
   select = (item) => {
-    if (item.hasItems) {
-      item.expanded = !item.expanded
-    } else {
-      this.selected = item.name
-      if (item.route) {
-        this.router.navigate([item.route])
-        this.selectedNavItem.emit(item);
-      }
+    this.selected = item.name
+    if (item.route) {
+      this.router.navigate([item.route])
+      this.selectedNavItem.emit(item);
     }
   }
 
