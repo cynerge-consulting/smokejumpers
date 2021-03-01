@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class TableComponent implements OnInit {
   @Input() rows: any;
   @Input() columns: any;
+  @Input() settings: any;
   selected;
   rowMenu = 'clickmask';
 
@@ -24,5 +25,8 @@ export class TableComponent implements OnInit {
     this.rowMenu = 'clickmask';
   };
 
-  showSettings = () => { };
+  action = (setting) => {
+    console.dir(setting)
+  }
+  showSettings = () => {};
 }

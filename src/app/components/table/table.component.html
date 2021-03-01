@@ -3,7 +3,10 @@
     <div *ngFor="let column of columns" class="cell heading">
       <span>{{ column.label }}</span>
     </div>
-    <div (click)="showSettings()" class="heading settings-button">⋮</div>
+    <div (click)="showSettings(); rowMenu = 'settings'" class="heading settings-button">+</div>
+    <div class="settings-menu" *ngIf="rowMenu === 'settings'">
+      <span (click)="action(setting)" *ngFor="let setting of settings">{{setting.label}}</span>
+    </div>
   </div>
   <div class="rows">
     <div
