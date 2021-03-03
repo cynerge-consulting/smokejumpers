@@ -12,25 +12,101 @@ export class SidenavComponent implements OnInit {
 
   selected: ''
   menuItems = [{
-    name: 'Dashboard',
+    name: 'DASHBOARD',
     route: 'dashboard',
-    banner: 'assets/images/dashBanner.png'
+    banner: 'assets/images/dashBanner.png',
+    hasItems: false
   }, {
-    name: 'Incidents',
-    route: 'incidents',
-    banner: 'assets/images/incBanner.png'
+    name: 'Incident Information',
+    icon: 'incidents.png',
+    hasItems: true,
+    expanded: false,
+    items: [{
+      name: 'New Incident',
+      route: 'incidents/new',
+      banner: 'assets/images/incBanner.png'
+    }, {
+      name: 'View/Edit Current Year',
+      route: 'incidents',
+      banner: 'assets/images/incBanner.png'
+    }, {
+      name: 'View Previous Years',
+      route: 'incidents',
+      banner: 'assets/images/incBanner.png'
+    }]
   }, {
-    name: 'Jumpers',
-    route: 'jumpers',
-    banner: 'assets/images/repBanner.png'
+    name: 'View Reports',
+    icon: 'reports.png',
+    hasItems: true,
+    expanded: false,
+    items: [{
+      name: 'Reports Dashboard',
+      route: 'reports',
+      banner: 'assets/images/incBanner.png'
+    }, {
+      name: 'Base Roster',
+      route: 'reports',
+      banner: 'assets/images/incBanner.png'
+    }, {
+      name: 'Booster Sheet',
+      route: 'reports',
+      banner: 'assets/images/incBanner.png'
+    }, {
+      name: 'Days Off',
+      route: 'reports',
+      banner: 'assets/images/incBanner.png'
+    }]
   }, {
-    name: 'Equipment',
-    route: 'equipment',
-    banner: 'assets/images/dbmBanner.png'
+    name: 'Database Management',
+    icon: 'reports.png',
+    hasItems: true,
+    expanded: false,
+    items: [{
+      name: 'Database Dashboard',
+      route: 'database',
+      banner: 'assets/images/incBanner.png'
+    }, {
+      name: 'Jumpers',
+      route: 'jumpers',
+      banner: 'assets/images/incBanner.png'
+    }, {
+      name: 'Retired Jumpers',
+      route: 'jumpers',
+      banner: 'assets/images/incBanner.png'
+    }, {
+      name: 'Transfer Jumpers',
+      route: 'jumpers',
+      banner: 'assets/images/incBanner.png'
+    }, {
+      name: 'Edit LDO',
+      route: 'jumpers',
+      banner: 'assets/images/incBanner.png'
+    }]
   }, {
-    name: 'Bases',
-    route: 'bases',
-    banner: 'assets/images/MarsBanner.jpg'
+    name: 'Mapped Actions',
+    icon: 'map.png',
+    route: 'map',
+    hasItems: false
+  }, {
+    name: 'Booster in Brief',
+    icon: 'map.png',
+    route: 'booster',
+    hasItems: false
+  }, {
+    name: 'Base Admin',
+    icon: 'admin.png',
+    route: 'base',
+    hasItems: true,
+    expanded: false,
+    items: [{
+      name: 'User Management',
+      route: 'admin/users',
+      banner: 'assets/images/incBanner.png'
+    }, {
+      name: 'Download Data',
+      route: 'reports',
+      banner: 'assets/images/incBanner.png'
+    }]
   }]
 
   constructor(
@@ -41,10 +117,14 @@ export class SidenavComponent implements OnInit {
   }
 
   select = (item) => {
-    this.selected = item.name
-    if (item.route) {
-      this.router.navigate([item.route])
-      this.selectedNavItem.emit(item);
+    if (item.hasItems) {
+      item.expanded = !item.expanded
+    } else {
+      this.selected = item.name
+      if (item.route) {
+        this.router.navigate([item.route])
+        this.selectedNavItem.emit(item);
+      }
     }
   }
 
