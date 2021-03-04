@@ -38,17 +38,13 @@ export class DropdownComponent implements OnInit {
 
   toggleDropdown(): void {
     this.isOpen = !this.isOpen;
-    console.log(this.isOpen);
   }
 
   changeOption(event: any): void {
-    console.log(event);
     this.selectedValue = event.target.value;
     if (this.placeholder) {
       this.placeholder = event.target.innerText;
     }
-    console.log(this.selectedValue);
-    console.log(this.placeholder);
     this.isOpen = false;
   }
 }
