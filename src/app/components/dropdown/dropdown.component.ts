@@ -3,7 +3,9 @@ import {
   ElementRef,
   HostListener,
   Input,
-  OnInit
+  OnInit,
+  Output,
+  EventEmitter
 } from '@angular/core';
 
 @Component({
@@ -17,20 +19,10 @@ export class DropdownComponent implements OnInit {
   @Input() placeholder: string;
   @Input() required: boolean;
   @Input() selectedValue: any;
-  @Input() dropdownOptions = [
-    {
-      name: 'Angular',
-      value: 'angular'
-    },
-    {
-      name: 'Vue',
-      value: 'vue'
-    },
-    {
-      name: 'React',
-      value: 'react'
-    }
-  ];
+  @Input() dropdownOptions = [];
+  // Used to toggle dropdown options inside of another component like an ellipsis for example
+  @Output()
+  toggleDropdownOptions: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   // This will be removed later once app-clickmask component is implemented
   @HostListener('document:click', ['$event.target']) public onClick(target) {
@@ -38,7 +30,6 @@ export class DropdownComponent implements OnInit {
     if (!clickedInside) {
       this.isOpen = false;
     }
-    console.log(this.isOpen);
   }
 
   constructor(private elementRef: ElementRef) {}
@@ -53,7 +44,11 @@ export class DropdownComponent implements OnInit {
   changeOption(event: any): void {
     console.log(event);
     this.selectedValue = event.target.value;
-    this.placeholder = event.target.innerText;
+    if (this.placeholder) {
+      this.placeholder = event.target.innerText;
+    }
+    console.log(this.selectedValue);
+    console.log(this.placeholder);
     this.isOpen = false;
   }
 }

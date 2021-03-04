@@ -8,6 +8,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { IncidentsComponent } from './routes/incidents/incidents.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
+import { TableComponent } from './components/table/table.component';
 
 @NgModule({
   declarations: [
@@ -16,13 +17,11 @@ import { DropdownComponent } from './components/dropdown/dropdown.component';
     NavbarComponent,
     DashboardComponent,
     IncidentsComponent,
-    DropdownComponent
+    DropdownComponent,
+    TableComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  imports: [BrowserModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,6 +1,6 @@
 <div class="dropdown-wrapper">
-  <div class="dropdown" [ngClass]="{ open: isOpen }">
-    <div class="dropdown-inner" (click)="toggleDropdown()">
+  <div class="dropdown" [ngClass]="{ open: isOpen }" (click)="toggleDropdown()">
+    <div class="dropdown-inner" *ngIf="placeholder">
       <span>{{ placeholder }}</span>
       <div class="arrow"></div>
     </div>
@@ -11,7 +11,7 @@
         [value]="option.value"
         (click)="changeOption($event)"
       >
-        {{ option.name }}
+        {{ option }}
       </span>
     </div>
   </div>

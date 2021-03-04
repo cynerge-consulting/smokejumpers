@@ -16,33 +16,33 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 22px;
-  font-size: 18px;
-  height: 45px;
+  font-size: 16px;
+  height: 40px;
   cursor: pointer;
   border-width: 1px 0 1px 0;
   border-style: solid;
   border-color: #006632;
 }
 .dropdown-options {
+  height: 150px;
+  background: white;
   display: block;
   border-bottom: 1px solid #006632;
   border-top: 0;
+  overflow: auto;
 }
 .dropdown-option {
   position: relative;
   display: block;
   padding: 0 22px 0 22px;
-  font-size: 18px;
-  line-height: 40px;
+  font-size: 16px;
+  line-height: 30px;
   cursor: pointer;
 }
 .dropdown-option:hover {
   cursor: pointer;
   background-color: #b2b2b2;
-}
-.dropdown-option.selected {
-  color: #ffffff;
-  background-color: #006632;
+  transition: 0.4s ease;
 }
 
 // Arrow CSS
@@ -77,4 +77,27 @@
 .open .arrow::after {
   left: 5px;
   transform: rotate(45deg);
+}
+
+// Scrollbar
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #006632;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #013319;
 }
