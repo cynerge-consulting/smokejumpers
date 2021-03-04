@@ -26,7 +26,6 @@ import { MapComponent } from './routes/map/map.component';
     DashboardComponent,
     IncidentsComponent,
     DropdownComponent,
-    TableComponent
     TableComponent,
     NewIncidentComponent,
     ReportsComponent,
