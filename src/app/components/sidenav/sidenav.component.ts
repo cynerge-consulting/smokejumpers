@@ -17,13 +17,13 @@ export class SidenavComponent implements OnInit {
     banner: 'assets/images/dashBanner.png',
     hasItems: false
   }, {
-    name: 'Incidents',
+    name: 'Incident Information',
     icon: 'incidents.png',
     hasItems: true,
     expanded: false,
     items: [{
       name: 'New Incident',
-      route: 'incidents',
+      route: 'incidents/new',
       banner: 'assets/images/incBanner.png'
     }, {
       name: 'View/Edit Current Year',
@@ -35,18 +35,77 @@ export class SidenavComponent implements OnInit {
       banner: 'assets/images/incBanner.png'
     }]
   }, {
-    name: 'Reports',
+    name: 'View Reports',
     icon: 'reports.png',
     hasItems: true,
     expanded: false,
     items: [{
-      name: 'Reports Dashboard'
+      name: 'Reports Dashboard',
+      route: 'reports',
+      banner: 'assets/images/incBanner.png'
     }, {
-      name: 'Base Roster'
+      name: 'Base Roster',
+      route: 'reports',
+      banner: 'assets/images/incBanner.png'
     }, {
-      name: 'Booster Sheet'
+      name: 'Booster Sheet',
+      route: 'reports',
+      banner: 'assets/images/incBanner.png'
     }, {
-      name: 'Days Off'
+      name: 'Days Off',
+      route: 'reports',
+      banner: 'assets/images/incBanner.png'
+    }]
+  }, {
+    name: 'Database Management',
+    icon: 'reports.png',
+    hasItems: true,
+    expanded: false,
+    items: [{
+      name: 'Database Dashboard',
+      route: 'database',
+      banner: 'assets/images/incBanner.png'
+    }, {
+      name: 'Jumpers',
+      route: 'jumpers',
+      banner: 'assets/images/incBanner.png'
+    }, {
+      name: 'Retired Jumpers',
+      route: 'jumpers',
+      banner: 'assets/images/incBanner.png'
+    }, {
+      name: 'Transfer Jumpers',
+      route: 'jumpers',
+      banner: 'assets/images/incBanner.png'
+    }, {
+      name: 'Edit LDO',
+      route: 'jumpers',
+      banner: 'assets/images/incBanner.png'
+    }]
+  }, {
+    name: 'Mapped Actions',
+    icon: 'map.png',
+    route: 'map',
+    hasItems: false
+  }, {
+    name: 'Booster in Brief',
+    icon: 'map.png',
+    route: 'booster',
+    hasItems: false
+  }, {
+    name: 'Base Admin',
+    icon: 'admin.png',
+    route: 'base',
+    hasItems: true,
+    expanded: false,
+    items: [{
+      name: 'User Management',
+      route: 'admin/users',
+      banner: 'assets/images/incBanner.png'
+    }, {
+      name: 'Download Data',
+      route: 'reports',
+      banner: 'assets/images/incBanner.png'
     }]
   }]
 

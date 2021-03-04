@@ -27,6 +27,11 @@ export class IncidentsComponent implements OnInit {
       key: '_incidentDate'
     }
   ];
+  settings = [{
+    label: 'New Incident',
+    action: 'create',
+    target: 'incident'
+  }]
 
   constructor() { }
 

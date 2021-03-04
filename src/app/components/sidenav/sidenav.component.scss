@@ -3,15 +3,17 @@
   width: 0;
   height: calc(100% - 89px);
   position: absolute;
+  z-index: 10;
   left: 0;
   top: 64px;
   box-shadow: transparent 0 0 0 0;
   text-align: center;
-  overflow: hidden;
+  overflow-x: hidden;
   transition: all 0.33s ease;
   padding-top: 25px;
   opacity: 0;
   .item {
+    font-size: 14px;
     width: 100%;
     display: flex;
     cursor: pointer;
@@ -20,6 +22,7 @@
     flex-direction: column;
 
     .item-container {
+      white-space: nowrap;
       flex-wrap: wrap;
       display: flex;
       flex-direction: row;
@@ -42,7 +45,6 @@
 
       .expand-button {
         height: 48px;
-        width: 50%;
         text-align: right;
         position: relative;
         right: 25px;
@@ -84,7 +86,7 @@
 
     .subitem {
       position: relative;
-      padding-left: 25px;
+      padding-left: 40px;
       min-height: 48px;
       display: flex;
       width: 100%;
