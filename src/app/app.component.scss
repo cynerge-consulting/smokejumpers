@@ -1,11 +1,11 @@
 .viewport {
   position: absolute;
   top: 64px;
-  width: calc(100% - 250px);
+  width: calc(100% - 252px);
   left: 250px;
-  transition: all .33s ease;
+  transition: all 0.33s ease;
   &.fullwidth {
     left: 0px;
-    width: 100%;
+    width: calc(100% - 2px);
   }
 }

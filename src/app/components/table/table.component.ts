@@ -8,15 +8,25 @@ import { Component, Input, OnInit } from '@angular/core';
 export class TableComponent implements OnInit {
   @Input() rows: any;
   @Input() columns: any;
+  @Input() settings: any;
   selected;
+  rowMenu = 'clickmask';
 
   constructor() { }
 
   ngOnInit(): void { }
 
-  showMenu = (row) => {
+  edit = (row) => {
     console.dir(row);
+    this.rowMenu = 'clickmask';
+  };
+  delete = (row) => {
+    console.dir(row);
+    this.rowMenu = 'clickmask';
   };
 
-  showSettings = () => { };
+  action = (setting) => {
+    console.dir(setting)
+  }
+  showSettings = () => {};
 }

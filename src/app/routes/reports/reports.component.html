@@ -1,0 +1,29 @@
+<div class="request-report-form">
+  <div class="report-name">
+    {{name}} Report
+  </div>
+  <div class="dropdown-container" *ngIf="showingBases">
+    <div class="dropdown" (click)="dropdown = 'bases'">{{selectedBase.name}}</div>
+    <div class="menu" *ngIf="dropdown === 'bases'">
+      <span (click)="selectedBase = base; dropdown = 'clickmask'" *ngFor="let base of bases">{{base.name}}</span>
+    </div>
+  </div>
+  <div class="dropdown-container" *ngIf="showingJumpers">
+    <div class="dropdown" (click)="dropdown = 'jumpers'">{{selectedJumper.firstName}} {{selectedJumper.lastName}}</div>
+    <div class="menu" *ngIf="dropdown === 'jumpers'">
+      <span (click)="selectedJumper = jumper; dropdown = 'clickmask'" *ngFor="let jumper of jumpers">{{jumper.firstName}} {{jumper.lastName}}</span>
+    </div>
+  </div>
+  <div class="dropdown-container">
+    <div class="dropdown" (click)="dropdown = 'fileType'">{{fileType}}</div>
+    <div class="menu" *ngIf="dropdown === 'fileType'">
+      <span (click)="fileType = 'XLS'; dropdown = 'clickmask'">XLS</span>
+      <span (click)="fileType = 'PDF'; dropdown = 'clickmask'">PDF</span>
+    </div>
+  </div>
+  <div (click)="generateReport()" class="generate-report-button">Generate Report</div>
+</div>
+<div class="clickmask"
+  [ngClass]="dropdown === 'clickmask' ? '' : 'active'"
+  (click)="dropdown = 'clickmask'"
+></div>

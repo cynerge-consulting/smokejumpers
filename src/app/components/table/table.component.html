@@ -3,7 +3,10 @@
     <div *ngFor="let column of columns" class="cell heading">
       <span>{{ column.label }}</span>
     </div>
-    <div (click)="showSettings()" class="heading settings">⋮</div>
+    <div (click)="showSettings(); rowMenu = 'settings'" class="heading settings-button">+</div>
+    <div class="settings-menu" *ngIf="rowMenu === 'settings'">
+      <span (click)="action(setting)" *ngFor="let setting of settings">{{setting.label}}</span>
+    </div>
   </div>
   <div class="rows">
     <div
@@ -16,7 +19,16 @@
         <span>{{ row[column.key] }}</span>
       </div>
       <!-- TODO: replace this menu with a dropdown component -->
-      <div (click)="showMenu(row)" class="menu">⋮</div>
+      <div (click)="rowMenu = row" class="menu-button">⋮</div>
+      <div class="row-menu" *ngIf="rowMenu === row">
+        <span (click)="edit(row)">Edit</span>
+        <span (click)="delete(row)">Delete</span>
+      </div>
     </div>
   </div>
 </div>
+<div
+  class="clickmask"
+  [ngClass]="rowMenu === 'clickmask' ? '' : 'active'"
+  (click)="rowMenu = 'clickmask'"
+></div>
