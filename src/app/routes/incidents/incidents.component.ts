@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
 
@@ -32,8 +33,13 @@ export class IncidentsComponent implements OnInit {
     action: 'create',
     target: 'incident'
   }]
+  year;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) {
+    this.route.params.subscribe((params) => {
+      this.year = params.year
+    });
+  }
 
   async ngOnInit() {
     let incs = await axios.get(environment.API_URL + '/api/incidents');

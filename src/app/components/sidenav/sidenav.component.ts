@@ -15,11 +15,13 @@ export class SidenavComponent implements OnInit {
     name: 'DASHBOARD',
     route: 'dashboard',
     banner: 'assets/images/dashBanner.png',
-    hasItems: false
+    hasItems: false,
+    hasParams: false
   }, {
     name: 'Incident Information',
     icon: 'incidents.png',
     hasItems: true,
+    hasParams: false,
     expanded: false,
     items: [{
       name: 'New Incident',
@@ -28,11 +30,19 @@ export class SidenavComponent implements OnInit {
     }, {
       name: 'View/Edit Current Year',
       route: 'incidents',
+      hasParams: true,
+      params: {
+        year: 'current'
+      },
       banner: 'assets/images/incBanner.png'
     }, {
       name: 'View Previous Years',
       route: 'incidents',
-      banner: 'assets/images/incBanner.png'
+      banner: 'assets/images/incBanner.png',
+      hasParams: true,
+      params: {
+        year: 'previous'
+      },
     }]
   }, {
     name: 'View Reports',
@@ -40,21 +50,29 @@ export class SidenavComponent implements OnInit {
     hasItems: true,
     expanded: false,
     items: [{
-      name: 'Reports Dashboard',
-      route: 'reports',
-      banner: 'assets/images/incBanner.png'
-    }, {
       name: 'Base Roster',
       route: 'reports',
-      banner: 'assets/images/incBanner.png'
+      banner: 'assets/images/incBanner.png',
+      hasParams: true,
+      params: {
+        type: 'baseRoster'
+      },
     }, {
       name: 'Booster Sheet',
       route: 'reports',
-      banner: 'assets/images/incBanner.png'
+      banner: 'assets/images/incBanner.png',
+      hasParams: true,
+      params: {
+        type: 'boosterSheet'
+      },
     }, {
       name: 'Days Off',
       route: 'reports',
-      banner: 'assets/images/incBanner.png'
+      banner: 'assets/images/incBanner.png',
+      hasParams: true,
+      params: {
+        type: 'daysOff'
+      },
     }]
   }, {
     name: 'Database Management',
@@ -122,7 +140,11 @@ export class SidenavComponent implements OnInit {
     } else {
       this.selected = item.name
       if (item.route) {
-        this.router.navigate([item.route])
+        if (item.hasParams) {
+          this.router.navigate([item.route, item.params])
+        } else {
+          this.router.navigate([item.route])
+        }
         this.selectedNavItem.emit(item);
       }
     }
