@@ -2,6 +2,7 @@
   position: absolute;
   top: 64px;
   width: calc(100% - 252px);
+  height: 100%;
   left: 250px;
   transition: all 0.33s ease;
   &.fullwidth {

@@ -42,10 +42,8 @@ export class ReportsComponent implements OnInit {
     }]
     let jumpers = await axios.get(environment.API_URL + '/api/jumpers');
     this.jumpers = jumpers.data.value
-    console.dir(this.jumpers)
     let bases = await axios.get(environment.API_URL + '/api/base/dropdown/main');
     this.bases = bases.data
-    console.dir(this.bases)
     this.selectedBase = this.bases[0]
     this.selectedJumper = this.jumpers[0]
     this.selectedQualification = this.qualifications[0]
