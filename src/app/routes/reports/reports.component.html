@@ -1,29 +1,71 @@
 <div class="request-report-form">
-  <div class="report-name">
-    {{name}} Report
-  </div>
+  <div class="report-name">{{ name }} Report</div>
   <div class="dropdown-container" *ngIf="showingBases">
-    <div class="dropdown" (click)="dropdown = 'bases'">{{selectedBase.name}}</div>
+    <div class="dropdown" (click)="dropdown = 'bases'">
+      <span class="label">{{ selectedBase.value }}</span>
+      <svg
+        focusable="false"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
+        ></path>
+      </svg>
+    </div>
     <div class="menu" *ngIf="dropdown === 'bases'">
-      <span (click)="selectedBase = base; dropdown = 'clickmask'" *ngFor="let base of bases">{{base.name}}</span>
+      <span
+        (click)="selectedBase = base; dropdown = 'clickmask'"
+        *ngFor="let base of bases"
+        >{{ base.value }}</span
+      >
     </div>
   </div>
   <div class="dropdown-container" *ngIf="showingJumpers">
-    <div class="dropdown" (click)="dropdown = 'jumpers'">{{selectedJumper.firstName}} {{selectedJumper.lastName}}</div>
+    <div class="dropdown" (click)="dropdown = 'jumpers'">
+      <span>{{ selectedJumper.firstName }} {{ selectedJumper.lastName }}</span>
+      <svg
+        focusable="false"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
+        ></path>
+      </svg>
+    </div>
     <div class="menu" *ngIf="dropdown === 'jumpers'">
-      <span (click)="selectedJumper = jumper; dropdown = 'clickmask'" *ngFor="let jumper of jumpers">{{jumper.firstName}} {{jumper.lastName}}</span>
+      <span
+        (click)="selectedJumper = jumper; dropdown = 'clickmask'"
+        *ngFor="let jumper of jumpers"
+        >{{ jumper.firstName }} {{ jumper.lastName }}</span
+      >
     </div>
   </div>
   <div class="dropdown-container">
-    <div class="dropdown" (click)="dropdown = 'fileType'">{{fileType}}</div>
+    <div class="dropdown" (click)="dropdown = 'fileType'">
+      <span>{{ fileType }}</span>
+      <svg
+        focusable="false"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
+        ></path>
+      </svg>
+    </div>
     <div class="menu" *ngIf="dropdown === 'fileType'">
       <span (click)="fileType = 'XLS'; dropdown = 'clickmask'">XLS</span>
       <span (click)="fileType = 'PDF'; dropdown = 'clickmask'">PDF</span>
     </div>
   </div>
-  <div (click)="generateReport()" class="generate-report-button">Generate Report</div>
+  <div (click)="generateReport()" class="generate-report-button">
+    Generate Report
+  </div>
 </div>
-<div class="clickmask"
+<div
+  class="clickmask"
   [ngClass]="dropdown === 'clickmask' ? '' : 'active'"
   (click)="dropdown = 'clickmask'"
 ></div>

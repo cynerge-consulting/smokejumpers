@@ -13,14 +13,16 @@ export class ReportsComponent implements OnInit {
   reportType;
   fileType = 'XLS';
   name;
-  showingJumpers = false
-  showingJumpersMenu = false
+  showingJumpers = false;
+  showingJumpersMenu = false;
   selectedJumper = {};
   jumpers;
   showingBases = false;
   showingBasesMenu = false;
   bases;
-  selectedBase = {};
+  selectedBase = {
+    value: ''
+  };
   showingQualifications = false;
   showingQualificationsMenu = false;
   qualifications;
@@ -31,22 +33,26 @@ export class ReportsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute) {
     this.route.params.subscribe((params) => {
-      this.reportType = params.type
-      this.prepareReportForm(this.reportType)
+      this.reportType = params.type;
+      this.prepareReportForm(this.reportType);
     });
   }
 
   async ngOnInit() {
-    this.qualifications = [{
-      name: 'qual 1'
-    }]
+    this.qualifications = [
+      {
+        name: 'qual 1'
+      }
+    ];
     let jumpers = await axios.get(environment.API_URL + '/api/jumpers');
-    this.jumpers = jumpers.data.value
-    let bases = await axios.get(environment.API_URL + '/api/base/dropdown/main');
-    this.bases = bases.data
-    this.selectedBase = this.bases[0]
-    this.selectedJumper = this.jumpers[0]
-    this.selectedQualification = this.qualifications[0]
+    this.jumpers = jumpers.data.value;
+    let bases = await axios.get(
+      environment.API_URL + '/api/base/dropdown/main'
+    );
+    this.bases = bases.data;
+    this.selectedBase = this.bases[0];
+    this.selectedJumper = this.jumpers[0];
+    this.selectedQualification = this.qualifications[0];
   }
 
   prepareReportForm = (type) => {
@@ -57,31 +63,35 @@ export class ReportsComponent implements OnInit {
     this.showingQualifications = false;
 
     switch (type) {
-      case 'baseRoster':
-        this.name = 'Base Roster'
-        this.showingBases = true
+      case 'baseroster':
+        this.name = 'Base Roster';
+        this.showingBases = true;
         break;
 
-      case 'boosterSheet':
-        this.name = 'Booster Sheet'
-        this.showingBases = true
-        this.showingJumpers = true
+      case 'boostersheet':
+        this.name = 'Booster Sheet';
+        this.showingBases = true;
+        this.showingJumpers = true;
         break;
 
-      case 'daysOff':
-        this.name = 'Days Off'
-        this.showingBases = true
+      case 'daysoff':
+        this.name = 'Days Off';
+        this.showingBases = true;
         break;
 
       default:
-        this.showingBases = true
+        this.showingBases = true;
         this.showingJumpers = true;
         break;
     }
-  }
+  };
 
-  generateReport = () => {
-    console.log('send generate report request')
-  }
-
+  generateReport = async () => {
+    let report = axios.post('/api/Reports/getReport', {
+      basename: this.selectedBase.value,
+      report: this.reportType,
+      reportUrl: 'https://dev.wrk.fs.usda.gov/masteraction/reports',
+      reporttype: this.fileType
+    });
+  };
 }
