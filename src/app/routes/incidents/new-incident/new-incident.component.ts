@@ -15,10 +15,8 @@ export class NewIncidentComponent implements OnInit {
   async ngOnInit() {
     const states = await axios.get(environment.API_URL + '/api/states');
     console.log(states);
-    const newStatesArray = states.data.forEach((state) => {
-      console.log(state.text);
+    states.data.forEach((state) => {
       this.statesList.push(state.text);
     });
-    console.log(newStatesArray);
   }
 }
