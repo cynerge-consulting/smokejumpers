@@ -8,7 +8,7 @@
       <span
         class="dropdown-option"
         *ngFor="let option of dropdownOptions; let i = index"
-        [value]="option.value"
+        [value]="option"
         (click)="changeOption($event)"
       >
         {{ option }}

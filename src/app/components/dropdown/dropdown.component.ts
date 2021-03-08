@@ -45,6 +45,7 @@ export class DropdownComponent implements OnInit {
     if (this.placeholder) {
       this.placeholder = event.target.innerText;
     }
+    console.log(this.selectedValue);
     this.isOpen = false;
   }
 }
