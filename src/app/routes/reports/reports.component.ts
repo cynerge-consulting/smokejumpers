@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
+import * as reportsData from './reports.json';
 
 @Component({
   selector: 'app-reports',
@@ -12,29 +13,32 @@ export class ReportsComponent implements OnInit {
   dropdown = 'clickmask';
   reportType;
   fileType = 'XLS';
-  name;
-  showingJumpers = false;
-  showingJumpersMenu = false;
-  selectedJumper = {};
+  title;
+  reports;
   jumpers;
-  showingBases = false;
-  showingBasesMenu = false;
   bases;
+  qualifications;
   selectedBase = {
     value: ''
   };
-  showingQualifications = false;
-  showingQualificationsMenu = false;
-  qualifications;
+  selectedJumper = {};
   selectedQualification;
-  showingYear = false;
-  showingYearMenu = false;
   selectedYear;
+  showingReports = false;
+  showingJumpers = false;
+  showingBases = false;
+  showingQualifications = false;
+  showingYear = false;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private router: Router) {
+    this.reports = reportsData.reports;
     this.route.params.subscribe((params) => {
       this.reportType = params.type;
-      this.prepareReportForm(this.reportType);
+      this.title = params.title;
+      this.showingJumpers = params.jumpers;
+      this.showingBases = params.bases;
+      this.showingQualifications = params.qualifications;
+      this.showingYear = params.year;
     });
   }
 
@@ -55,39 +59,12 @@ export class ReportsComponent implements OnInit {
     this.selectedQualification = this.qualifications[0];
   }
 
-  prepareReportForm = (type) => {
-    // clear form
-    this.showingYear = false;
-    this.showingBases = false;
-    this.showingJumpers = false;
-    this.showingQualifications = false;
-
-    switch (type) {
-      case 'baseroster':
-        this.name = 'Base Roster';
-        this.showingBases = true;
-        break;
-
-      case 'boostersheet':
-        this.name = 'Booster Sheet';
-        this.showingBases = true;
-        this.showingJumpers = true;
-        break;
-
-      case 'daysoff':
-        this.name = 'Days Off';
-        this.showingBases = true;
-        break;
-
-      default:
-        this.showingBases = true;
-        this.showingJumpers = true;
-        break;
-    }
+  selectReport = (report) => {
+    this.router.navigate([report.route, report.params]);
   };
 
   generateReport = async () => {
-    let report = axios.post('/api/Reports/getReport', {
+    let report = axios.post(environment.API_URL + '/api/Reports/getReport', {
       basename: this.selectedBase.value,
       report: this.reportType,
       reportUrl: 'https://dev.wrk.fs.usda.gov/masteraction/reports',

@@ -1,0 +1,182 @@
+{
+  "reports": [
+    {
+      "name": "Base Roster",
+      "route": "reports",
+      "banner": "assets/images/incBanner.png",
+      "hasParams": true,
+      "params": {
+        "type": "baseroster",
+        "title": "Base Roster",
+        "bases": true
+      }
+    },
+    {
+      "name": "Booster Sheet",
+      "route": "reports",
+      "banner": "assets/images/incBanner.png",
+      "hasParams": true,
+      "params": {
+        "type": "boostersheet",
+        "title": "Booster Sheet",
+        "bases": true,
+        "jumpers": true
+      }
+    },
+    {
+      "name": "Days Off",
+      "route": "reports",
+      "banner": "assets/images/incBanner.png",
+      "hasParams": true,
+      "params": {
+        "type": "daysoff",
+        "title": "Days Off",
+        "bases": true
+      }
+    },
+    {
+      "name": "Last Jumps",
+      "route": "reports",
+      "banner": "assets/images/incBanner.png",
+      "hasParams": true,
+      "params": {
+        "title": "Last Jumps",
+        "type": "lastjump",
+        "bases": true
+      }
+    },
+    {
+      "name": "Last Spotter",
+      "route": "reports",
+      "banner": "assets/images/incBanner.png",
+      "hasParams": true,
+      "params": {
+        "title": "Last Spotter",
+        "type": "lastspotter",
+        "bases": true
+      }
+    },
+    {
+      "name": "ICS Qualifications",
+      "route": "reports",
+      "banner": "assets/images/incBanner.png",
+      "hasParams": true,
+      "params": {
+        "title": "ICS Qualifications",
+        "type": "ICSQualsALL",
+        "bases": true,
+        "qualifications": true
+      }
+    },
+    {
+      "name": "Parachute History",
+      "route": "reports",
+      "banner": "assets/images/incBanner.png",
+      "hasParams": true,
+      "params": {
+        "title": "Parachute History",
+        "type": "chutehistory",
+        "bases": true,
+        "chutes": true
+      }
+    },
+    {
+      "name": "Single Resources",
+      "route": "reports",
+      "banner": "assets/images/incBanner.png",
+      "hasParams": true,
+      "params": {
+        "title": "Single Resources",
+        "type": "srareport",
+        "bases": true
+      }
+    },
+    {
+      "name": "Individual Jump Records",
+      "route": "reports",
+      "banner": "assets/images/incBanner.png",
+      "hasParams": true,
+      "params": {
+        "title": "Individual Jump Records",
+        "type": "individualjumps",
+        "bases": true,
+        "jumpers": true
+      }
+    },
+    {
+      "name": "Individual Spotter Assignment",
+      "route": "reports",
+      "banner": "assets/images/incBanner.png",
+      "hasParams": true,
+      "params": {
+        "title": "Individual Spotter Assignment",
+        "type": "individualspotter",
+        "bases": true,
+        "jumpers": true
+      }
+    },
+    {
+      "name": "Mission By Aircroft",
+      "route": "reports",
+      "banner": "assets/images/incBanner.png",
+      "hasParams": true,
+      "params": {
+        "type": "missionByAircraft"
+      }
+    },
+    {
+      "name": "Master Actions",
+      "route": "reports",
+      "banner": "assets/images/incBanner.png",
+      "hasParams": true,
+      "params": {
+        "type": "masterAction"
+      }
+    },
+    {
+      "name": "Jumpers Nationwide",
+      "route": "reports",
+      "banner": "assets/images/incBanner.png",
+      "hasParams": true,
+      "params": {
+        "type": "jumperhbendofyear"
+      }
+    },
+    {
+      "name": "Administered Actions",
+      "route": "reports",
+      "banner": "assets/images/incBanner.png",
+      "hasParams": true,
+      "params": {
+        "type": "jumperendofyearadmin"
+      }
+    },
+    {
+      "name": "National BLM",
+      "route": "reports",
+      "banner": "assets/images/incBanner.png",
+      "hasParams": true,
+      "params": {
+        "type": "jumperendofyearblm"
+      }
+    },
+    {
+      "name": "Natiomal USFS",
+      "route": "reports",
+      "banner": "assets/images/incBanner.png",
+      "hasParams": true,
+      "params": {
+        "type": "jumperendofyearusfs"
+      }
+    },
+    {
+      "name": "Nationwide by Base",
+      "route": "reports",
+      "banner": "assets/images/incBanner.png",
+      "hasParams": true,
+      "params": {
+        "type": "jumperendofyearbybase"
+      }
+    }
+  ]
+}

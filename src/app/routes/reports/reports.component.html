@@ -1,8 +1,31 @@
 <div class="request-report-form">
-  <div class="report-name">{{ name }} Report</div>
+  <div class="report-name">
+    <div class="dropdown-container">
+      <div class="dropdown" (click)="dropdown = 'reports'">
+        <span class="title">{{ title }}</span>
+        <svg
+          focusable="false"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
+          ></path>
+        </svg>
+      </div>
+      <div class="menu" *ngIf="dropdown === 'reports'">
+        <span
+          (click)="selectReport(report); dropdown = 'clickmask'"
+          *ngFor="let report of reports"
+          >{{ report.name }}</span
+        >
+      </div>
+    </div>
+  </div>
   <div class="dropdown-container" *ngIf="showingBases">
     <div class="dropdown" (click)="dropdown = 'bases'">
-      <span class="label">{{ selectedBase.value }}</span>
+      <span class="label">Base:</span>
+      <span class="value">{{ selectedBase.value }}</span>
       <svg
         focusable="false"
         xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +46,10 @@
   </div>
   <div class="dropdown-container" *ngIf="showingJumpers">
     <div class="dropdown" (click)="dropdown = 'jumpers'">
-      <span>{{ selectedJumper.firstName }} {{ selectedJumper.lastName }}</span>
+      <span class="label">Jumper:</span>
+      <span class="value"
+        >{{ selectedJumper.firstName }} {{ selectedJumper.lastName }}</span
+      >
       <svg
         focusable="false"
         xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +70,8 @@
   </div>
   <div class="dropdown-container">
     <div class="dropdown" (click)="dropdown = 'fileType'">
-      <span>{{ fileType }}</span>
+      <span class="label">File Type:</span>
+      <span class="value">{{ fileType }}</span>
       <svg
         focusable="false"
         xmlns="http://www.w3.org/2000/svg"
@@ -60,9 +87,7 @@
       <span (click)="fileType = 'PDF'; dropdown = 'clickmask'">PDF</span>
     </div>
   </div>
-  <div (click)="generateReport()" class="generate-report-button">
-    Generate Report
-  </div>
+  <div (click)="generateReport()" class="button">Generate Report</div>
 </div>
 <div
   class="clickmask"
