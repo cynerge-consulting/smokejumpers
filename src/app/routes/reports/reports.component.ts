@@ -16,14 +16,17 @@ export class ReportsComponent implements OnInit {
   title;
   reports;
   jumpers;
+  spotters;
   bases;
   qualifications;
+  years = ['2021', '2020', '2019', '2018'];
   selectedBase = {
     value: ''
   };
   selectedJumper = {};
   selectedQualification;
-  selectedYear;
+  selectedYear = '2021';
+  showingSpotters = false;
   showingReports = false;
   showingJumpers = false;
   showingBases = false;
@@ -39,6 +42,7 @@ export class ReportsComponent implements OnInit {
       this.showingBases = params.bases;
       this.showingQualifications = params.qualifications;
       this.showingYear = params.year;
+      this.showingSpotters = params.spotters;
     });
   }
 

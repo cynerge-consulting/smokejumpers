@@ -22,6 +22,28 @@
       </div>
     </div>
   </div>
+  <div class="dropdown-container" *ngIf="showingYear">
+    <div class="dropdown" (click)="dropdown = 'year'">
+      <span class="label">Year:</span>
+      <span class="value">{{ selectedYear }}</span>
+      <svg
+        focusable="false"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
+        ></path>
+      </svg>
+    </div>
+    <div class="menu" *ngIf="dropdown === 'year'">
+      <span
+        (click)="selectedYear = year; dropdown = 'clickmask'"
+        *ngFor="let year of years"
+        >{{ year }}</span
+      >
+    </div>
+  </div>
   <div class="dropdown-container" *ngIf="showingBases">
     <div class="dropdown" (click)="dropdown = 'bases'">
       <span class="label">Base:</span>

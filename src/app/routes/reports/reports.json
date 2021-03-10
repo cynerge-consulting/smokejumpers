@@ -112,7 +112,7 @@
         "title": "Individual Spotter Assignment",
         "type": "individualspotter",
         "bases": true,
-        "jumpers": true
+        "spotters": true
       }
     },
     {
@@ -121,7 +121,10 @@
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
       "params": {
-        "type": "missionByAircraft"
+        "title": "Mission By Aircraft",
+        "type": "missionByAircraft",
+        "bases": true,
+        "year": true
       }
     },
     {
@@ -130,7 +133,10 @@
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
       "params": {
-        "type": "masterAction"
+        "title": "Master Action",
+        "type": "masterAction",
+        "bases": true,
+        "year": true
       }
     },
     {
@@ -139,7 +145,10 @@
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
       "params": {
-        "type": "jumperhbendofyear"
+        "title": "Jumpers Nationwide",
+        "type": "jumperhbendofyear",
+        "year": true,
+        "bases": true
       }
     },
     {
@@ -148,7 +157,10 @@
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
       "params": {
-        "type": "jumperendofyearadmin"
+        "title": "Administered Actions",
+        "type": "jumperendofyearadmin",
+        "bases": true,
+        "year": true
       }
     },
     {
@@ -157,7 +169,9 @@
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
       "params": {
-        "type": "jumperendofyearblm"
+        "title": "National BLM",
+        "type": "jumperendofyearblm",
+        "year": true
       }
     },
     {
@@ -166,7 +180,9 @@
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
       "params": {
-        "type": "jumperendofyearusfs"
+        "title": "National USFS",
+        "type": "jumperendofyearusfs",
+        "year": true
       }
     },
     {
@@ -175,7 +191,9 @@
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
       "params": {
-        "type": "jumperendofyearbybase"
+        "title": "Nationwide by Base",
+        "type": "jumperendofyearbybase",
+        "year": true
       }
     }
   ]
