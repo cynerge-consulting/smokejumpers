@@ -16,6 +16,12 @@
       text-align: left;
       color: #525252;
       font-size: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 15px;
+      span {
+        white-space: nowrap;
+      }
     }
     div:first-child {
       padding-left: 20px;
@@ -37,13 +43,15 @@
       transition: all 0.33s ease;
     }
     &:hover {
-        background: #ededed;
-        color: #006632;
+      background: #ededed;
+      color: #006632;
       .menu-button {
         opacity: 1;
       }
     }
     &.headings {
+      box-shadow: none;
+      height: 70px;
       &:hover {
         background: white;
       }
