@@ -58,6 +58,7 @@ export class SidenavComponent implements OnInit {
         ]
       }
     ];
+
     let reportsNav = {
       name: 'View Reports',
       icon: 'reports.png',
@@ -65,7 +66,10 @@ export class SidenavComponent implements OnInit {
       expanded: false,
       items: reportsData.reports
     };
+
+    // push reports from configs into nav menu
     this.menuItems.push(reportsNav);
+
     this.menuItems.push(
       {
         name: 'Database Management',
@@ -74,19 +78,22 @@ export class SidenavComponent implements OnInit {
         expanded: false,
         items: [
           {
-            name: 'Database Dashboard',
-            route: 'database',
-            banner: 'assets/images/incBanner.png'
-          },
-          {
             name: 'Jumpers',
             route: 'jumpers',
-            banner: 'assets/images/incBanner.png'
+            banner: 'assets/images/incBanner.png',
+            hasParams: true,
+            params: {
+              retired: false
+            }
           },
           {
             name: 'Retired Jumpers',
             route: 'jumpers',
-            banner: 'assets/images/incBanner.png'
+            banner: 'assets/images/incBanner.png',
+            hasParams: true,
+            params: {
+              retired: true
+            }
           },
           {
             name: 'Transfer Jumpers',
@@ -96,6 +103,11 @@ export class SidenavComponent implements OnInit {
           {
             name: 'Edit LDO',
             route: 'jumpers',
+            banner: 'assets/images/incBanner.png'
+          },
+          {
+            name: 'Aircraft',
+            route: 'aircraft',
             banner: 'assets/images/incBanner.png'
           }
         ]
