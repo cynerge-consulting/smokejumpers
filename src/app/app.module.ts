@@ -16,6 +16,7 @@ import { NewJumperComponent } from './routes/jumpers/new-jumper/new-jumper.compo
 import { BoosterComponent } from './routes/booster/booster.component';
 import { UsersComponent } from './routes/admin/users/users.component';
 import { MapComponent } from './routes/map/map.component';
+import { AircraftComponent } from './routes/aircraft/aircraft.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { MapComponent } from './routes/map/map.component';
     NewJumperComponent,
     BoosterComponent,
     UsersComponent,
-    MapComponent
+    MapComponent,
+    AircraftComponent
   ],
   imports: [
     BrowserModule,
