@@ -15,6 +15,7 @@ import { BasesComponent } from './routes/bases/bases.component';
 import { PilotsComponent } from './routes/pilots/pilots.component';
 import { ChutesComponent } from './routes/chutes/chutes.component';
 import { QualificationsComponent } from './routes/qualifications/qualifications.component';
+import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -22,7 +23,11 @@ const routes: Routes = [
   { path: 'map', component: MapComponent },
   { path: 'database', component: DatabaseComponent },
   { path: 'incidents', component: IncidentsComponent },
-  { path: 'incidents/new', component: NewIncidentComponent },
+  {
+    path: 'incidents/new',
+    component: NewIncidentComponent,
+    canActivate: [AuthGuard]
+  },
   { path: 'aircraft', component: AircraftComponent },
   { path: 'jumpers', component: JumpersComponent },
   { path: 'jumpers/new', component: NewJumperComponent },
