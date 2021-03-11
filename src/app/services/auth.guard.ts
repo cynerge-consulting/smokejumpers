@@ -54,7 +54,10 @@ export class AuthGuard implements CanActivate {
                 headers: { Authorization: 'Bearer ' + token }
               })
               .then((userReponse) => {
-                window.sessionStorage.setItem('userInfo', userReponse.data);
+                window.sessionStorage.setItem(
+                  'userInfo',
+                  JSON.stringify(userReponse.data)
+                );
                 return true;
               });
 
