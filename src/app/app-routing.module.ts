@@ -11,6 +11,10 @@ import { NewJumperComponent } from './routes/jumpers/new-jumper/new-jumper.compo
 import { UsersComponent } from './routes/admin/users/users.component';
 import { BoosterComponent } from './routes/booster/booster.component';
 import { ReportsComponent } from './routes/reports/reports.component';
+import { BasesComponent } from './routes/bases/bases.component';
+import { PilotsComponent } from './routes/pilots/pilots.component';
+import { ChutesComponent } from './routes/chutes/chutes.component';
+import { QualificationsComponent } from './routes/qualifications/qualifications.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -24,6 +28,10 @@ const routes: Routes = [
   { path: 'jumpers/new', component: NewJumperComponent },
   { path: 'reports', component: ReportsComponent },
   { path: 'admin/users', component: UsersComponent },
+  { path: 'bases', component: BasesComponent },
+  { path: 'pilots', component: PilotsComponent },
+  { path: 'chutes', component: ChutesComponent },
+  { path: 'qualifications', component: QualificationsComponent },
   { path: 'booster', component: BoosterComponent }
 ];
 

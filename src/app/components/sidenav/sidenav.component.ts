@@ -109,6 +109,26 @@ export class SidenavComponent implements OnInit {
             name: 'Aircraft',
             route: 'aircraft',
             banner: 'assets/images/incBanner.png'
+          },
+          {
+            name: 'Parachutes',
+            route: 'chutes',
+            banner: 'assets/images/incBanner.png'
+          },
+          {
+            name: 'Spike Bases',
+            route: 'bases',
+            banner: 'assets/images/incBanner.png'
+          },
+          {
+            name: 'Pilots',
+            route: 'pilots',
+            banner: 'assets/images/incBanner.png'
+          },
+          {
+            name: 'Qualifications',
+            route: 'qualifications',
+            banner: 'assets/images/incBanner.png'
           }
         ]
       },
