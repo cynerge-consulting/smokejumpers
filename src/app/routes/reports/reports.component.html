@@ -43,10 +43,9 @@
     [options]="fileTypes"
     key="name"
   ></app-dropdown>
-  <div (click)="generateReport()" class="button">Generate Report</div>
+  <app-button
+    class="generate-report-button"
+    text="Generate Report"
+    (clicked)="generateReport()"
+  ></app-button>
 </div>
-<div
-  class="clickmask"
-  [ngClass]="dropdown === 'clickmask' ? '' : 'active'"
-  (click)="dropdown = 'clickmask'"
-></div>
