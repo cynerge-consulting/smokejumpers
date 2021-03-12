@@ -1,114 +1,48 @@
 <div class="request-report-form">
   <div class="report-name">
-    <div class="dropdown-container">
-      <div class="dropdown" (click)="dropdown = 'reports'">
-        <span class="title">{{ title }}</span>
-        <svg
-          focusable="false"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
-          ></path>
-        </svg>
-      </div>
-      <div class="menu" *ngIf="dropdown === 'reports'">
-        <span
-          (click)="selectReport(report); dropdown = 'clickmask'"
-          *ngFor="let report of reports"
-          >{{ report.name }}</span
-        >
-      </div>
-    </div>
+    <app-dropdown label="" [options]="reports" key="name"></app-dropdown>
   </div>
-  <div class="dropdown-container" *ngIf="showingYear">
-    <div class="dropdown" (click)="dropdown = 'year'">
-      <span class="label">Year:</span>
-      <span class="value">{{ selectedYear }}</span>
-      <svg
-        focusable="false"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
-        ></path>
-      </svg>
-    </div>
-    <div class="menu" *ngIf="dropdown === 'year'">
-      <span
-        (click)="selectedYear = year; dropdown = 'clickmask'"
-        *ngFor="let year of years"
-        >{{ year }}</span
-      >
-    </div>
-  </div>
-  <div class="dropdown-container" *ngIf="showingBases">
-    <div class="dropdown" (click)="dropdown = 'bases'">
-      <span class="label">Base:</span>
-      <span class="value">{{ selectedBase.value }}</span>
-      <svg
-        focusable="false"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
-        ></path>
-      </svg>
-    </div>
-    <div class="menu" *ngIf="dropdown === 'bases'">
-      <span
-        (click)="selectedBase = base; dropdown = 'clickmask'"
-        *ngFor="let base of bases"
-        >{{ base.value }}</span
-      >
-    </div>
-  </div>
-  <div class="dropdown-container" *ngIf="showingJumpers">
-    <div class="dropdown" (click)="dropdown = 'jumpers'">
-      <span class="label">Jumper:</span>
-      <span class="value"
-        >{{ selectedJumper.firstName }} {{ selectedJumper.lastName }}</span
-      >
-      <svg
-        focusable="false"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
-        ></path>
-      </svg>
-    </div>
-    <div class="menu" *ngIf="dropdown === 'jumpers'">
-      <span
-        (click)="selectedJumper = jumper; dropdown = 'clickmask'"
-        *ngFor="let jumper of jumpers"
-        >{{ jumper.firstName }} {{ jumper.lastName }}</span
-      >
-    </div>
-  </div>
-  <div class="dropdown-container">
-    <div class="dropdown" (click)="dropdown = 'fileType'">
-      <span class="label">File Type:</span>
-      <span class="value">{{ fileType }}</span>
-      <svg
-        focusable="false"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
-        ></path>
-      </svg>
-    </div>
-    <div class="menu" *ngIf="dropdown === 'fileType'">
-      <span (click)="fileType = 'XLS'; dropdown = 'clickmask'">XLS</span>
-      <span (click)="fileType = 'PDF'; dropdown = 'clickmask'">PDF</span>
-    </div>
-  </div>
+  <app-dropdown
+    *ngIf="showingYear"
+    label="Year"
+    [options]="years"
+    key="value"
+  ></app-dropdown>
+  <app-dropdown
+    *ngIf="showingBases"
+    label="Base"
+    [options]="bases"
+    key="value"
+  ></app-dropdown>
+  <app-dropdown
+    *ngIf="showingChutes"
+    label="Parachute"
+    [options]="jumpers"
+    key="fullName"
+  ></app-dropdown>
+  <app-dropdown
+    *ngIf="showingJumpers"
+    label="Jumper"
+    [options]="jumpers"
+    key="fullName"
+  ></app-dropdown>
+  <app-dropdown
+    *ngIf="showingSpotters"
+    label="Spotter"
+    [options]="jumpers"
+    key="fullName"
+  ></app-dropdown>
+  <app-dropdown
+    *ngIf="showingQualifications"
+    label="Qualifications"
+    [options]="qualifications"
+    key="name"
+  ></app-dropdown>
+  <app-dropdown
+    label="File Type"
+    [options]="fileTypes"
+    key="name"
+  ></app-dropdown>
   <div (click)="generateReport()" class="button">Generate Report</div>
 </div>
 <div

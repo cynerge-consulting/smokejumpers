@@ -1,4 +1,10 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  HostListener,
+  ElementRef
+} from '@angular/core';
 
 @Component({
   selector: 'app-dropdown',
@@ -7,22 +13,42 @@ import { Component, OnInit, Input, HostListener } from '@angular/core';
 })
 export class DropdownComponent implements OnInit {
   showingMenu = false;
-  choice = {
-    name: ''
-  };
+  choice = {};
+  @Input() key: any;
   @Input() label: any;
   @Input() options: any;
   @HostListener('document:click', ['$event.target']) public onClick(target) {
     if (!this.elementRef.nativeElement.contains(target)) {
-      console.log('clicked something else');
+      this.showingMenu = false;
     }
   }
 
-  constructor() {}
+  constructor(private elementRef: ElementRef) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadOptions();
+  }
+
+  // for some reason neither async / await nor RxJs subcribtions
+  // would wait to resolve the options, so options[0] would be undefined
+  // and throw an error on load. this is a bad hack workaround that
+  // shouldn't be necessary. look for superior solution
+  loadOptions = () => {
+    if (this.options) {
+      this.choice = this.options[0];
+    } else {
+      setTimeout(() => {
+        this.loadOptions();
+      }, 100);
+    }
+  };
 
   showMenu = () => {
     this.showingMenu = true;
+  };
+
+  select = (option) => {
+    this.choice = option;
+    this.showingMenu = false;
   };
 }

@@ -10,6 +10,16 @@ import * as reportsData from './reports.json';
   styleUrls: ['./reports.component.scss']
 })
 export class ReportsComponent implements OnInit {
+  fileTypes = [
+    {
+      name: 'XLS',
+      value: 'XLS'
+    },
+    {
+      name: 'PDF',
+      value: 'PDF'
+    }
+  ];
   dropdown = 'clickmask';
   reportType;
   fileType = 'XLS';
@@ -19,7 +29,20 @@ export class ReportsComponent implements OnInit {
   spotters;
   bases;
   qualifications;
-  years = ['2021', '2020', '2019', '2018'];
+  years = [
+    {
+      name: '2021',
+      value: '2021'
+    },
+    {
+      name: '2020',
+      value: '2020'
+    },
+    {
+      name: '2019',
+      value: '2019'
+    }
+  ];
   selectedBase = {
     value: ''
   };
@@ -32,6 +55,7 @@ export class ReportsComponent implements OnInit {
   showingBases = false;
   showingQualifications = false;
   showingYear = false;
+  showingChutes = false;
 
   constructor(private route: ActivatedRoute, private router: Router) {
     this.reports = reportsData.reports;
@@ -43,6 +67,7 @@ export class ReportsComponent implements OnInit {
       this.showingQualifications = params.qualifications;
       this.showingYear = params.year;
       this.showingSpotters = params.spotters;
+      this.showingChutes = params.chutes;
     });
   }
 
@@ -54,6 +79,10 @@ export class ReportsComponent implements OnInit {
     ];
     let jumpers = await axios.get(environment.API_URL + '/api/jumpers');
     this.jumpers = jumpers.data.value;
+    for (let x = 0; x < this.jumpers.length; x++) {
+      this.jumpers[x].fullName =
+        this.jumpers[x].firstName + this.jumpers[x].lastName;
+    }
     let bases = await axios.get(
       environment.API_URL + '/api/base/dropdown/main'
     );

@@ -1,7 +1,7 @@
 <div class="dropdown-container">
   <div class="dropdown" (click)="showMenu()">
-    <span class="label">{{ label }}</span>
-    <span class="value">choice.name</span>
+    <span class="label">{{ label.length ? label + ':' : '' }}</span>
+    <span class="value">{{ choice[key] }}</span>
     <svg
       focusable="false"
       xmlns="http://www.w3.org/2000/svg"
@@ -12,7 +12,7 @@
   </div>
   <div class="menu" *ngIf="showingMenu">
     <span (click)="select(option)" *ngFor="let option of options">{{
-      option.name
+      option[key]
     }}</span>
   </div>
 </div>
