@@ -21,6 +21,7 @@ import { ChutesComponent } from './routes/chutes/chutes.component';
 import { PilotsComponent } from './routes/pilots/pilots.component';
 import { BasesComponent } from './routes/bases/bases.component';
 import { QualificationsComponent } from './routes/qualifications/qualifications.component';
+import { DropdownComponent } from './components/dropdown/dropdown.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { QualificationsComponent } from './routes/qualifications/qualifications.
     ChutesComponent,
     PilotsComponent,
     BasesComponent,
-    QualificationsComponent
+    QualificationsComponent,
+    DropdownComponent
   ],
   imports: [
     BrowserModule,
