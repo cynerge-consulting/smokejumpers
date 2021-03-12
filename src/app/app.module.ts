@@ -22,6 +22,7 @@ import { PilotsComponent } from './routes/pilots/pilots.component';
 import { BasesComponent } from './routes/bases/bases.component';
 import { QualificationsComponent } from './routes/qualifications/qualifications.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
+import { ButtonComponent } from './components/button/button.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { DropdownComponent } from './components/dropdown/dropdown.component';
     PilotsComponent,
     BasesComponent,
     QualificationsComponent,
-    DropdownComponent
+    DropdownComponent,
+    ButtonComponent
   ],
   imports: [
     BrowserModule,
