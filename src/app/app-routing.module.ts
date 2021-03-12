@@ -25,9 +25,13 @@ const routes: Routes = [
   { path: 'incidents', component: IncidentsComponent },
   {
     path: 'incidents/new',
-    component: NewIncidentComponent,
-    canActivate: [AuthGuard]
+    component: NewIncidentComponent
   },
+  // {
+  //   path: 'incidents/new',
+  //   component: NewIncidentComponent,
+  //   canActivate: [AuthGuard]
+  // },
   { path: 'aircraft', component: AircraftComponent },
   { path: 'jumpers', component: JumpersComponent },
   { path: 'jumpers/new', component: NewJumperComponent },
