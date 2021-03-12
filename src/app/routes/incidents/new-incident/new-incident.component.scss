@@ -1,0 +1,32 @@
+.new-incident-form {
+  height: 50%;
+  width: 500px;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 2px 2px 5px 5px lightgray;
+  padding: 25px;
+}
+.form {
+  background: white;
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+    position: relative;
+    width: 100%;
+    top: -45px;
+  }
+  .datum {
+    // width: 50%;
+    // height: 25%;
+  }
+}
+.buttons {
+  position: relative;
+  bottom: -75px;
+  display: flex;
+  justify-content: space-evenly;
+}
