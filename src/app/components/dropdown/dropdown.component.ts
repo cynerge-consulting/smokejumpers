@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-dropdown',
@@ -6,10 +6,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dropdown.component.scss']
 })
 export class DropdownComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
+  showingMenu = false;
+  choice = {
+    name: ''
+  };
+  @Input() label: any;
+  @Input() options: any;
+  @HostListener('document:click', ['$event.target']) public onClick(target) {
+    if (!this.elementRef.nativeElement.contains(target)) {
+      console.log('clicked something else');
+    }
   }
 
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  showMenu = () => {
+    this.showingMenu = true;
+  };
 }
