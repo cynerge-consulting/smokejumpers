@@ -55,12 +55,14 @@ export class NewIncidentComponent implements OnInit {
         {
           input: true,
           placeholder: 'Incident Name',
-          key: 'IncidentName'
+          key: 'IncidentName',
+          value: ''
         },
         {
           dropdown: true,
           label: 'Dispatched From',
           key: 'DispFromBase',
+          value: '',
           options: [
             {
               name: 'Alabama',
@@ -95,6 +97,7 @@ export class NewIncidentComponent implements OnInit {
         {
           dropdown: true,
           label: 'Method of Travel',
+          key: 'Mode',
           options: [
             {
               name: 'Airplane',
@@ -119,7 +122,8 @@ export class NewIncidentComponent implements OnInit {
     let index = this.sections.indexOf(this.currentSection);
     this.currentSection = this.sections[index + 1];
   };
-  submitForm = () => {
+  submitForm = (data) => {
+    console.dir(data);
     console.log('submit form');
   };
 }

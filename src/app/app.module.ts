@@ -23,6 +23,7 @@ import { BasesComponent } from './routes/bases/bases.component';
 import { QualificationsComponent } from './routes/qualifications/qualifications.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { ButtonComponent } from './components/button/button.component';
+import { FormComponent } from './components/form/form.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ButtonComponent } from './components/button/button.component';
     BasesComponent,
     QualificationsComponent,
     DropdownComponent,
-    ButtonComponent
+    ButtonComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,

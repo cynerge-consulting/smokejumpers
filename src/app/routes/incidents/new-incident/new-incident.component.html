@@ -1,40 +1,6 @@
-<div class="new-incident-form form">
-  <div class="title">
-    <span>{{ currentSection.title }}</span>
-  </div>
-  <div class="content">
-    <div class="datum" *ngFor="let datum of currentSection.data">
-      <input
-        *ngIf="datum.input"
-        [placeholder]="datum.placeholder"
-        [(ngModel)]="incident[datum.key]"
-        [value]=""
-      />
-      <app-dropdown
-        *ngIf="datum.dropdown"
-        [label]="datum.label"
-        [options]="datum.options"
-        key="name"
-      ></app-dropdown>
-    </div>
-  </div>
-  <div class="buttons">
-    <app-button
-      *ngIf="sections.indexOf(currentSection) > 0"
-      text="Back"
-      (clicked)="goBack()"
-      class="back-button"
-    ></app-button>
-    <app-button
-      *ngIf="sections.indexOf(currentSection) < sections.length - 1"
-      text="Next"
-      (clicked)="goForward()"
-      class="next-button"
-    ></app-button>
-    <app-button
-      text="Create"
-      (clicked)="submitForm()"
-      class="new-incident-button"
-    ></app-button>
-  </div>
-</div>
+<app-form
+  class="new-incident-form"
+  [sections]="sections"
+  [data]="incident"
+  (submitted)="submitForm($event)"
+></app-form>
