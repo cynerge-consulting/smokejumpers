@@ -55,14 +55,12 @@ export class NewIncidentComponent implements OnInit {
         {
           input: true,
           placeholder: 'Incident Name',
-          key: 'IncidentName',
-          value: ''
+          key: 'IncidentName'
         },
         {
           dropdown: true,
           label: 'Dispatched From',
           key: 'DispFromBase',
-          value: '',
           options: [
             {
               name: 'Alabama',

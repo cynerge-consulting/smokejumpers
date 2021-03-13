@@ -2,7 +2,9 @@ import {
   Component,
   OnInit,
   Input,
+  Output,
   HostListener,
+  EventEmitter,
   ElementRef
 } from '@angular/core';
 
@@ -17,6 +19,7 @@ export class DropdownComponent implements OnInit {
   @Input() key: any;
   @Input() label: any;
   @Input() options: any;
+  @Output() selectedDropdownItem = new EventEmitter<Object>();
   @HostListener('document:click', ['$event.target']) public onClick(target) {
     if (!this.elementRef.nativeElement.contains(target)) {
       this.showingMenu = false;
@@ -50,5 +53,6 @@ export class DropdownComponent implements OnInit {
   select = (option) => {
     this.choice = option;
     this.showingMenu = false;
+    this.selectedDropdownItem.emit(option);
   };
 }

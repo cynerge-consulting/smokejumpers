@@ -8,14 +8,14 @@
         [name]="datum.key"
         *ngIf="datum.input"
         [placeholder]="datum.placeholder"
-        [ngModelOptions]="{ data: 'hello' }"
-        ngModel
+        [(ngModel)]="data[datum.key]"
       />
       <app-dropdown
         *ngIf="datum.dropdown"
         [label]="datum.label"
         [options]="datum.options"
         key="name"
+        (selectedDropdownItem)="onSelectedDropdownItem($event, datum)"
       ></app-dropdown>
     </div>
   </div>

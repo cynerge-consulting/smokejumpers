@@ -18,6 +18,16 @@ export class FormComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentSection = this.sections[0];
+
+    // set default values in this.data for necessary form fields
+    this.sections.forEach((section) => {
+      section.data.forEach((datum) => {
+        // set dropdown default values in this.data
+        if (datum.dropdown) {
+          this.data[datum.key] = datum.options[0].value;
+        }
+      });
+    });
   }
 
   goBack = () => {
@@ -25,12 +35,13 @@ export class FormComponent implements OnInit {
     this.currentSection = this.sections[index - 1];
   };
   goForward = () => {
-    console.dir(this.currentSection);
     let index = this.sections.indexOf(this.currentSection);
     this.currentSection = this.sections[index + 1];
   };
   submitForm = (event) => {
-    console.dir(this.data);
     this.submitted.emit(this.data);
+  };
+  onSelectedDropdownItem = (event, datum) => {
+    this.data[datum.key] = event.value;
   };
 }
