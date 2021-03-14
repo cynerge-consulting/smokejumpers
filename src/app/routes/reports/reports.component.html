@@ -1,47 +1,59 @@
 <div class="request-report-form">
   <div class="report-name">
-    <app-dropdown label="" [options]="reports" key="name"></app-dropdown>
+    <app-dropdown
+      label=""
+      (selectedDropdownItem)="selectReport($event)"
+      [options]="reports"
+      key="name"
+    ></app-dropdown>
   </div>
   <app-dropdown
     *ngIf="showingYear"
     label="Year"
     [options]="years"
     key="value"
+    (selectedDropdownItem)="selectedYear = $event"
   ></app-dropdown>
   <app-dropdown
     *ngIf="showingBases"
     label="Base"
     [options]="bases"
     key="value"
+    (selectedDropdownItem)="selectedBase = $event"
   ></app-dropdown>
   <app-dropdown
     *ngIf="showingChutes"
     label="Parachute"
     [options]="jumpers"
     key="fullName"
+    (selectedDropdownItem)="selectedChute = $event"
   ></app-dropdown>
   <app-dropdown
     *ngIf="showingJumpers"
     label="Jumper"
     [options]="jumpers"
     key="fullName"
+    (selectedDropdownItem)="selectedJumper = $event"
   ></app-dropdown>
   <app-dropdown
     *ngIf="showingSpotters"
     label="Spotter"
     [options]="jumpers"
     key="fullName"
+    (selectedDropdownItem)="selectedSpotter = $event"
   ></app-dropdown>
   <app-dropdown
     *ngIf="showingQualifications"
     label="Qualifications"
     [options]="qualifications"
     key="name"
+    (selectedDropdownItem)="selectedQualification = $event"
   ></app-dropdown>
   <app-dropdown
     label="File Type"
     [options]="fileTypes"
     key="name"
+    (selectedDropdownItem)="selectedFileType = $event.value"
   ></app-dropdown>
   <app-button
     class="generate-report-button"

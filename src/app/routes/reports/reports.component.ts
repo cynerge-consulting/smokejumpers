@@ -10,6 +10,8 @@ import * as reportsData from './reports.json';
   styleUrls: ['./reports.component.scss']
 })
 export class ReportsComponent implements OnInit {
+  reports;
+  reportType;
   fileTypes = [
     {
       name: 'XLS',
@@ -20,11 +22,6 @@ export class ReportsComponent implements OnInit {
       value: 'PDF'
     }
   ];
-  dropdown = 'clickmask';
-  reportType;
-  fileType = 'XLS';
-  title;
-  reports;
   jumpers;
   spotters;
   bases;
@@ -43,12 +40,17 @@ export class ReportsComponent implements OnInit {
       value: '2019'
     }
   ];
+
+  selectedFileType = 'XLS';
   selectedBase = {
     value: ''
   };
   selectedJumper = {};
   selectedQualification;
   selectedYear = '2021';
+  selectedSpotter;
+  selectedChute;
+
   showingSpotters = false;
   showingReports = false;
   showingJumpers = false;
@@ -61,7 +63,6 @@ export class ReportsComponent implements OnInit {
     this.reports = reportsData.reports;
     this.route.params.subscribe((params) => {
       this.reportType = params.type;
-      this.title = params.title;
       this.showingJumpers = params.jumpers;
       this.showingBases = params.bases;
       this.showingQualifications = params.qualifications;
@@ -72,21 +73,25 @@ export class ReportsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    let bases = await axios.get(
+      environment.API_URL + '/api/base/dropdown/main'
+    );
+    this.bases = bases.data;
+    let jumpers = await axios.get(environment.API_URL + '/api/jumpers');
+    this.jumpers = jumpers.data.value;
+    // let qualifications = await axios.get(environment.API_URL + '/api/qualifications');
+    // this.qualifications = qualifications.data
     this.qualifications = [
       {
         name: 'qual 1'
       }
     ];
-    let jumpers = await axios.get(environment.API_URL + '/api/jumpers');
-    this.jumpers = jumpers.data.value;
+
+    // parse jumper data for friendly display
     for (let x = 0; x < this.jumpers.length; x++) {
       this.jumpers[x].fullName =
         this.jumpers[x].firstName + this.jumpers[x].lastName;
     }
-    let bases = await axios.get(
-      environment.API_URL + '/api/base/dropdown/main'
-    );
-    this.bases = bases.data;
     this.selectedBase = this.bases[0];
     this.selectedJumper = this.jumpers[0];
     this.selectedQualification = this.qualifications[0];
@@ -97,6 +102,7 @@ export class ReportsComponent implements OnInit {
   };
 
   generateReport = async () => {
+    console.dir(this);
     let report = axios.post(environment.API_URL + '/api/Reports/getReport', {
       basename: this.selectedBase.value,
       report: this.reportType,
