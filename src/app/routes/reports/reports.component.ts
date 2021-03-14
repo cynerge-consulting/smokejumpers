@@ -107,7 +107,7 @@ export class ReportsComponent implements OnInit {
       basename: this.selectedBase.value,
       report: this.reportType,
       reportUrl: 'https://dev.wrk.fs.usda.gov/masteraction/reports',
-      reporttype: this.fileType
+      reporttype: this.selectedFileType
     });
   };
 }
