@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./new-incident.component.scss']
 })
 export class NewIncidentComponent implements OnInit {
+  // define incident object
   incident = {
     IncidentName: '',
     UserId: '',
@@ -48,6 +49,8 @@ export class NewIncidentComponent implements OnInit {
     SpotterTraineeId: '',
     Note: ''
   };
+
+  // define form sections
   sections = [
     {
       title: 'General Information',
@@ -122,6 +125,6 @@ export class NewIncidentComponent implements OnInit {
   };
   submitForm = (data) => {
     console.dir(data);
-    console.log('submit form');
+    // validate and send POST to backend
   };
 }

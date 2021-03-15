@@ -102,7 +102,6 @@ export class ReportsComponent implements OnInit {
   };
 
   generateReport = async () => {
-    console.dir(this);
     let report = axios.post(environment.API_URL + '/api/Reports/getReport', {
       basename: this.selectedBase.value,
       report: this.reportType,
