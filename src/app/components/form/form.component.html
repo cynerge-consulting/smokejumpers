@@ -5,19 +5,29 @@
     </div>
     <div class="content">
       <div class="datum" *ngFor="let datum of section.data">
-        <input
-          [name]="datum.key"
-          *ngIf="datum.input"
-          [placeholder]="datum.placeholder"
-          [(ngModel)]="data[datum.key]"
-        />
-        <app-dropdown
-          *ngIf="datum.dropdown"
-          [label]="datum.label"
-          [options]="datum.options"
-          key="name"
-          (selectedDropdownItem)="onSelectedDropdownItem($event, datum)"
-        ></app-dropdown>
+        <div class="input-container">
+          <span *ngIf="datum.input" class="input-label"
+            >{{ datum.placeholder }}:
+          </span>
+          <input
+            [name]="datum.key"
+            *ngIf="datum.input"
+            [placeholder]="datum.placeholder"
+            [(ngModel)]="data[datum.key]"
+          />
+          <app-dropdown
+            *ngIf="datum.dropdown"
+            [label]="datum.label"
+            [options]="datum.options"
+            key="name"
+            (selectedDropdownItem)="onSelectedDropdownItem($event, datum)"
+          ></app-dropdown>
+          <textarea
+            *ngIf="datum.textarea"
+            [(ngModel)]="data[datum.key]"
+            (placeholder)="(datum.label)"
+          ></textarea>
+        </div>
       </div>
     </div>
   </div>

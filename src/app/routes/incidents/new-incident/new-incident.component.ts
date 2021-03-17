@@ -295,31 +295,153 @@ export class NewIncidentComponent implements OnInit {
     },
     {
       title: 'Incident Details',
-      data: []
+      data: [
+        {
+          dropdown: true,
+          label: 'Mode',
+          key: 'Mode',
+          options: [
+            {
+              name: 'Proficiency / Training Jump',
+              value: 'proficiency'
+            },
+            {
+              name: 'Fire Jump',
+              value: 'firejump'
+            }
+          ]
+        },
+        {
+          input: true,
+          placeholder: 'Acres',
+          key: 'Acres'
+        },
+        {
+          dropdown: true,
+          label: 'Fuel Type',
+          key: 'FuelType',
+          options: [
+            {
+              name: 'Grass',
+              value: 'grass'
+            },
+            {
+              name: 'Shrub',
+              value: 'shrub'
+            },
+            {
+              name: 'Slash',
+              value: 'slash'
+            },
+            {
+              name: 'Tinder',
+              value: 'tinder'
+            }
+          ]
+        },
+        {
+          dropdown: true,
+          label: 'Initial Attack',
+          key: 'InitialAttack',
+          options: [
+            {
+              name: 'Yes',
+              value: 'yes'
+            },
+            {
+              name: 'No',
+              value: 'no'
+            }
+          ]
+        },
+        {
+          dropdown: true,
+          label: 'Type',
+          key: 'Type',
+          options: [
+            {
+              name: '1',
+              value: '1'
+            },
+            {
+              name: '2',
+              value: '2'
+            }
+          ]
+        },
+        {
+          input: true,
+          placeholder: 'Latitude',
+          key: 'Latitude'
+        },
+        {
+          input: true,
+          placeholder: 'Longitude',
+          key: 'Longitude'
+        },
+        {
+          dropdown: true,
+          label: 'Yards Of Drift',
+          key: 'YardsofDrift',
+          options: [
+            {
+              name: '50',
+              value: '50'
+            },
+            {
+              name: '100',
+              value: '100'
+            }
+          ]
+        }
+      ]
     },
     {
       title: 'Paracargo Details',
-      data: []
+      data: [
+        {
+          input: true,
+          placeholder: '# of Bundles',
+          key: 'PcNumberBundles'
+        },
+        {
+          input: true,
+          placeholder: 'Total Weight',
+          key: 'PcTotalWeight'
+        },
+        {
+          dropdown: true,
+          label: 'Malfunction',
+          key: 'PcMalfunction',
+          options: [
+            {
+              name: 'Yes',
+              value: true
+            },
+            {
+              name: 'No',
+              value: false
+            }
+          ]
+        }
+      ]
     },
     {
       title: 'Notes',
-      data: []
+      data: [
+        {
+          textarea: true,
+          label: 'Enter Notes Here',
+          key: 'Note'
+        }
+      ]
     }
   ];
-  currentSection = this.sections[0];
 
   constructor() {}
 
   ngOnInit(): void {}
 
-  goBack = () => {
-    let index = this.sections.indexOf(this.currentSection);
-    this.currentSection = this.sections[index - 1];
-  };
-  goForward = () => {
-    let index = this.sections.indexOf(this.currentSection);
-    this.currentSection = this.sections[index + 1];
-  };
   submitForm = (data) => {
     console.dir(data);
     // validate and send POST to backend
