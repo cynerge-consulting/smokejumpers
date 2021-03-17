@@ -89,6 +89,76 @@ export class NewIncidentComponent implements OnInit {
               value: 'texas'
             }
           ]
+        },
+        {
+          dropdown: true,
+          label: 'To Area',
+          key: 'AreaId',
+          options: [
+            {
+              name: 'LOL',
+              value: 'lol'
+            },
+            {
+              name: 'HELLO',
+              value: 'hello'
+            }
+          ]
+        },
+        {
+          dropdown: true,
+          label: 'State',
+          key: 'StateId',
+          options: [
+            {
+              name: 'Michigan',
+              value: 'michigan'
+            },
+            {
+              name: 'Egypt',
+              value: 'egypt'
+            }
+          ]
+        },
+        {
+          dropdown: true,
+          label: 'Agency',
+          key: 'AgencyId',
+          options: [
+            {
+              name: 'AAA',
+              value: 'aaa'
+            },
+            {
+              name: 'LMNOP',
+              value: 'lmnop'
+            }
+          ]
+        },
+        {
+          dropdown: true,
+          label: 'Unit Identifier',
+          key: 'UnitName',
+          options: [
+            {
+              name: 'unit 1',
+              value: '1'
+            },
+            {
+              name: 'unit 2',
+              value: '2'
+            }
+          ]
+        },
+        {
+          input: true,
+          placeholder: 'USFS Job Codes',
+          key: 'Usfs'
+        },
+        {
+          input: true,
+          placeholder: 'BLM Job Codes',
+          key: 'BLM Job Codes'
         }
       ]
     },
@@ -105,8 +175,135 @@ export class NewIncidentComponent implements OnInit {
               value: 'airplane'
             }
           ]
+        },
+        {
+          input: true,
+          placeholder: 'Hobbs Time',
+          key: 'HobbsTime'
+        },
+        {
+          input: true,
+          placeholder: 'Dispatched Time',
+          key: 'Dispatched'
+        },
+        {
+          input: true,
+          placeholder: 'Time Over Fire',
+          key: 'FireNumber'
         }
       ]
+    },
+    {
+      title: 'Crew Information',
+      data: [
+        {
+          dropdown: true,
+          label: 'Pilot',
+          key: 'Pilot1Id',
+          options: [
+            {
+              name: 'Mister Pilots',
+              value: '1'
+            },
+            {
+              name: 'Maverick',
+              value: '2'
+            },
+            {
+              name: 'Goose',
+              value: '3'
+            }
+          ]
+        },
+        {
+          dropdown: true,
+          label: 'CoPilot',
+          key: 'Pilot2Id',
+          options: [
+            {
+              name: 'Mister Pilots',
+              value: '1'
+            },
+            {
+              name: 'Maverick',
+              value: '2'
+            },
+            {
+              name: 'Goose',
+              value: '3'
+            }
+          ]
+        },
+        {
+          dropdown: true,
+          label: 'Spotter 1',
+          key: 'Spotter1Id',
+          options: [
+            {
+              name: 'Mister Pilots',
+              value: '1'
+            },
+            {
+              name: 'Maverick',
+              value: '2'
+            },
+            {
+              name: 'Goose',
+              value: '3'
+            }
+          ]
+        },
+        {
+          dropdown: true,
+          label: 'Spotter 2',
+          key: 'Spotter2Id',
+          options: [
+            {
+              name: 'Mister Pilots',
+              value: '1'
+            },
+            {
+              name: 'Maverick',
+              value: '2'
+            },
+            {
+              name: 'Goose',
+              value: '3'
+            }
+          ]
+        },
+        {
+          dropdown: true,
+          label: 'Spotter Trainee',
+          key: 'SpotterTraineeId',
+          options: [
+            {
+              name: 'Mister Pilots',
+              value: '1'
+            },
+            {
+              name: 'Maverick',
+              value: '2'
+            },
+            {
+              name: 'Goose',
+              value: '3'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      title: 'Incident Details',
+      data: []
+    },
+    {
+      title: 'Paracargo Details',
+      data: []
+    },
+    {
+      title: 'Notes',
+      data: []
     }
   ];
   currentSection = this.sections[0];
