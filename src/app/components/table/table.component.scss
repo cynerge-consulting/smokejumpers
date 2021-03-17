@@ -1,5 +1,57 @@
 .table {
+  .settings-menu,
+  .row-menu {
+    transition: all 0.33s ease;
+    position: absolute;
+    top: 20px;
+    z-index: 200;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    color: #006632;
+    text-align: center;
+    border-radius: 4px;
+    box-shadow: 0px 0px 8px 1px #042c17;
+    justify-content: center;
+    align-items: center;
+    padding-left: 0px !important;
+    span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 40px;
+      min-width: 100px;
+      padding: 0px 10px;
+      cursor: pointer;
+      &:hover {
+        background: #006632;
+        color: white;
+      }
+    }
+    &.showing-details {
+      right: 260px;
+    }
+    .menu-item {
+      white-space: nowrap;
+    }
+  }
   background: white;
+  height: 100%;
+  overflow: auto;
+  width: 100%;
+  transition: all 0.33s ease;
+  &.showing-details {
+    width: calc(100% - 250px);
+  }
+  .rows {
+    transition: all 0.33s ease;
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    background: white;
+    top: 70px;
+  }
   .row {
     user-select: none;
     display: flex;
@@ -13,13 +65,13 @@
     box-shadow: 0px -2px 8px 1px lightgrey inset;
     transition: all 0.1s ease;
     .cell {
+      padding: 10px;
       width: 100%;
       text-align: left;
       color: #525252;
       font-size: 14px;
       overflow: hidden;
       text-overflow: ellipsis;
-      margin: 15px;
       span {
         white-space: nowrap;
       }
@@ -32,16 +84,25 @@
       color: black;
       font-weight: bold;
     }
-    .menu-button,
     .settings-button {
+      position: relative;
       font-weight: bold;
       font-size: 20px;
       cursor: pointer;
-      padding: 0px 40px;
+      right: 20px;
     }
     .menu-button {
+      position: absolute;
+      right: 10px;
+      font-weight: bold;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 10px 10px;
       opacity: 0;
       transition: all 0.33s ease;
+      &.showing-details {
+        right: 270px;
+      }
     }
     &:hover {
       background: #ededed;
@@ -50,11 +111,28 @@
         opacity: 1;
       }
     }
+    .details-button {
+      cursor: pointer;
+      padding: 10px 10px;
+      position: absolute;
+      right: 40px;
+      &.showing-details {
+        right: 270px;
+      }
+    }
     &.headings {
-      box-shadow: none;
+      transition: all 0.33s ease;
+      width: 100%;
+      position: absolute;
+      background: white;
+      box-shadow: 10px 2px 5px 5px lightgrey;
       height: 70px;
+      z-index: 1;
       &:hover {
         background: white;
+      }
+      &.showing-details {
+        width: calc(100% - 250px);
       }
     }
     &.selected {
@@ -68,34 +146,51 @@
         opacity: 1;
       }
     }
-    .settings-menu,
-    .row-menu {
-      position: absolute;
-      z-index: 200;
-      right: 10px;
-      display: flex;
-      flex-direction: column;
-      background: white;
-      color: #006632;
-      text-align: center;
-      border-radius: 4px;
-      box-shadow: 0px 0px 8px 1px #042c17;
-      justify-content: center;
-      align-items: center;
-      span {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 40px;
-        min-width: 100px;
-        padding: 0px 10px;
-        cursor: pointer;
-        &:hover {
-          background: #006632;
-          color: white;
-        }
-      }
+  }
+}
+.details {
+  .none-selected {
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    top: 30px;
+    font-size: 20px;
+  }
+  z-index: 2;
+  overflow: auto;
+  background: white;
+  transition: all 0.33s ease;
+  width: 0px;
+  position: fixed;
+  top: 64px;
+  right: 0;
+  height: 100%;
+  box-shadow: none;
+  .detail {
+    background: white;
+    margin: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .key {
+      font-weight: bold;
+      margin-right: 20px;
     }
+    .value {
+      position: relative;
+      font-size: 14px;
+      right: 0px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      color: #858585;
+    }
+  }
+  &.showing-details {
+    width: 250px;
+    box-shadow: grey 0 6px 5px 5px;
   }
 }
 .clickmask {

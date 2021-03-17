@@ -28,16 +28,18 @@ export class IncidentsComponent implements OnInit {
       key: '_incidentDate'
     }
   ];
-  settings = [{
-    label: 'New Incident',
-    action: 'create',
-    target: 'incident'
-  }]
+  settings = [
+    {
+      label: 'New Incident',
+      action: 'create',
+      target: 'incident'
+    }
+  ];
   year;
 
   constructor(private route: ActivatedRoute) {
     this.route.params.subscribe((params) => {
-      this.year = params.year
+      this.year = params.year;
     });
   }
 
