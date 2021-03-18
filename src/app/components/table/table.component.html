@@ -4,7 +4,7 @@
       <span>{{ column.label }}</span>
     </div>
     <div
-      (click)="showSettings(); rowMenu = 'settings'"
+      (click)="rowMenu = 'settings'"
       class="heading settings-button"
       [ngClass]="showingDetails ? 'showing-details' : ''"
     >
@@ -16,22 +16,20 @@
     *ngIf="rowMenu === 'settings'"
     [ngClass]="showingDetails ? 'showing-details' : ''"
   >
-    <span
+    <div
       class="menu-item"
       (click)="showingDetails = !showingDetails; rowMenu = 'clickmask'"
       [ngClass]="showingDetails ? 'showing-details' : ''"
-      >{{ showingDetails ? 'Hide' : 'Show' }} Details</span
     >
-    <span class="menu-item" (click)="view(row)">New Item</span>
-    <span class="menu-item" *ngIf="selected" (click)="view(row)"
-      >View Item</span
-    >
-    <span class="menu-item" *ngIf="selected" (click)="edit(row)"
-      >Edit Item</span
-    >
-    <span class="menu-item" *ngIf="selected" (click)="delete(row)"
-      >Delete Item</span
-    >
+      {{ showingDetails ? 'Hide' : 'Show' }} Details
+    </div>
+    <div class="menu-item" (click)="new()">New {{ settings.name }}</div>
+    <div class="menu-item" *ngIf="selected" (click)="edit(selected)">
+      Edit {{ settings.name }}
+    </div>
+    <div class="menu-item" *ngIf="selected" (click)="delete(selected)">
+      Delete {{ settings.name }}
+    </div>
   </div>
   <div class="rows" [ngClass]="showingDetails ? 'showing-details' : ''">
     <div

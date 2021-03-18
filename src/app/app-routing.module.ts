@@ -27,6 +27,10 @@ const routes: Routes = [
     path: 'incidents/new',
     component: NewIncidentComponent
   },
+  {
+    path: 'incidents/:id',
+    component: NewIncidentComponent
+  },
   // {
   //   path: 'incidents/new',
   //   component: NewIncidentComponent,

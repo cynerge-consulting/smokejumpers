@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-table',
@@ -14,27 +15,31 @@ export class TableComponent implements OnInit {
   rowMenu = 'clickmask';
   details = [];
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
 
-  view = (row) => {
-    console.dir(row);
-    this.rowMenu = 'clickmask';
-  };
   edit = (row) => {
-    console.dir(row);
     this.rowMenu = 'clickmask';
+    let id = '';
+    if (row.id) {
+      id = row.id;
+    } else if (row.href) {
+      id = row.href.replace(
+        'http://dev.wrk.fs.usda.gov/masteraction/services/api/incidents/',
+        ''
+      );
+    }
+    this.router.navigate([this.settings.route + '/' + id, row]);
   };
   delete = (row) => {
-    console.dir(row);
     this.rowMenu = 'clickmask';
   };
 
-  action = (setting) => {
-    // console.dir(setting);
+  new = () => {
+    this.router.navigate([this.settings.route + '/new']);
   };
-  showSettings = () => {};
+
   selectRow = (row) => {
     this.details = [];
     for (const key in row) {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-new-incident',
@@ -58,7 +59,7 @@ export class NewIncidentComponent implements OnInit {
         {
           input: true,
           placeholder: 'Incident Name',
-          key: 'IncidentName'
+          key: '_nameofIncident'
         },
         {
           dropdown: true,
@@ -153,12 +154,12 @@ export class NewIncidentComponent implements OnInit {
         {
           input: true,
           placeholder: 'USFS Job Codes',
-          key: 'Usfs'
+          key: '_usfsNum'
         },
         {
           input: true,
           placeholder: 'BLM Job Codes',
-          key: 'BLM Job Codes'
+          key: '_blmNum'
         }
       ]
     },
@@ -189,7 +190,7 @@ export class NewIncidentComponent implements OnInit {
         {
           input: true,
           placeholder: 'Time Over Fire',
-          key: 'FireNumber'
+          key: '_timeOverFire'
         }
       ]
     },
@@ -299,7 +300,7 @@ export class NewIncidentComponent implements OnInit {
         {
           dropdown: true,
           label: 'Mode',
-          key: 'Mode',
+          key: '_mode',
           options: [
             {
               name: 'Proficiency / Training Jump',
@@ -314,12 +315,12 @@ export class NewIncidentComponent implements OnInit {
         {
           input: true,
           placeholder: 'Acres',
-          key: 'Acres'
+          key: '_acres'
         },
         {
           dropdown: true,
           label: 'Fuel Type',
-          key: 'FuelType',
+          key: '_fuelType',
           options: [
             {
               name: 'Grass',
@@ -382,7 +383,7 @@ export class NewIncidentComponent implements OnInit {
         {
           dropdown: true,
           label: 'Yards Of Drift',
-          key: 'YardsofDrift',
+          key: '_yardsofDrift',
           options: [
             {
               name: '50',
@@ -402,17 +403,17 @@ export class NewIncidentComponent implements OnInit {
         {
           input: true,
           placeholder: '# of Bundles',
-          key: 'PcNumberBundles'
+          key: '_pcNumberBundles'
         },
         {
           input: true,
           placeholder: 'Total Weight',
-          key: 'PcTotalWeight'
+          key: '_pcTotalWeight'
         },
         {
           dropdown: true,
           label: 'Malfunction',
-          key: 'PcMalfunction',
+          key: '_pcMalfunction',
           options: [
             {
               name: 'Yes',
@@ -432,13 +433,21 @@ export class NewIncidentComponent implements OnInit {
         {
           textarea: true,
           label: 'Enter Notes Here',
-          key: 'Note'
+          key: '_notes'
         }
       ]
     }
   ];
 
-  constructor() {}
+  constructor(private route: ActivatedRoute) {
+    this.route.params.subscribe((params) => {
+      for (const key in params) {
+        if (params.hasOwnProperty(key)) {
+          this.incident[key] = params[key];
+        }
+      }
+    });
+  }
 
   ngOnInit(): void {}
 

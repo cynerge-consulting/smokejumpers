@@ -23,13 +23,15 @@
     justify-content: center;
     align-items: center;
     padding-left: 0px !important;
-    span {
+    .menu-item {
+      white-space: nowrap;
       display: flex;
-      justify-content: center;
+      justify-content: start;
       align-items: center;
       height: 40px;
-      min-width: 100px;
-      padding: 0px 10px;
+      margin: 0px 10px;
+      width: 100%;
+      text-indent: 15px;
       cursor: pointer;
       &:hover {
         background: #006632;
@@ -38,10 +40,6 @@
     }
     &.showing-details {
       right: 260px;
-    }
-    .menu-item {
-      justify-content: start;
-      white-space: nowrap;
     }
   }
   &.showing-details {

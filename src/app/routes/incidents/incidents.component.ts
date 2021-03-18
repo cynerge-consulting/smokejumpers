@@ -28,13 +28,27 @@ export class IncidentsComponent implements OnInit {
       key: '_incidentDate'
     }
   ];
-  settings = [
-    {
-      label: 'New Incident',
-      action: 'create',
-      target: 'incident'
-    }
-  ];
+  settings = {
+    name: 'Incident',
+    route: 'incidents',
+    menuItems: [
+      {
+        label: 'New Incident',
+        action: 'new',
+        route: 'incidents/new'
+      },
+      {
+        label: 'Edit Incident',
+        action: 'edit',
+        route: 'incidents/'
+      },
+      {
+        label: 'Delete Incident',
+        action: 'delete',
+        route: 'incidents/'
+      }
+    ]
+  };
   year;
 
   constructor(private route: ActivatedRoute) {
