@@ -159,7 +159,7 @@
   position: fixed;
   top: 64px;
   right: 0;
-  height: 100%;
+  height: calc(100% - 64px);
   box-shadow: none;
   .none-selected {
     text-align: center;
@@ -178,12 +178,14 @@
     justify-content: space-between;
     align-items: center;
     .key {
+      font-size: 14px;
+      color: gray;
       font-weight: bold;
       margin-right: 20px;
     }
     .value {
       position: relative;
-      font-size: 14px;
+      font-size: 12px;
       right: 0px;
       text-overflow: ellipsis;
       overflow: hidden;

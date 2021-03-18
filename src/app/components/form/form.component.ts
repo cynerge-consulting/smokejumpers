@@ -8,17 +8,12 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class FormComponent implements OnInit {
   @Input() sections: any;
   @Input() data: any;
+  @Input() mode: any;
   @Output() submitted = new EventEmitter<Object>();
-  currentSection = {
-    title: '',
-    data: []
-  };
 
   constructor() {}
 
   ngOnInit(): void {
-    this.currentSection = this.sections[0];
-
     // set default values in this.data for necessary form fields
     this.sections.forEach((section) => {
       section.data.forEach((datum) => {
@@ -30,14 +25,6 @@ export class FormComponent implements OnInit {
     });
   }
 
-  goBack = () => {
-    let index = this.sections.indexOf(this.currentSection);
-    this.currentSection = this.sections[index - 1];
-  };
-  goForward = () => {
-    let index = this.sections.indexOf(this.currentSection);
-    this.currentSection = this.sections[index + 1];
-  };
   submitForm = (event) => {
     this.submitted.emit(this.data);
   };

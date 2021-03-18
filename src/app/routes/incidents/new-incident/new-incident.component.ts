@@ -7,6 +7,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
   styleUrls: ['./new-incident.component.scss']
 })
 export class NewIncidentComponent implements OnInit {
+  mode = 'Create';
   // define incident object
   incident = {
     IncidentName: '',
@@ -60,6 +61,12 @@ export class NewIncidentComponent implements OnInit {
           input: true,
           placeholder: 'Incident Name',
           key: '_nameofIncident'
+        },
+        {
+          input: true,
+          type: 'date',
+          placeholder: 'Incident Date',
+          key: '_incidentDate'
         },
         {
           dropdown: true,
@@ -180,7 +187,7 @@ export class NewIncidentComponent implements OnInit {
         {
           input: true,
           placeholder: 'Hobbs Time',
-          key: 'HobbsTime'
+          key: '_hobbsTime'
         },
         {
           input: true,
@@ -443,6 +450,7 @@ export class NewIncidentComponent implements OnInit {
     this.route.params.subscribe((params) => {
       for (const key in params) {
         if (params.hasOwnProperty(key)) {
+          this.mode = 'Update';
           this.incident[key] = params[key];
         }
       }

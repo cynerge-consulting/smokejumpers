@@ -11,8 +11,14 @@
           </span>
           <input
             [name]="datum.key"
-            *ngIf="datum.input"
+            *ngIf="datum.input && datum.type !== 'date'"
             [placeholder]="datum.placeholder"
+            [(ngModel)]="data[datum.key]"
+          />
+          <input
+            type="date"
+            [name]="datum.key"
+            *ngIf="datum.type === 'date'"
             [(ngModel)]="data[datum.key]"
           />
           <app-dropdown
@@ -25,7 +31,7 @@
           <textarea
             *ngIf="datum.textarea"
             [(ngModel)]="data[datum.key]"
-            (placeholder)="(datum.label)"
+            [placeholder]="datum.label"
           ></textarea>
         </div>
       </div>
@@ -33,7 +39,7 @@
   </div>
   <div class="section-container">
     <app-button
-      text="Create"
+      [text]="mode"
       (clicked)="submitForm($event)"
       class="new-incident-button"
     ></app-button>

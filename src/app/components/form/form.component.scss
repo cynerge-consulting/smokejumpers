@@ -2,7 +2,7 @@
   .section-container {
     margin: 0px 30px;
     padding: 30px 0px 60px 0px;
-    border-bottom: 1px solid #006632;
+    border-bottom: 4px solid #006632;
   }
   .title {
     margin-bottom: 30px;
@@ -33,10 +33,12 @@
     display: flex;
     flex-direction: column;
     .input-label {
+      font-size: 14px;
       margin-bottom: 5px;
-      font-size: 18px;
     }
     input {
+      color: #858585;
+      user-select: none;
       width: 75%;
       border: none;
       border-bottom: 1px solid black;

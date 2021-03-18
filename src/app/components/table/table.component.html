@@ -36,6 +36,7 @@
       *ngFor="let row of rows"
       class="row"
       (click)="selectRow(row)"
+      (dblclick)="edit(row)"
       [ngClass]="selected === row ? 'selected' : ''"
     >
       <div *ngFor="let column of columns" class="cell">
