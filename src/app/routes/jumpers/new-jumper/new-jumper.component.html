@@ -1,1 +1,7 @@
-<p>new-jumper works!</p>
+<app-form
+  class="new-jumper-form"
+  [sections]="sections"
+  [data]="jumper"
+  [mode]="mode"
+  (submitted)="submitForm($event)"
+></app-form>

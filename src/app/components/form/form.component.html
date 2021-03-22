@@ -9,18 +9,22 @@
           <span *ngIf="datum.input" class="input-label"
             >{{ datum.placeholder }}:
           </span>
+          <!-- text input -->
           <input
+            type="text"
             [name]="datum.key"
             *ngIf="datum.input && datum.type !== 'date'"
             [placeholder]="datum.placeholder"
             [(ngModel)]="data[datum.key]"
           />
+          <!-- datepicker -->
           <input
             type="date"
             [name]="datum.key"
             *ngIf="datum.type === 'date'"
             [(ngModel)]="data[datum.key]"
           />
+          <!-- dropdown -->
           <app-dropdown
             *ngIf="datum.dropdown"
             [label]="datum.label"
@@ -28,6 +32,7 @@
             key="name"
             (selectedDropdownItem)="onSelectedDropdownItem($event, datum)"
           ></app-dropdown>
+          <!-- textarea -->
           <textarea
             *ngIf="datum.textarea"
             [(ngModel)]="data[datum.key]"
