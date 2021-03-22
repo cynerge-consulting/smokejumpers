@@ -71,7 +71,7 @@ export class AuthGuard implements CanActivate {
     } else {
       // if there is no user info and no token to ask for that info,
       // do not allow access and redirect to login / signup / register
-      window.location.href = '';
+      window.location.href = environment.LOGIN_PORTAL;
       return false;
     }
   }

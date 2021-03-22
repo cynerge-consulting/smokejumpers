@@ -18,7 +18,7 @@ import { QualificationsComponent } from './routes/qualifications/qualifications.
 import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent },
+  { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'map', component: MapComponent },
   { path: 'database', component: DatabaseComponent },

@@ -4,10 +4,12 @@ require('dotenv').config();
 // read in env vars
 let production = process.env.PRODUCTION;
 let API_URL = process.env.API_URL;
+let LOGIN_PORTAL = process.env.LOGIN_PORTAL;
 
 // determine the path
 let pwd = process.cwd();
 let path = pwd;
+
 if (production === 'true') {
   path = path + '/src/environments/environment.prod.ts';
 } else {
@@ -17,7 +19,8 @@ if (production === 'true') {
 // create the file contents based on the template and the env var values
 let template = `export const environment = {
   production: ${production},
-  API_URL: '${API_URL}'
+  API_URL: '${API_URL}',
+  LOGIN_PORTAL: '${LOGIN_PORTAL}'
 };`;
 
 // create environment file if it doesn't exist
