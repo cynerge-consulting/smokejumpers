@@ -43,6 +43,11 @@ const routes: Routes = [
     component: NewJumperComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: 'jumpers/:id',
+    component: NewJumperComponent,
+    canActivate: [AuthGuard]
+  },
   { path: 'reports', component: ReportsComponent, canActivate: [AuthGuard] },
   { path: 'admin/users', component: UsersComponent, canActivate: [AuthGuard] },
   { path: 'bases', component: BasesComponent, canActivate: [AuthGuard] },

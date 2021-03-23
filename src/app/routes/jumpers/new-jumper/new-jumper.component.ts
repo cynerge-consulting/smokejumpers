@@ -6,54 +6,62 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
   templateUrl: './new-jumper.component.html',
   styleUrls: ['./new-jumper.component.scss']
 })
-
-
-
 export class NewJumperComponent implements OnInit {
   mode = 'Create';
   // define jumper object
   jumper = {
-  id: 281,
-  href: "http://dev.wrk.fs.usda.gov/masteraction/services/api/jumpers/281",
-  baseId: 1,
-  firstName: "Bobby",
-  lastName: "Jumpsalot",
-  grade: 1,
-  basePosition: "quarterback",
-  tour: "Metallica 99",
-  spotter: "Spotty Tom",
-  firstAid: "yes",
-  rigger: "rig",
-  ics1: "ics thing",
-  ics2: "ics thing",
-  ics3: "ics thing",
-  ics4: "ics thing",
-  ics5: "ics thing",
-  ics6: "ics thing",
-  ics7: "ics thing",
-  ics8: "ics thing",
-  icst1: "ics thing",
-  icst2: "ics thing",
-  icst3: "ics thing",
-  icst4: "ics thing",
-  lastDayOff: "11",
-  payStatus: true,
-  activeStatus: true,
-  retired: false,
-  weight: 642,
-  phoneNumber: 911,
-  base: {}
-}
+    id: 281,
+    href: 'http://dev.wrk.fs.usda.gov/masteraction/services/api/jumpers/281',
+    baseId: 1,
+    firstName: 'Bobby',
+    lastName: 'Jumpsalot',
+    grade: 1,
+    basePosition: 'quarterback',
+    tour: 'Metallica 99',
+    spotter: 'Spotty Tom',
+    firstAid: 'yes',
+    rigger: 'rig',
+    ics1: 'ics thing',
+    ics2: 'ics thing',
+    ics3: 'ics thing',
+    ics4: 'ics thing',
+    ics5: 'ics thing',
+    ics6: 'ics thing',
+    ics7: 'ics thing',
+    ics8: 'ics thing',
+    icst1: 'ics thing',
+    icst2: 'ics thing',
+    icst3: 'ics thing',
+    icst4: 'ics thing',
+    lastDayOff: '11',
+    payStatus: true,
+    activeStatus: true,
+    retired: false,
+    weight: 642,
+    phoneNumber: 911,
+    base: {}
+  };
 
   // define form sections
   sections = [
     {
-      title: 'General Information',
+      title: 'Jumper Information',
       data: [
         {
           input: true,
-          placeholder: 'Incident Name',
-          key: '_nameofIncident'
+          placeholder: 'First Name',
+          key: 'firstName'
+        },
+        {
+          input: true,
+          placeholder: 'Last Name',
+          key: 'lastName'
+        },
+        {
+          input: true,
+          type: 'date',
+          placeholder: 'Incident Date',
+          key: '_incidentDate'
         },
         {
           input: true,

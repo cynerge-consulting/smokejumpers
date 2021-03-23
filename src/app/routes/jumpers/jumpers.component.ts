@@ -27,13 +27,12 @@ export class JumpersComponent implements OnInit {
       key: 'basePosition'
     }
   ];
-  settings = [
-    {
-      label: 'New Jumper',
-      action: 'create',
-      target: 'jumper'
-    }
-  ];
+  settings = {
+    route: 'jumpers',
+    label: 'New Jumper',
+    action: 'create',
+    target: 'jumper'
+  };
 
   constructor() {}
 

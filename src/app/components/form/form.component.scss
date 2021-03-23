@@ -1,4 +1,10 @@
 .form {
+  position: fixed;
+  overflow: auto;
+  box-shadow: 2px 2px 5px 5px lightgray;
+  background: white;
+  height: 100%;
+  width: 100%;
   .section-container {
     margin: 0px 30px;
     padding: 30px 0px 60px 0px;
@@ -11,9 +17,6 @@
       color: #005d29;
     }
   }
-  background: white;
-  height: 100%;
-  width: 100%;
   .content {
     display: flex;
     flex-direction: row;
@@ -22,26 +25,26 @@
     flex-wrap: wrap;
   }
   .datum {
+    min-height: 21px;
     margin: 20px 0px;
     width: calc(100% - 40px);
     display: flex;
     align-items: center;
   }
   .input-container {
-    // width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
     .input-label {
+      color: #090909;
+      white-space: nowrap;
       font-size: 14px;
-      margin-bottom: 5px;
+      margin-right: 15px;
     }
     input {
-      color: #858585;
       user-select: none;
-      width: 75%;
       border: none;
       border-bottom: 1px solid black;
-      padding: 10px 0px;
       outline: none;
     }
   }
