@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
-import { MapComponent } from './routes/map/map.component';
 import { DatabaseComponent } from './routes/database/database.component';
 import { WelcomeComponent } from './routes/welcome/welcome.component';
 import { IncidentsComponent } from './routes/incidents/incidents.component';
