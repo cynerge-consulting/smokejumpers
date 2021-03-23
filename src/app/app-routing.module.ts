@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { MapComponent } from './routes/map/map.component';
 import { DatabaseComponent } from './routes/database/database.component';
+import { WelcomeComponent } from './routes/welcome/welcome.component';
 import { IncidentsComponent } from './routes/incidents/incidents.component';
 import { NewIncidentComponent } from './routes/incidents/new-incident/new-incident.component';
 import { JumpersComponent } from './routes/jumpers/jumpers.component';
@@ -19,33 +20,40 @@ import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'map', component: MapComponent },
-  { path: 'database', component: DatabaseComponent },
-  { path: 'incidents', component: IncidentsComponent },
+  { path: 'welcome', component: WelcomeComponent },
+  {
+    path: 'incidents',
+    component: IncidentsComponent,
+    canActivate: [AuthGuard]
+  },
   {
     path: 'incidents/new',
-    component: NewIncidentComponent
+    component: NewIncidentComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'incidents/:id',
-    component: NewIncidentComponent
+    component: NewIncidentComponent,
+    canActivate: [AuthGuard]
   },
-  // {
-  //   path: 'incidents/new',
-  //   component: NewIncidentComponent,
-  //   canActivate: [AuthGuard]
-  // },
-  { path: 'aircraft', component: AircraftComponent },
-  { path: 'jumpers', component: JumpersComponent },
-  { path: 'jumpers/new', component: NewJumperComponent },
-  { path: 'reports', component: ReportsComponent },
-  { path: 'admin/users', component: UsersComponent },
-  { path: 'bases', component: BasesComponent },
-  { path: 'pilots', component: PilotsComponent },
-  { path: 'chutes', component: ChutesComponent },
-  { path: 'qualifications', component: QualificationsComponent },
-  { path: 'booster', component: BoosterComponent }
+  { path: 'aircraft', component: AircraftComponent, canActivate: [AuthGuard] },
+  { path: 'jumpers', component: JumpersComponent, canActivate: [AuthGuard] },
+  {
+    path: 'jumpers/new',
+    component: NewJumperComponent,
+    canActivate: [AuthGuard]
+  },
+  { path: 'reports', component: ReportsComponent, canActivate: [AuthGuard] },
+  { path: 'admin/users', component: UsersComponent, canActivate: [AuthGuard] },
+  { path: 'bases', component: BasesComponent, canActivate: [AuthGuard] },
+  { path: 'pilots', component: PilotsComponent, canActivate: [AuthGuard] },
+  { path: 'chutes', component: ChutesComponent, canActivate: [AuthGuard] },
+  {
+    path: 'qualifications',
+    component: QualificationsComponent,
+    canActivate: [AuthGuard]
+  },
+  { path: 'booster', component: BoosterComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

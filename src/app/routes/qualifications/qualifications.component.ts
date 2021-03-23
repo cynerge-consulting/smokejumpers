@@ -38,7 +38,7 @@ export class QualificationsComponent implements OnInit {
   constructor() {}
 
   async ngOnInit() {
-    let qualifications = await axios.get(environment.API_URL + '/api/Quals');
+    let qualifications = await axios.get(environment.API_URL + '/Quals');
     this.qualifications = qualifications.data;
   }
 }

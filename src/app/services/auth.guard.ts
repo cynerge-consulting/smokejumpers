@@ -41,13 +41,12 @@ export class AuthGuard implements CanActivate {
     }
 
     if (token) {
-      // make a call to isRegistered
       axios
         .get(environment.API_URL + '/auth/isRegistered', {
           headers: { Authorization: 'Bearer ' + token }
         })
         .then((response) => {
-          // if the user is registered, get the user info
+          // if the user is registered
           if (response.data) {
             axios
               .get(environment.API_URL + '/auth/userInfo', {
@@ -58,19 +57,17 @@ export class AuthGuard implements CanActivate {
                   'userInfo',
                   JSON.stringify(userReponse.data)
                 );
+                window.location.href = window.location.origin;
                 return true;
               });
-
-            // if the user is not registered do not allow access
-            // and redirect to login / signup / register
           } else {
-            window.location.href = '';
+            // if the user is not registered redirect to welcome
+            window.location.href = window.location.origin + '/welcome';
             return false;
           }
         });
     } else {
-      // if there is no user info and no token to ask for that info,
-      // do not allow access and redirect to login / signup / register
+      // if there is no token redirect to login
       window.location.href = environment.LOGIN_PORTAL;
       return false;
     }

@@ -39,7 +39,7 @@ export class BasesComponent implements OnInit {
 
   async ngOnInit() {
     let bases = await axios.get(
-      environment.API_URL + '/api/base/dropdown/main'
+      environment.API_URL + '/base/dropdown/main'
     );
     this.bases = bases.data;
   }

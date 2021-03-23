@@ -74,12 +74,12 @@ export class ReportsComponent implements OnInit {
 
   async ngOnInit() {
     let bases = await axios.get(
-      environment.API_URL + '/api/base/dropdown/main'
+      environment.API_URL + '/base/dropdown/main'
     );
     this.bases = bases.data;
-    let jumpers = await axios.get(environment.API_URL + '/api/jumpers');
+    let jumpers = await axios.get(environment.API_URL + '/jumpers');
     this.jumpers = jumpers.data.value;
-    // let qualifications = await axios.get(environment.API_URL + '/api/qualifications');
+    // let qualifications = await axios.get(environment.API_URL + '/qualifications');
     // this.qualifications = qualifications.data
     this.qualifications = [
       {
@@ -102,7 +102,7 @@ export class ReportsComponent implements OnInit {
   };
 
   generateReport = async () => {
-    let report = axios.post(environment.API_URL + '/api/Reports/getReport', {
+    let report = axios.post(environment.API_URL + '/Reports/getReport', {
       basename: this.selectedBase.value,
       report: this.reportType,
       reportUrl: 'https://dev.wrk.fs.usda.gov/masteraction/reports',

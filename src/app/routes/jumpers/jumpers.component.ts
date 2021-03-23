@@ -27,16 +27,22 @@ export class JumpersComponent implements OnInit {
       key: 'basePosition'
     }
   ];
-  settings = [{
-    label: 'New Jumper',
-    action: 'create',
-    target: 'jumper'
-  }]
+  settings = [
+    {
+      label: 'New Jumper',
+      action: 'create',
+      target: 'jumper'
+    }
+  ];
 
-  constructor() { }
+  constructor() {}
 
   async ngOnInit() {
-    let jumpers = await axios.get(environment.API_URL + '/api/jumpers');
+    // check session storage for a token
+    let token = window.sessionStorage.getItem('token');
+    let jumpers = await axios.get(environment.API_URL + '/jumpers', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
     this.jumpers = jumpers.data.value;
   }
 }

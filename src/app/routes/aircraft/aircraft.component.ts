@@ -38,7 +38,7 @@ export class AircraftComponent implements OnInit {
   constructor() {}
 
   async ngOnInit() {
-    let aircraft = await axios.get(environment.API_URL + '/api/travelmodes');
+    let aircraft = await axios.get(environment.API_URL + '/travelmodes');
     this.aircraft = aircraft.data;
   }
 }

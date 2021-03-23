@@ -38,7 +38,10 @@ export class PilotsComponent implements OnInit {
   constructor() {}
 
   async ngOnInit() {
-    let pilots = await axios.get(environment.API_URL + '/api/pilots');
+    let token = window.sessionStorage.getItem('token');
+    let pilots = await axios.get(environment.API_URL + '/pilots', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
     this.pilots = pilots.data;
   }
 }

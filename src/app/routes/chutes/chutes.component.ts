@@ -38,7 +38,7 @@ export class ChutesComponent implements OnInit {
   constructor() {}
 
   async ngOnInit() {
-    let chutes = await axios.get(environment.API_URL + '/api/chutemain');
+    let chutes = await axios.get(environment.API_URL + '/chutemain');
     this.chutes = chutes.data;
   }
 }

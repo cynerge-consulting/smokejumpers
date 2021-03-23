@@ -19,13 +19,6 @@ export class SidenavComponent implements OnInit {
   ngOnInit(): void {
     this.menuItems = [
       {
-        name: 'DASHBOARD',
-        route: 'dashboard',
-        banner: 'assets/images/dashBanner.png',
-        hasItems: false,
-        hasParams: false
-      },
-      {
         name: 'Incident Information',
         icon: 'incidents.png',
         hasItems: true,
@@ -131,12 +124,6 @@ export class SidenavComponent implements OnInit {
             banner: 'assets/images/incBanner.png'
           }
         ]
-      },
-      {
-        name: 'Mapped Actions',
-        icon: 'map.png',
-        route: 'map',
-        hasItems: false
       },
       {
         name: 'Booster in Brief',

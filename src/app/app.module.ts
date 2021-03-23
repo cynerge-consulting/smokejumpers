@@ -25,6 +25,7 @@ import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { ButtonComponent } from './components/button/button.component';
 import { FormComponent } from './components/form/form.component';
 import { FormsModule } from '@angular/forms';
+import { WelcomeComponent } from './routes/welcome/welcome.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { FormsModule } from '@angular/forms';
     QualificationsComponent,
     DropdownComponent,
     ButtonComponent,
-    FormComponent
+    FormComponent,
+    WelcomeComponent
   ],
   imports: [BrowserModule, FormsModule, AppRoutingModule],
   providers: [],
