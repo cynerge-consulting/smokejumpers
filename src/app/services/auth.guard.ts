@@ -57,12 +57,12 @@ export class AuthGuard implements CanActivate {
                   'userInfo',
                   JSON.stringify(userReponse.data)
                 );
-                window.location.href = window.location.origin;
+                window.location.href = environment.HOME_URL;
                 return true;
               });
           } else {
             // if the user is not registered redirect to welcome
-            window.location.href = window.location.origin + '/welcome';
+            window.location.href = environment.HOME_URL + '/welcome';
             return false;
           }
         });
