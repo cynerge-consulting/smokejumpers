@@ -42,14 +42,14 @@ export class AuthGuard implements CanActivate {
 
     if (token) {
       axios
-        .get(environment.API_URL + '/auth/isRegistered', {
+        .get(environment.AUTH_URL + '/isRegistered', {
           headers: { Authorization: 'Bearer ' + token }
         })
         .then((response) => {
           // if the user is registered
           if (response.data) {
             axios
-              .get(environment.API_URL + '/auth/userInfo', {
+              .get(environment.AUTH_URL + '/userInfo', {
                 headers: { Authorization: 'Bearer ' + token }
               })
               .then((userReponse) => {

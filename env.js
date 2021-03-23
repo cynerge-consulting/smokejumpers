@@ -4,6 +4,7 @@ require('dotenv').config();
 // read in env vars
 let production = process.env.PRODUCTION;
 let API_URL = process.env.API_URL;
+let AUTH_URL = process.env.AUTH_URL;
 let LOGIN_PORTAL = process.env.LOGIN_PORTAL;
 
 // determine the path
@@ -20,6 +21,7 @@ if (production === 'true') {
 let template = `export const environment = {
   production: ${production},
   API_URL: '${API_URL}',
+  AUTH_URL: '${AUTH_URL}',
   LOGIN_PORTAL: '${LOGIN_PORTAL}'
 };`;
 
