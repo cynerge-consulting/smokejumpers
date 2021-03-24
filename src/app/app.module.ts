@@ -25,6 +25,7 @@ import { ButtonComponent } from './components/button/button.component';
 import { FormComponent } from './components/form/form.component';
 import { FormsModule } from '@angular/forms';
 import { WelcomeComponent } from './routes/welcome/welcome.component';
+import { ToastComponent } from './components/toast/toast.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { WelcomeComponent } from './routes/welcome/welcome.component';
     DropdownComponent,
     ButtonComponent,
     FormComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    ToastComponent
   ],
   imports: [BrowserModule, FormsModule, AppRoutingModule],
   providers: [],

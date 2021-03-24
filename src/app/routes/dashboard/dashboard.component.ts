@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,10 +8,14 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private toastService: ToastService) {}
 
   ngOnInit(): void {
     // redirect to incidents as default page
-    this.router.navigate(['incidents']);
+    // this.router.navigate(['incidents']);
+  }
+
+  openToast(): void {
+    this.toastService.show('I"m the toast component!', 'info');
   }
 }
