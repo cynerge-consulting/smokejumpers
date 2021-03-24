@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import axios from 'axios';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-new-incident',
@@ -7,51 +9,24 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
   styleUrls: ['./new-incident.component.scss']
 })
 export class NewIncidentComponent implements OnInit {
+  params;
   mode = 'Create';
   // define incident object
-  incident = {
-    IncidentName: '',
-    UserId: '',
-    DispFromBase: '',
-    ReturnToBase: '',
-    Usfs: '',
-    Blm: '',
-    UnitName: '',
-    HobbsTime: '',
-    TDate: '',
-    DepartTime: '',
-    ArriveTime: '',
-    Mode: '',
-    Mission: '',
-    Type: '',
-    Acres: '',
-    SizeClass: '',
-    Hours: '',
-    InitialAttack: '',
-    Lat: '',
-    Lon: '',
-    NumberPers: '',
-    BaseName: '',
-    FuelType: '',
-    FireNumber: '',
-    YardsofDrift: '',
-    PcMalfunction: '',
-    PcNumberBundles: '',
-    PcTotalWeight: '',
-    Year: '',
-    Pilot1Id: '',
-    Pilot2Id: '',
-    TravelModeId: '',
-    AreaId: '',
-    CustomerId: '',
-    AgencyId: '',
-    StateId: '',
-    Spotter1Id: '',
-    Spotter2Id: '',
-    SpotterTraineeId: '',
-    Note: ''
+  data = {
+    id: '',
+    _notes: ''
   };
-
+  bases;
+  selectedBase;
+  pilots;
+  selectedPilot;
+  selectedCopilot;
+  selectedSpotter1;
+  selectedSpotter2;
+  selectedTrainee;
+  jumpers;
+  selectedJumper;
+  incidentJumpers = [];
   // define form sections
   sections = [
     {
@@ -72,6 +47,7 @@ export class NewIncidentComponent implements OnInit {
           dropdown: true,
           label: 'Dispatched From',
           key: 'DispFromBase',
+          choice: {},
           options: [
             {
               name: 'Alabama',
@@ -85,6 +61,7 @@ export class NewIncidentComponent implements OnInit {
         },
         {
           dropdown: true,
+          choice: {},
           label: 'Returned To',
           key: 'ReturnToBase',
           options: [
@@ -102,6 +79,7 @@ export class NewIncidentComponent implements OnInit {
           dropdown: true,
           label: 'To Area',
           key: 'AreaId',
+          choice: {},
           options: [
             {
               name: 'LOL',
@@ -117,6 +95,7 @@ export class NewIncidentComponent implements OnInit {
           dropdown: true,
           label: 'State',
           key: 'StateId',
+          choice: {},
           options: [
             {
               name: 'Michigan',
@@ -129,6 +108,7 @@ export class NewIncidentComponent implements OnInit {
           ]
         },
         {
+          choice: {},
           dropdown: true,
           label: 'Agency',
           key: 'AgencyId',
@@ -144,6 +124,7 @@ export class NewIncidentComponent implements OnInit {
           ]
         },
         {
+          choice: {},
           dropdown: true,
           label: 'Unit Identifier',
           key: 'UnitName',
@@ -174,6 +155,7 @@ export class NewIncidentComponent implements OnInit {
       title: 'Time and Travel',
       data: [
         {
+          choice: {},
           dropdown: true,
           label: 'Method of Travel',
           key: 'Mode',
@@ -205,99 +187,39 @@ export class NewIncidentComponent implements OnInit {
       title: 'Crew Information',
       data: [
         {
+          choice: {},
           dropdown: true,
           label: 'Pilot',
-          key: 'Pilot1Id',
-          options: [
-            {
-              name: 'Mister Pilots',
-              value: '1'
-            },
-            {
-              name: 'Maverick',
-              value: '2'
-            },
-            {
-              name: 'Goose',
-              value: '3'
-            }
-          ]
+          key: '_pilotId',
+          options: [{}]
         },
         {
+          choice: {},
           dropdown: true,
           label: 'CoPilot',
-          key: 'Pilot2Id',
-          options: [
-            {
-              name: 'Mister Pilots',
-              value: '1'
-            },
-            {
-              name: 'Maverick',
-              value: '2'
-            },
-            {
-              name: 'Goose',
-              value: '3'
-            }
-          ]
+          key: '_copilotId',
+          options: [{}]
         },
         {
+          choice: {},
           dropdown: true,
           label: 'Spotter 1',
-          key: 'Spotter1Id',
-          options: [
-            {
-              name: 'Mister Pilots',
-              value: '1'
-            },
-            {
-              name: 'Maverick',
-              value: '2'
-            },
-            {
-              name: 'Goose',
-              value: '3'
-            }
-          ]
+          key: '_spotterId',
+          options: [{}]
         },
         {
+          choice: {},
           dropdown: true,
           label: 'Spotter 2',
-          key: 'Spotter2Id',
-          options: [
-            {
-              name: 'Mister Pilots',
-              value: '1'
-            },
-            {
-              name: 'Maverick',
-              value: '2'
-            },
-            {
-              name: 'Goose',
-              value: '3'
-            }
-          ]
+          key: '_asstSpotterId',
+          options: [{}]
         },
         {
+          choice: {},
           dropdown: true,
           label: 'Spotter Trainee',
-          key: 'SpotterTraineeId',
-          options: [
-            {
-              name: 'Mister Pilots',
-              value: '1'
-            },
-            {
-              name: 'Maverick',
-              value: '2'
-            },
-            {
-              name: 'Goose',
-              value: '3'
-            }
-          ]
+          key: '_spotterTraineeId',
+          options: [{}]
         }
       ]
     },
@@ -305,6 +227,7 @@ export class NewIncidentComponent implements OnInit {
       title: 'Incident Details',
       data: [
         {
+          choice: {},
           dropdown: true,
           label: 'Mode',
           key: '_mode',
@@ -328,6 +251,7 @@ export class NewIncidentComponent implements OnInit {
           dropdown: true,
           label: 'Fuel Type',
           key: '_fuelType',
+          choice: {},
           options: [
             {
               name: 'Grass',
@@ -349,6 +273,7 @@ export class NewIncidentComponent implements OnInit {
         },
         {
           dropdown: true,
+          choice: {},
           label: 'Initial Attack',
           key: 'InitialAttack',
           options: [
@@ -366,6 +291,7 @@ export class NewIncidentComponent implements OnInit {
           dropdown: true,
           label: 'Type',
           key: 'Type',
+          choice: {},
           options: [
             {
               name: '1',
@@ -389,16 +315,17 @@ export class NewIncidentComponent implements OnInit {
         },
         {
           dropdown: true,
+          choice: {},
           label: 'Yards Of Drift',
           key: '_yardsofDrift',
           options: [
             {
               name: '50',
-              value: '50'
+              value: 50
             },
             {
               name: '100',
-              value: '100'
+              value: 100
             }
           ]
         }
@@ -419,6 +346,7 @@ export class NewIncidentComponent implements OnInit {
         },
         {
           dropdown: true,
+          choice: {},
           label: 'Malfunction',
           key: '_pcMalfunction',
           options: [
@@ -433,34 +361,105 @@ export class NewIncidentComponent implements OnInit {
           ]
         }
       ]
-    },
-    {
-      title: 'Notes',
-      data: [
-        {
-          textarea: true,
-          label: 'Enter Notes Here',
-          key: '_notes'
-        }
-      ]
     }
   ];
 
   constructor(private route: ActivatedRoute) {
     this.route.params.subscribe((params) => {
+      this.params = params;
       for (const key in params) {
         if (params.hasOwnProperty(key)) {
           this.mode = 'Update';
-          this.incident[key] = params[key];
+          this.data[key] = params[key];
         }
       }
     });
   }
 
-  ngOnInit(): void {}
+  async ngOnInit() {
+    let token = window.sessionStorage.getItem('token');
+    let jumpers = await axios.get(environment.API_URL + '/jumpers', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    this.jumpers = jumpers.data.value;
+    this.jumpers.forEach((jumper) => {
+      jumper.friendly = jumper.firstName + ' ' + jumper.lastName;
+    });
+    let bases = await axios.get(environment.API_URL + '/base/dropdown/main', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    this.bases = bases.data;
+    let pilots = await axios.get(environment.API_URL + '/pilots', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    this.pilots = pilots.data;
+    this.pilots.forEach((pilot) => {
+      pilot.name = pilot.text;
+      pilot.value = pilot.id.toString();
+    });
+    if (this.mode === 'Update') {
+      // get any jumpers associated with the incident
+      try {
+        let incJumpers = await axios.get(
+          environment.API_URL + '/incidentjumpers/' + this.data.id,
+          {
+            headers: { Authorization: 'Bearer ' + token }
+          }
+        );
+        this.incidentJumpers = incJumpers.data.value;
+      } catch (error) {
+        console.dir(error);
+      }
+    }
+
+    // populate dropdown options
+    this.sections.forEach((section) => {
+      section.data.forEach((datum) => {
+        if (
+          datum.key === '_pilotId' ||
+          datum.key === '_copilotId' ||
+          datum.key === '_spotterId' ||
+          datum.key === '_asstSpotterId' ||
+          datum.key === '_spotterTraineeId'
+        ) {
+          datum.options = this.pilots;
+        }
+        if (this.params[datum.key]) {
+          this.data[datum.key] = this.params[datum.key];
+          if (datum.dropdown) {
+            let choice = datum.options.filter(
+              (option) => option.value === this.params[datum.key]
+            );
+            if (choice.length) {
+              datum.choice = choice[0];
+            }
+          }
+        }
+      });
+    });
+  }
 
   submitForm = (data) => {
     console.dir(data);
     // validate and send POST to backend
+  };
+
+  onSelectedDropdownItem = (event, datum) => {
+    this.data[datum.key] = event.value;
+  };
+
+  addJumper = () => {
+    this.incidentJumpers.push(this.selectedJumper);
+  };
+  removeJumper = (jumper) => {
+    this.incidentJumpers.splice(jumper);
+  };
+
+  selectJumper = (event) => {
+    this.selectedJumper = event;
+  };
+
+  selectBase = (event) => {
+    this.selectedBase = event;
   };
 }
