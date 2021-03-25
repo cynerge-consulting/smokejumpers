@@ -8,14 +8,10 @@ import { ToastService } from 'src/app/services/toast.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  constructor(private router: Router, private toastService: ToastService) {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     // redirect to incidents as default page
-    // this.router.navigate(['incidents']);
-  }
-
-  openToast(): void {
-    this.toastService.show('I"m the toast component!', 'info');
+    this.router.navigate(['incidents']);
   }
 }

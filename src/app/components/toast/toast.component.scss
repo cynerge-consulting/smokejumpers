@@ -2,33 +2,64 @@
   position: fixed;
   bottom: 20px;
   left: 50%;
-  padding: 20px 0px;
+  padding: 10px 0px;
   border-radius: 5px;
-  min-width: 25%;
+  min-width: 20%;
   transform-origin: center center;
   transform: translate(-50%, 0%);
   &.success {
     background: #006632;
   }
-  &.danger {
-    background: red;
+  &.error {
+    background: rgb(219, 8, 8);
   }
   &.info {
-    background: lightblue;
-    .toast-text {
-      color: black;
-    }
+    background: rgb(122, 165, 179);
   }
   &.warning {
-    background: yellow;
-    .toast-text {
-      color: black;
-    }
+    background: rgb(192, 172, 84);
   }
-  .toast-text {
-    text-align: center;
-    font-size: 1.3em;
+  .toast-message-container {
+    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .icon {
+    font-size: 1.5em;
+    color: white;
+    align-self: left;
+  }
+
+  .toast-header {
+    padding: 0.3em;
+    font-size: 1em;
     color: white;
     margin: 0;
+  }
+
+  .toast-message {
+    padding: 0.3em;
+    font-size: 0.8em;
+    color: white;
+    margin: 0;
+  }
+
+  .close-toast {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0.7;
+    cursor: pointer;
+    color: white;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 0.8em;
+  }
+
+  .close-toast:hover {
+    background-color: rgba(211, 206, 206, 0.3);
   }
 }

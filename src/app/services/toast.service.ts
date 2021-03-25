@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,12 @@ export class ToastService {
       show: true,
       message,
       type
+    });
+  }
+
+  dismiss() {
+    this.toastSubject.next({
+      show: false
     });
   }
 }

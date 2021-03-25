@@ -1,5 +1,13 @@
 <div *ngIf="show" [ngClass]="['toast-wrapper', type]">
-  <p class="toast-text">
-    {{ message }}
-  </p>
+  <div class="toast-message-container">
+    <span class="icon" *ngIf="type === 'success'">&#x2714;</span>
+    <span class="icon" *ngIf="type === 'error'">&#x2715;</span>
+    <span class="icon" *ngIf="type === 'info'">&#x24D8;</span>
+    <span class="icon" *ngIf="type === 'warning'">&#x26A0;</span>
+    <span class="toast-header">{{ type | titlecase }}</span>
+    <span class="toast-message">
+      {{ message }}
+    </span>
+    <span (click)="closeToast()" class="close-toast">X</span>
+  </div>
 </div>

@@ -9,7 +9,7 @@ import { ToastService } from '../../services/toast.service';
 })
 export class ToastComponent implements OnInit, OnDestroy {
   show: boolean;
-  message: string = 'This is a snackbar';
+  message: string;
   type: string = 'success';
   private toastSubscription: Subscription;
 
@@ -26,8 +26,12 @@ export class ToastComponent implements OnInit, OnDestroy {
       this.show = state.show;
       setTimeout(() => {
         this.show = false;
-      }, 3000);
+      }, 300000000);
     });
+  }
+
+  closeToast() {
+    this.toastService.dismiss();
   }
 
   ngOnDestroy(): void {
