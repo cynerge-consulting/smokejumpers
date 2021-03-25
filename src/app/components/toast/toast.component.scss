@@ -4,47 +4,60 @@
   left: 50%;
   padding: 5px;
   border-radius: 5px;
-  min-width: 20%;
+  min-width: 15%;
   transform-origin: center center;
   transform: translate(-50%, 0%);
+
   &.success {
-    background: #006632;
+    background: #c1e0d0;
+    border-left: 5px solid rgb(21, 119, 42);
+    color: rgb(21, 119, 42);
+    box-shadow: 0 8px 6px -6px rgb(21, 119, 42);
   }
   &.error {
-    background: rgb(219, 8, 8);
+    background: rgb(202, 170, 170);
+    border-left: 5px solid rgb(190, 12, 12);
+    color: rgb(190, 12, 12);
+    box-shadow: 0 8px 6px -6px rgb(190, 12, 12);
   }
   &.info {
-    background: rgb(122, 165, 179);
+    background: rgb(181, 214, 224);
+    border-left: 5px solid rgb(12, 125, 160);
+    color: rgb(12, 125, 160);
+    box-shadow: 0 8px 6px -6px rgb(12, 125, 160);
   }
   &.warning {
-    background: rgb(192, 172, 84);
+    background: rgb(211, 202, 164);
+    border-left: 5px solid rgb(134, 112, 11);
+    color: rgb(134, 112, 11);
+    box-shadow: 0 8px 6px -6px rgb(134, 112, 11);
   }
   .toast-message-container {
     display: inline-block;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: left;
+    align-items: left;
     flex-direction: column;
   }
 
   .icon {
     font-size: 1.3em;
-    color: white;
-    align-self: left;
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 5px 0px 0px 5px;
   }
 
   .toast-header {
     padding: 0.3em;
-    font-size: 1em;
-    color: white;
-    margin: 0;
+    font-size: 1.1em;
+    margin-left: 20px;
   }
 
   .toast-message {
     padding: 0.3em;
     font-size: 0.8em;
-    color: white;
-    margin: 0;
+    margin-left: 22px;
   }
 
   .close-toast {
@@ -53,10 +66,9 @@
     right: 0;
     opacity: 0.7;
     cursor: pointer;
-    color: white;
     border-radius: 50%;
     padding: 5px;
-    font-size: 0.8em;
+    font-size: 1.2em;
   }
 
   .close-toast:hover {
