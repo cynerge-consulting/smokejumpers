@@ -1,13 +1,13 @@
 .toast-wrapper {
   position: fixed;
-  bottom: 60px;
-  left: 50%;
+  top: 100px;
+  right: 0;
   padding: 5px;
   border-radius: 5px;
-  min-width: 15%;
+  min-width: 20%;
   transform-origin: center center;
-  transform: translate(-50%, 0%);
-
+  z-index: 1;
+  transform: translate(-10%, 10%);
   &.success {
     background: #c1e0d0;
     border-left: 5px solid #006632;

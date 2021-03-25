@@ -11,15 +11,13 @@ import { ToastService } from '../../services/toast.service';
     trigger('state', [
       transition(':enter', [
         style({
-          bottom: '-100px',
-          transform: 'translate(-50%, 0%) scale(0.3)'
+          right: '-250px'
         }),
         animate(
           '200ms',
           style({
-            transform: 'translate(-50%, 0%) scale(1)',
             opacity: 1,
-            bottom: '60px'
+            right: '0px'
           })
         )
       ]),
@@ -27,9 +25,8 @@ import { ToastService } from '../../services/toast.service';
         animate(
           '200ms',
           style({
-            transform: 'translate(-50%, 0%) scale(0.3)',
             opacity: 0,
-            bottom: '-100px'
+            right: '-250px'
           })
         )
       ])
@@ -55,7 +52,7 @@ export class ToastComponent implements OnInit, OnDestroy {
       this.show = state.show;
       setTimeout(() => {
         this.show = false;
-      }, 3000);
+      }, 30000000);
     });
   }
 
