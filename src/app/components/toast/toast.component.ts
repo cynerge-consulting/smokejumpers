@@ -19,7 +19,7 @@ import { ToastService } from '../../services/toast.service';
           style({
             transform: 'translate(-50%, 0%) scale(1)',
             opacity: 1,
-            bottom: '20px'
+            bottom: '60px'
           })
         )
       ]),
