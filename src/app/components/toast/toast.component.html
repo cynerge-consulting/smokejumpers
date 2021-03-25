@@ -1,5 +1,6 @@
 <div *ngIf="show" @state [ngClass]="['toast-wrapper', type]">
   <div class="toast-message-container">
+    <!-- icon placeholders till we get an icon library -->
     <span class="icon" *ngIf="type === 'success'">&#x2714;</span>
     <span class="icon" *ngIf="type === 'error'">&#x2715;</span>
     <span class="icon" *ngIf="type === 'info'">&#x24D8;</span>
