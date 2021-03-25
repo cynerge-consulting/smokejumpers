@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-dashboard',

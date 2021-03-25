@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ToastService } from '../../services/toast.service';
@@ -5,7 +6,35 @@ import { ToastService } from '../../services/toast.service';
 @Component({
   selector: 'app-toast',
   templateUrl: './toast.component.html',
-  styleUrls: ['./toast.component.scss']
+  styleUrls: ['./toast.component.scss'],
+  animations: [
+    trigger('state', [
+      transition(':enter', [
+        style({
+          bottom: '-100px',
+          transform: 'translate(-50%, 0%) scale(0.3)'
+        }),
+        animate(
+          '200ms',
+          style({
+            transform: 'translate(-50%, 0%) scale(1)',
+            opacity: 1,
+            bottom: '20px'
+          })
+        )
+      ]),
+      transition(':leave', [
+        animate(
+          '200ms',
+          style({
+            transform: 'translate(-50%, 0%) scale(0.3)',
+            opacity: 0,
+            bottom: '-100px'
+          })
+        )
+      ])
+    ])
+  ]
 })
 export class ToastComponent implements OnInit, OnDestroy {
   show: boolean;

@@ -1,4 +1,4 @@
-<div *ngIf="show" [ngClass]="['toast-wrapper', type]">
+<div *ngIf="show" @state [ngClass]="['toast-wrapper', type]">
   <div class="toast-message-container">
     <span class="icon" *ngIf="type === 'success'">&#x2714;</span>
     <span class="icon" *ngIf="type === 'error'">&#x2715;</span>
