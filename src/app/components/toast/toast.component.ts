@@ -55,7 +55,7 @@ export class ToastComponent implements OnInit, OnDestroy {
       this.show = state.show;
       setTimeout(() => {
         this.show = false;
-      }, 30000000);
+      }, 3000);
     });
   }
 
