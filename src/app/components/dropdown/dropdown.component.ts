@@ -15,7 +15,7 @@ import {
 })
 export class DropdownComponent implements OnInit {
   showingMenu = false;
-  choice = {};
+  @Input() choice = {};
   @Input() key: any;
   @Input() label: any;
   @Input() options: any;
@@ -28,23 +28,7 @@ export class DropdownComponent implements OnInit {
 
   constructor(private elementRef: ElementRef) {}
 
-  ngOnInit(): void {
-    this.loadOptions();
-  }
-
-  // for some reason neither async / await nor RxJs subcribtions
-  // would wait to resolve the options, so options[0] would be undefined
-  // and throw an error on load. this is a bad hack workaround that
-  // shouldn't be necessary. look for superior solution
-  loadOptions = () => {
-    if (this.options) {
-      this.choice = this.options[0];
-    } else {
-      setTimeout(() => {
-        this.loadOptions();
-      }, 100);
-    }
-  };
+  ngOnInit(): void {}
 
   showMenu = () => {
     this.showingMenu = true;

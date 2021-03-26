@@ -27,18 +27,20 @@ export class AircraftComponent implements OnInit {
       key: 'baseId'
     }
   ];
-  settings = [
-    {
-      label: 'New Aircraft',
-      action: 'create',
-      target: 'aircraft'
-    }
-  ];
+  settings = {
+    label: 'Aircraft',
+    action: 'create',
+    target: 'aircraft',
+    route: 'aircraft'
+  };
 
   constructor() {}
 
   async ngOnInit() {
-    let aircraft = await axios.get(environment.API_URL + '/travelmodes');
+    let token = window.sessionStorage.getItem('token');
+    let aircraft = await axios.get(environment.API_URL + '/travelmodes', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
     this.aircraft = aircraft.data;
   }
 }

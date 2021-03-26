@@ -27,6 +27,9 @@ import { FormComponent } from './components/form/form.component';
 import { FormsModule } from '@angular/forms';
 import { WelcomeComponent } from './routes/welcome/welcome.component';
 import { ToastComponent } from './components/toast/toast.component';
+import { NewQualificationComponent } from './routes/qualifications/new-qualification/new-qualification.component';
+import { NewPilotComponent } from './routes/pilots/new-pilot/new-pilot.component';
+import { NewAircraftComponent } from './routes/aircraft/new-aircraft/new-aircraft.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,10 @@ import { ToastComponent } from './components/toast/toast.component';
     ButtonComponent,
     FormComponent,
     WelcomeComponent,
-    ToastComponent
+    ToastComponent,
+    NewQualificationComponent,
+    NewPilotComponent,
+    NewAircraftComponent
   ],
   imports: [
     BrowserModule,

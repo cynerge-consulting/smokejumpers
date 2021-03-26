@@ -1,8 +1,10 @@
 <div class="dropdown-container">
-  <div class="dropdown" (click)="showMenu()">
+  <div class="dropdown">
     <span class="label">{{ label.length ? label + ':' : '' }}</span>
-    <span class="value">{{ choice[key] }}</span>
+    <span (click)="showMenu()" class="value">{{ choice[key] }}</span>
     <svg
+      class="value"
+      (click)="showMenu()"
       focusable="false"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"

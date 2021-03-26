@@ -19,140 +19,47 @@ export class SidenavComponent implements OnInit {
   ngOnInit(): void {
     this.menuItems = [
       {
-        name: 'Incident Information',
-        icon: 'incidents.png',
-        hasItems: true,
-        hasParams: false,
-        expanded: false,
-        items: [
-          {
-            name: 'New Incident',
-            route: 'incidents/new',
-            banner: 'assets/images/incBanner.png'
-          },
-          {
-            name: 'View/Edit Current Year',
-            route: 'incidents',
-            hasParams: true,
-            params: {
-              year: 'current'
-            },
-            banner: 'assets/images/incBanner.png'
-          },
-          {
-            name: 'View Previous Years',
-            route: 'incidents',
-            banner: 'assets/images/incBanner.png',
-            hasParams: true,
-            params: {
-              year: 'previous'
-            }
-          }
-        ]
+        name: 'Incidents',
+        banner: 'assets/images/incBanner.png',
+        route: 'incidents'
+      },
+      {
+        name: 'Jumpers',
+        banner: 'assets/images/MarsBanner.jpg',
+        route: 'jumpers'
+      },
+      {
+        name: 'Pilots',
+        banner: 'assets/images/dbmBanner.png',
+        route: 'pilots'
+      },
+      {
+        name: 'Aircraft',
+        banner: 'assets/images/dashBanner.png',
+        route: 'aircraft'
+      },
+      {
+        name: 'Parachutes',
+        banner: 'assets/images/dbmBanner.png',
+        route: 'parachutes'
+      },
+      {
+        name: 'Qualifications',
+        banner: 'assets/images/dbmBanner.png',
+        route: 'qualifications'
+      },
+      {
+        name: 'Bases',
+        banner: 'assets/images/MarsBanner.jpg',
+        route: 'bases'
+      },
+      {
+        name: 'Reports',
+        banner: 'assets/images/repBanner.png',
+        route: 'reports'
       }
     ];
-
-    let reportsNav = {
-      name: 'View Reports',
-      icon: 'reports.png',
-      hasItems: true,
-      expanded: false,
-      items: reportsData.reports
-    };
-
-    // push reports from configs into nav menu
-    this.menuItems.push(reportsNav);
-
-    this.menuItems.push(
-      {
-        name: 'Database Management',
-        icon: 'reports.png',
-        hasItems: true,
-        expanded: false,
-        items: [
-          {
-            name: 'Jumpers',
-            route: 'jumpers',
-            banner: 'assets/images/incBanner.png',
-            hasParams: true,
-            params: {
-              retired: false
-            }
-          },
-          {
-            name: 'Retired Jumpers',
-            route: 'jumpers',
-            banner: 'assets/images/incBanner.png',
-            hasParams: true,
-            params: {
-              retired: true
-            }
-          },
-          {
-            name: 'Transfer Jumpers',
-            route: 'jumpers',
-            banner: 'assets/images/incBanner.png'
-          },
-          {
-            name: 'Edit LDO',
-            route: 'jumpers',
-            banner: 'assets/images/incBanner.png'
-          },
-          {
-            name: 'Aircraft',
-            route: 'aircraft',
-            banner: 'assets/images/incBanner.png'
-          },
-          {
-            name: 'Parachutes',
-            route: 'chutes',
-            banner: 'assets/images/incBanner.png'
-          },
-          {
-            name: 'Spike Bases',
-            route: 'bases',
-            banner: 'assets/images/incBanner.png'
-          },
-          {
-            name: 'Pilots',
-            route: 'pilots',
-            banner: 'assets/images/incBanner.png'
-          },
-          {
-            name: 'Qualifications',
-            route: 'qualifications',
-            banner: 'assets/images/incBanner.png'
-          }
-        ]
-      },
-      {
-        name: 'Booster in Brief',
-        icon: 'map.png',
-        route: 'booster',
-        hasItems: false
-      },
-      {
-        name: 'Base Admin',
-        icon: 'admin.png',
-        route: 'base',
-        hasItems: true,
-        expanded: false,
-        items: [
-          {
-            name: 'User Management',
-            route: 'admin/users',
-            banner: 'assets/images/incBanner.png'
-          },
-          {
-            name: 'Download Data',
-            route: 'reports',
-            banner: 'assets/images/incBanner.png'
-          }
-        ]
-      }
-    );
   }
-
   select = (item) => {
     if (item.hasItems) {
       item.expanded = !item.expanded;

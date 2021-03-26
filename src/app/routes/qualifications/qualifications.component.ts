@@ -27,13 +27,12 @@ export class QualificationsComponent implements OnInit {
       key: 'baseId'
     }
   ];
-  settings = [
-    {
-      label: 'New Chute',
-      action: 'create',
-      target: 'qualifications'
-    }
-  ];
+  settings = {
+    label: 'New Chute',
+    action: 'create',
+    target: 'qualifications',
+    route: 'qualifications'
+  };
 
   constructor() {}
 

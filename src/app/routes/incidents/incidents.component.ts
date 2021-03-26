@@ -58,7 +58,6 @@ export class IncidentsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    // check session storage for a token
     let token = window.sessionStorage.getItem('token');
     let incs = await axios.get(environment.API_URL + '/incidents', {
       headers: { Authorization: 'Bearer ' + token }

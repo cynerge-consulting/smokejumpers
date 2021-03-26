@@ -38,9 +38,10 @@ export class BasesComponent implements OnInit {
   constructor() {}
 
   async ngOnInit() {
-    let bases = await axios.get(
-      environment.API_URL + '/base/dropdown/main'
-    );
+    let token = window.sessionStorage.getItem('token');
+    let bases = await axios.get(environment.API_URL + '/base/dropdown/main', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
     this.bases = bases.data;
   }
 }
