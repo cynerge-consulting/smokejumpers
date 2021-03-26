@@ -15,6 +15,10 @@ export class TableComponent implements OnInit {
   rowMenu = 'clickmask';
   details = [];
   sorted = true;
+  searching = false;
+  query;
+  hasBeenFiltered;
+  originalRows;
 
   constructor(private router: Router) {}
 
@@ -54,6 +58,37 @@ export class TableComponent implements OnInit {
       return 0;
     });
     this.sorted = !this.sorted;
+  };
+
+  onKey = (event) => {
+    // always filter against the original set of rows
+    if (!this.hasBeenFiltered) {
+      this.hasBeenFiltered = true;
+      this.originalRows = this.rows;
+    }
+    this.rows = this.originalRows;
+
+    // find rows that match query
+    // **
+    // this implementation will filter rows based on what columns are added to the table
+    // loop through the keys in the row instead to filter against all the row data instead of just what's shown in the columns fields
+    let filteredRows = [];
+    for (const key in this.columns) {
+      if (this.columns.hasOwnProperty(key)) {
+        let column = this.columns[key];
+        let colKey = column.key;
+        this.rows.forEach((row) => {
+          let value = row[colKey].toString().toLowerCase();
+          if (value.includes(this.query.toLowerCase())) {
+            filteredRows.push(row);
+          }
+        });
+      }
+    }
+
+    // dedupe rows
+    let uniqueRows = [...new Set(filteredRows)];
+    this.rows = uniqueRows;
   };
 
   selectRow = (row) => {

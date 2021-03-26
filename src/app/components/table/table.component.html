@@ -8,6 +8,22 @@
       <span>{{ column.label }}</span>
     </div>
     <div
+      (click)="searching = !searching"
+      class="heading search-button"
+      [ngClass]="searching ? 'searching' : ''"
+    >
+      {{ searching ? 'X' : '🔍' }}
+    </div>
+    <div class="search-bar" [ngClass]="searching ? 'searching' : ''">
+      <input
+        (keyup)="onKey($event)"
+        [ngClass]="searching ? 'searching' : ''"
+        class="search-input"
+        placeholder="Search"
+        [(ngModel)]="query"
+      />
+    </div>
+    <div
       (click)="rowMenu = 'settings'"
       class="heading settings-button"
       [ngClass]="showingDetails ? 'showing-details' : ''"
