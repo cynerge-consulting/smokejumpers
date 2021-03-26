@@ -27,13 +27,14 @@ export class PilotsComponent implements OnInit {
       key: 'baseId'
     }
   ];
-  settings = [
+  settings =
     {
       label: 'New Chute',
       action: 'create',
-      target: 'pilots'
+      target: 'pilots',
+      route: 'pilots'
     }
-  ];
+  ;
 
   constructor() {}
 

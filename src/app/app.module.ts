@@ -25,6 +25,9 @@ import { ButtonComponent } from './components/button/button.component';
 import { FormComponent } from './components/form/form.component';
 import { FormsModule } from '@angular/forms';
 import { WelcomeComponent } from './routes/welcome/welcome.component';
+import { NewQualificationComponent } from './routes/qualifications/new-qualification/new-qualification.component';
+import { NewPilotComponent } from './routes/pilots/new-pilot/new-pilot.component';
+import { NewAircraftComponent } from './routes/aircraft/new-aircraft/new-aircraft.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,10 @@ import { WelcomeComponent } from './routes/welcome/welcome.component';
     DropdownComponent,
     ButtonComponent,
     FormComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    NewQualificationComponent,
+    NewPilotComponent,
+    NewAircraftComponent
   ],
   imports: [BrowserModule, FormsModule, AppRoutingModule],
   providers: [],

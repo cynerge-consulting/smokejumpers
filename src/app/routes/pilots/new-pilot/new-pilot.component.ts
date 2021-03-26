@@ -2,44 +2,29 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
-  selector: 'app-new-jumper',
-  templateUrl: './new-jumper.component.html',
-  styleUrls: ['./new-jumper.component.scss']
+  selector: 'app-new-pilot',
+  templateUrl: './new-pilot.component.html',
+  styleUrls: ['./new-pilot.component.scss']
 })
-export class NewJumperComponent implements OnInit {
+export class NewPilotComponent implements OnInit {
   mode = 'Create';
-  // define jumper object
-  jumper = {};
+  // define qualification object
+  pilot = {};
 
   // define form sections
   sections = [
     {
-      title: 'Jumper Information',
+      title: 'Pilot Information',
       data: [
         {
           input: true,
           placeholder: 'First Name',
-          key: 'firstName'
+          key: 'text'
         },
         {
           input: true,
           placeholder: 'Last Name',
-          key: 'lastName'
-        },
-        {
-          input: true,
-          placeholder: 'Base Position',
-          key: 'basePosition'
-        },
-        {
-          input: true,
-          placeholder: 'Grade',
-          key: 'grade'
-        },
-        {
-          input: true,
-          placeholder: 'Tour',
-          key: 'tour'
+          key: 'value'
         }
       ]
     }
@@ -50,7 +35,7 @@ export class NewJumperComponent implements OnInit {
       for (const key in params) {
         if (params.hasOwnProperty(key)) {
           this.mode = 'Update';
-          this.jumper[key] = params[key];
+          this.pilot[key] = params[key];
         }
       }
     });

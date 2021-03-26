@@ -27,13 +27,12 @@ export class AircraftComponent implements OnInit {
       key: 'baseId'
     }
   ];
-  settings = [
-    {
-      label: 'New Aircraft',
-      action: 'create',
-      target: 'aircraft'
-    }
-  ];
+  settings = {
+    label: 'Aircraft',
+    action: 'create',
+    target: 'aircraft',
+    route: 'aircraft'
+  };
 
   constructor() {}
 

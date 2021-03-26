@@ -7,14 +7,17 @@ import { IncidentsComponent } from './routes/incidents/incidents.component';
 import { NewIncidentComponent } from './routes/incidents/new-incident/new-incident.component';
 import { JumpersComponent } from './routes/jumpers/jumpers.component';
 import { AircraftComponent } from './routes/aircraft/aircraft.component';
+import { NewAircraftComponent } from './routes/aircraft/new-aircraft/new-aircraft.component';
 import { NewJumperComponent } from './routes/jumpers/new-jumper/new-jumper.component';
 import { UsersComponent } from './routes/admin/users/users.component';
 import { BoosterComponent } from './routes/booster/booster.component';
 import { ReportsComponent } from './routes/reports/reports.component';
 import { BasesComponent } from './routes/bases/bases.component';
 import { PilotsComponent } from './routes/pilots/pilots.component';
+import { NewPilotComponent } from './routes/pilots/new-pilot/new-pilot.component';
 import { ChutesComponent } from './routes/chutes/chutes.component';
 import { QualificationsComponent } from './routes/qualifications/qualifications.component';
+import { NewQualificationComponent } from './routes/qualifications/new-qualification/new-qualification.component';
 import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
@@ -36,6 +39,16 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   { path: 'aircraft', component: AircraftComponent, canActivate: [AuthGuard] },
+  {
+    path: 'aircraft/new',
+    component: NewAircraftComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'aircraft/:id',
+    component: NewAircraftComponent,
+    canActivate: [AuthGuard]
+  },
   { path: 'jumpers', component: JumpersComponent, canActivate: [AuthGuard] },
   {
     path: 'jumpers/new',
@@ -51,10 +64,30 @@ const routes: Routes = [
   { path: 'admin/users', component: UsersComponent, canActivate: [AuthGuard] },
   { path: 'bases', component: BasesComponent, canActivate: [AuthGuard] },
   { path: 'pilots', component: PilotsComponent, canActivate: [AuthGuard] },
+  {
+    path: 'pilots/new',
+    component: NewPilotComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'pilots/:id',
+    component: NewPilotComponent,
+    canActivate: [AuthGuard]
+  },
   { path: 'chutes', component: ChutesComponent, canActivate: [AuthGuard] },
   {
     path: 'qualifications',
     component: QualificationsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'qualifications/new',
+    component: NewQualificationComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'qualifications/:id',
+    component: NewQualificationComponent,
     canActivate: [AuthGuard]
   },
   { path: 'booster', component: BoosterComponent, canActivate: [AuthGuard] }
