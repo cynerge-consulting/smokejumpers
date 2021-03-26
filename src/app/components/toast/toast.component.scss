@@ -9,28 +9,28 @@
   z-index: 1;
   transform: translate(-10%, 10%);
   &.success {
-    background: #c1e0d0;
+    background: #ffffff;
     border-left: 5px solid #006632;
     color: #006632;
     box-shadow: 0 8px 6px -6px #006632;
   }
   &.error {
-    background: rgb(202, 170, 170);
+    background: #ffffff;
     border-left: 5px solid rgb(190, 12, 12);
     color: rgb(190, 12, 12);
     box-shadow: 0 8px 6px -6px rgb(190, 12, 12);
   }
   &.info {
-    background: rgb(181, 214, 224);
+    background: #ffffff;
     border-left: 5px solid rgb(12, 125, 160);
     color: rgb(12, 125, 160);
     box-shadow: 0 8px 6px -6px rgb(12, 125, 160);
   }
   &.warning {
-    background: rgb(211, 202, 164);
-    border-left: 5px solid rgb(134, 112, 11);
-    color: rgb(134, 112, 11);
-    box-shadow: 0 8px 6px -6px rgb(134, 112, 11);
+    background: #ffffff;
+    border-left: 5px solid #df954b;
+    color: #df954b;
+    box-shadow: 0 8px 6px -6px #df954b;
   }
   .toast-message-container {
     display: inline-block;
