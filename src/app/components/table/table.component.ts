@@ -14,6 +14,7 @@ export class TableComponent implements OnInit {
   selected;
   rowMenu = 'clickmask';
   details = [];
+  sorted = true;
 
   constructor(private router: Router) {}
 
@@ -38,6 +39,21 @@ export class TableComponent implements OnInit {
 
   new = () => {
     this.router.navigate([this.settings.route + '/new']);
+  };
+
+  sort = (column) => {
+    this.rows.sort((a, b) => {
+      var keyA = a[column.key];
+      var keyB = b[column.key];
+      if (keyA < keyB) {
+        return this.sorted ? 1 : -1;
+      }
+      if (keyA > keyB) {
+        return this.sorted ? -1 : 1;
+      }
+      return 0;
+    });
+    this.sorted = !this.sorted;
   };
 
   selectRow = (row) => {

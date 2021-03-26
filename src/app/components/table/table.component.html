@@ -1,6 +1,10 @@
 <div class="table" [ngClass]="showingDetails ? 'showing-details' : ''">
   <div class="row headings" [ngClass]="showingDetails ? 'showing-details' : ''">
-    <div *ngFor="let column of columns" class="cell heading">
+    <div
+      (click)="sort(column)"
+      *ngFor="let column of columns"
+      class="cell heading"
+    >
       <span>{{ column.label }}</span>
     </div>
     <div
