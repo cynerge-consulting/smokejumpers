@@ -41,7 +41,7 @@ export class SidenavComponent implements OnInit {
       {
         name: 'Parachutes',
         banner: 'assets/images/dbmBanner.png',
-        route: 'parachutes'
+        route: 'chutes'
       },
       {
         name: 'Qualifications',

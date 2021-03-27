@@ -11,20 +11,20 @@ export class ChutesComponent implements OnInit {
   chutes = [];
   headings = [
     {
-      label: 'ID',
-      key: 'id'
+      label: 'Chute',
+      key: 'main'
     },
     {
-      label: 'Text',
-      key: 'text'
+      label: 'Chute Type',
+      key: 'chuteType'
     },
     {
-      label: 'Value',
-      key: 'value'
+      label: 'Chute Size',
+      key: 'chuteSize'
     },
     {
       label: 'Base ID',
-      key: 'baseId'
+      key: 'base'
     }
   ];
   settings = [
