@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,6 +26,7 @@ import { ButtonComponent } from './components/button/button.component';
 import { FormComponent } from './components/form/form.component';
 import { FormsModule } from '@angular/forms';
 import { WelcomeComponent } from './routes/welcome/welcome.component';
+import { ToastComponent } from './components/toast/toast.component';
 import { NewQualificationComponent } from './routes/qualifications/new-qualification/new-qualification.component';
 import { NewPilotComponent } from './routes/pilots/new-pilot/new-pilot.component';
 import { NewAircraftComponent } from './routes/aircraft/new-aircraft/new-aircraft.component';
@@ -54,12 +56,18 @@ import { NewChuteComponent } from './routes/chutes/new-chute/new-chute.component
     ButtonComponent,
     FormComponent,
     WelcomeComponent,
+    ToastComponent,
     NewQualificationComponent,
     NewPilotComponent,
     NewAircraftComponent,
     NewChuteComponent
   ],
-  imports: [BrowserModule, FormsModule, AppRoutingModule],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    AppRoutingModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
