@@ -28,8 +28,8 @@ export class NewJumperComponent implements OnInit {
         },
         {
           input: true,
-          placeholder: 'Base Position',
-          key: 'basePosition'
+          placeholder: 'Phone Number',
+          key: 'phoneNumber'
         },
         {
           input: true,
@@ -37,9 +37,135 @@ export class NewJumperComponent implements OnInit {
           key: 'grade'
         },
         {
+          choice: {},
+          dropdown: true,
+          label: 'Tour',
+          key: 'tour',
+          options: [
+            {
+              name: 'PFT',
+              value: 'pft'
+            },
+            {
+              name: '18/8',
+              value: '18/8'
+            },
+            {
+              name: '13/13',
+              value: '13/13'
+            },
+            {
+              name: 'Temp',
+              value: 'temp'
+            }
+          ]
+        },
+        {
           input: true,
-          placeholder: 'Tour',
-          key: 'tour'
+          type: 'date',
+          key: 'lastDayOff',
+          placeholder: 'Last Day Off'
+        },
+        {
+          input: true,
+          key: 'weight',
+          placeholder: 'Jumper Weight'
+        },
+        {
+          choice: {},
+          dropdown: true,
+          label: 'Base Position',
+          key: 'basePosition',
+          options: [
+            {
+              name: 'Assistant Foreman',
+              value: 'Assistant Foreman'
+            },
+            {
+              name: 'Base Manager',
+              value: 'Base Manager'
+            },
+            {
+              name: 'Crewmember',
+              value: 'Crewmember'
+            },
+            {
+              name: 'Foreman',
+              value: 'Foreman'
+            },
+            {
+              name: 'Spotter',
+              value: 'Spotter'
+            },
+            {
+              name: 'Squadleader',
+              value: 'Squadleader'
+            }
+          ]
+        },
+        {
+          choice: {},
+          dropdown: true,
+          label: 'Spotter',
+          key: 'spotter',
+          options: [
+            {
+              name: 'Spotter',
+              value: 'Spotter'
+            },
+            {
+              name: 'Trainee',
+              value: 'Trainee'
+            }
+          ]
+        },
+        {
+          choice: {},
+          dropdown: true,
+          label: 'First Aid',
+          key: 'firstAid',
+          options: [
+            {
+              name: 'Advanced First Aid',
+              value: 'Advanced First Aid'
+            },
+            {
+              name: 'EMT',
+              value: 'EMT'
+            },
+            {
+              name: 'OEC',
+              value: 'OEC'
+            },
+            {
+              name: 'Paramedic',
+              value: 'Paramedic'
+            },
+            {
+              name: 'Wilderness First Aid',
+              value: 'Wilderness First Aid'
+            }
+          ]
+        },
+        {
+          choice: {},
+          dropdown: true,
+          label: 'Rigger',
+          key: 'rigger',
+          options: [
+            {
+              name: 'Master Rigger',
+              value: 'Master Rigger'
+            },
+            {
+              name: 'Senior Rigger',
+              value: 'Senior Rigger'
+            },
+            {
+              name: 'Trainee',
+              value: 'Trainee'
+            }
+          ]
         }
       ]
     }
