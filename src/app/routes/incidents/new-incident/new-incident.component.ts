@@ -234,11 +234,11 @@ export class NewIncidentComponent implements OnInit {
           options: [
             {
               name: 'Proficiency / Training Jump',
-              value: 'proficiency'
+              value: 'Proficiency / Training Jump'
             },
             {
               name: 'Fire Jump',
-              value: 'firejump'
+              value: 'Fire Jump'
             }
           ]
         },
@@ -364,7 +364,7 @@ export class NewIncidentComponent implements OnInit {
     }
   ];
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private router: Router) {
     this.route.params.subscribe((params) => {
       this.params = params;
       for (const key in params) {
@@ -397,8 +397,9 @@ export class NewIncidentComponent implements OnInit {
       pilot.name = pilot.text;
       pilot.value = pilot.id.toString();
     });
+
+    // get any jumpers associated with the incident
     if (this.mode === 'Update') {
-      // get any jumpers associated with the incident
       try {
         let incJumpers = await axios.get(
           environment.API_URL + '/incidentjumpers/' + this.data.id,
@@ -428,7 +429,8 @@ export class NewIncidentComponent implements OnInit {
           this.data[datum.key] = this.params[datum.key];
           if (datum.dropdown) {
             let choice = datum.options.filter(
-              (option) => option.value === this.params[datum.key]
+              (option) =>
+                option.value.toString() === this.params[datum.key].toString()
             );
             if (choice.length) {
               datum.choice = choice[0];
@@ -440,8 +442,34 @@ export class NewIncidentComponent implements OnInit {
   }
 
   submitForm = (data) => {
-    console.dir(data);
-    // validate and send POST to backend
+    let token = window.sessionStorage.getItem('token');
+    const options = {
+      headers: { Authorization: 'Bearer ' + token }
+    };
+    let url = environment.API_URL + '/incidents';
+
+    if (this.mode === 'Create') {
+      axios
+        .post(url, this.data, options)
+        .then((response) => {
+          // pop success toast and redirect to chutes list
+          this.router.navigate(['/incidents']);
+        })
+        .catch((error) => {
+          console.dir(error);
+        });
+    } else if (this.mode === 'Update') {
+      url = environment.API_URL + '/incidents' + '/' + this.data.id;
+      axios
+        .put(url, this.data, options)
+        .then((response) => {
+          // pop success toast and redirect to chutes list
+          this.router.navigate(['/incidents']);
+        })
+        .catch((error) => {
+          console.dir(error);
+        });
+    }
   };
 
   onSelectedDropdownItem = (event, datum) => {

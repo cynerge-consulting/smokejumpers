@@ -27,13 +27,12 @@ export class ChutesComponent implements OnInit {
       key: 'base'
     }
   ];
-  settings = [
-    {
-      label: 'New Chute',
-      action: 'create',
-      target: 'chutes'
-    }
-  ];
+  settings = {
+    label: 'New Chute',
+    action: 'create',
+    target: 'chutes',
+    route: 'chutes'
+  };
 
   constructor() {}
 

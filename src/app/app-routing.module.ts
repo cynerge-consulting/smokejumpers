@@ -16,6 +16,7 @@ import { BasesComponent } from './routes/bases/bases.component';
 import { PilotsComponent } from './routes/pilots/pilots.component';
 import { NewPilotComponent } from './routes/pilots/new-pilot/new-pilot.component';
 import { ChutesComponent } from './routes/chutes/chutes.component';
+import { NewChuteComponent } from './routes/chutes/new-chute/new-chute.component';
 import { QualificationsComponent } from './routes/qualifications/qualifications.component';
 import { NewQualificationComponent } from './routes/qualifications/new-qualification/new-qualification.component';
 import { AuthGuard } from './services/auth.guard';
@@ -75,6 +76,16 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   { path: 'chutes', component: ChutesComponent, canActivate: [AuthGuard] },
+  {
+    path: 'chutes/new',
+    component: NewChuteComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'chutes/:id',
+    component: NewChuteComponent,
+    canActivate: [AuthGuard]
+  },
   {
     path: 'qualifications',
     component: QualificationsComponent,

@@ -1,9 +1,17 @@
-<div class="form">
+<div class="form new-chute-form">
   <div class="section-container" *ngFor="let section of sections">
     <div class="title">
       <span>{{ section.title }}</span>
     </div>
     <div class="content">
+      <div class="datum">
+        <app-dropdown
+          label="Base"
+          [options]="bases"
+          key="baseCode"
+          (selectedDropdownItem)="selectBase($event)"
+        ></app-dropdown>
+      </div>
       <div class="datum" *ngFor="let datum of section.data">
         <div class="input-container">
           <span *ngIf="datum.input" class="input-label"
@@ -15,38 +23,33 @@
             [name]="datum.key"
             *ngIf="datum.input && datum.type !== 'date'"
             [placeholder]="datum.placeholder"
-            [(ngModel)]="data[datum.key]"
+            [(ngModel)]="chute[datum.key]"
           />
           <!-- datepicker -->
           <input
             type="date"
             [name]="datum.key"
             *ngIf="datum.type === 'date'"
-            [(ngModel)]="data[datum.key]"
+            [(ngModel)]="chute[datum.key]"
           />
           <!-- dropdown -->
           <app-dropdown
+            [(choice)]="datum.choice"
             *ngIf="datum.dropdown"
             [label]="datum.label"
             [options]="datum.options"
             key="name"
             (selectedDropdownItem)="onSelectedDropdownItem($event, datum)"
           ></app-dropdown>
-          <!-- textarea -->
-          <textarea
-            *ngIf="datum.textarea"
-            [(ngModel)]="data[datum.key]"
-            [placeholder]="datum.label"
-          ></textarea>
         </div>
       </div>
     </div>
   </div>
-  <div class="section-container">
+  <div class="section-container submit-button-container">
     <app-button
       [text]="mode"
       (clicked)="submitForm($event)"
-      class="submit-button"
+      class="new-chute-button"
     ></app-button>
   </div>
 </div>

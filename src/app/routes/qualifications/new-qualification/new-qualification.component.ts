@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import axios from 'axios';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-new-qualification',
@@ -9,7 +11,9 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 export class NewQualificationComponent implements OnInit {
   mode = 'Create';
   // define qualification object
-  qualification = {};
+  qualification = {
+    id: ''
+  };
 
   // define form sections
   sections = [
@@ -30,7 +34,7 @@ export class NewQualificationComponent implements OnInit {
     }
   ];
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private router: Router) {
     this.route.params.subscribe((params) => {
       for (const key in params) {
         if (params.hasOwnProperty(key)) {
@@ -44,7 +48,34 @@ export class NewQualificationComponent implements OnInit {
   ngOnInit(): void {}
 
   submitForm = (data) => {
-    console.dir(data);
-    // validate and send POST to backend
+    let token = window.sessionStorage.getItem('token');
+    const options = {
+      headers: { Authorization: 'Bearer ' + token }
+    };
+    let url = environment.API_URL + '/qualification';
+
+    if (this.mode === 'Create') {
+      axios
+        .post(url, this.qualification, options)
+        .then((response) => {
+          // pop success toast and redirect to list
+          this.router.navigate(['/qualifications']);
+        })
+        .catch((error) => {
+          console.dir(error);
+        });
+    } else if (this.mode === 'Update') {
+      url =
+        environment.API_URL + '/qualifications' + '/' + this.qualification.id;
+      axios
+        .put(url, this.qualification, options)
+        .then((response) => {
+          // pop success toast and redirect to list
+          this.router.navigate(['/qualifications']);
+        })
+        .catch((error) => {
+          console.dir(error);
+        });
+    }
   };
 }

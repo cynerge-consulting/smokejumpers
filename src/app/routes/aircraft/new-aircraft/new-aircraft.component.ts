@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import axios from 'axios';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-new-aircraft',
@@ -9,7 +11,9 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 export class NewAircraftComponent implements OnInit {
   mode = 'Create';
   // define aircraft object
-  aircraft = {};
+  aircraft = {
+    id: ''
+  };
 
   // define form sections
   sections = [
@@ -30,7 +34,7 @@ export class NewAircraftComponent implements OnInit {
     }
   ];
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private router: Router) {
     this.route.params.subscribe((params) => {
       for (const key in params) {
         if (params.hasOwnProperty(key)) {
@@ -44,7 +48,33 @@ export class NewAircraftComponent implements OnInit {
   ngOnInit(): void {}
 
   submitForm = (data) => {
-    console.dir(data);
-    // validate and send POST to backend
+    let token = window.sessionStorage.getItem('token');
+    const options = {
+      headers: { Authorization: 'Bearer ' + token }
+    };
+    let url = environment.API_URL + '/travelmodes';
+
+    if (this.mode === 'Create') {
+      axios
+        .post(url, this.aircraft, options)
+        .then((response) => {
+          // pop success toast and redirect to chutes list
+          this.router.navigate(['/aircraft']);
+        })
+        .catch((error) => {
+          console.dir(error);
+        });
+    } else if (this.mode === 'Update') {
+      url = environment.API_URL + '/travelmodes' + '/' + this.aircraft.id;
+      axios
+        .put(url, this.aircraft, options)
+        .then((response) => {
+          // pop success toast and redirect to chutes list
+          this.router.navigate(['/aircraft']);
+        })
+        .catch((error) => {
+          console.dir(error);
+        });
+    }
   };
 }

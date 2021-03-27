@@ -73,9 +73,7 @@ export class ReportsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let bases = await axios.get(
-      environment.API_URL + '/base/dropdown/main'
-    );
+    let bases = await axios.get(environment.API_URL + '/base/dropdown/main');
     this.bases = bases.data;
     let jumpers = await axios.get(environment.API_URL + '/jumpers');
     this.jumpers = jumpers.data.value;
@@ -102,11 +100,19 @@ export class ReportsComponent implements OnInit {
   };
 
   generateReport = async () => {
-    let report = axios.post(environment.API_URL + '/Reports/getReport', {
-      basename: this.selectedBase.value,
-      report: this.reportType,
-      reportUrl: 'https://dev.wrk.fs.usda.gov/masteraction/reports',
-      reporttype: this.selectedFileType
-    });
+    let token = window.sessionStorage.getItem('token');
+    const options = {
+      headers: { Authorization: 'Bearer ' + token }
+    };
+    let report = axios.post(
+      environment.API_URL + '/Reports/getReport',
+      {
+        basename: this.selectedBase.value,
+        report: this.reportType,
+        reportUrl: 'https://dev.wrk.fs.usda.gov/masteraction/reports',
+        reporttype: this.selectedFileType
+      },
+      options
+    );
   };
 }
