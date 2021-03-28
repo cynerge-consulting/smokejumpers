@@ -101,7 +101,8 @@ const routes: Routes = [
     component: NewQualificationComponent,
     canActivate: [AuthGuard]
   },
-  { path: 'booster', component: BoosterComponent, canActivate: [AuthGuard] }
+  { path: 'booster', component: BoosterComponent, canActivate: [AuthGuard] },
+  { path: '**', component: DashboardComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
