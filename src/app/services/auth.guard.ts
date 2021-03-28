@@ -59,12 +59,20 @@ export class AuthGuard implements CanActivate {
                 );
                 window.location.href = environment.HOME_URL;
                 return true;
+              })
+              .catch((error) => {
+                console.log('error getting user info');
+                console.dir(error);
               });
           } else {
             // if the user is not registered redirect to welcome
             window.location.href = environment.HOME_URL + '/welcome';
             return false;
           }
+        })
+        .catch((error) => {
+          console.log('error getting registration info for user');
+          console.dir(error);
         });
     } else {
       // if there is no token redirect to login

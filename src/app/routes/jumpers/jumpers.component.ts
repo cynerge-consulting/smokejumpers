@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-jumpers',
@@ -34,14 +35,43 @@ export class JumpersComponent implements OnInit {
     target: 'jumper'
   };
 
-  constructor() {}
+  constructor(private toast: ToastService) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     // check session storage for a token
     let token = window.sessionStorage.getItem('token');
-    let jumpers = await axios.get(environment.API_URL + '/jumpers', {
-      headers: { Authorization: 'Bearer ' + token }
-    });
-    this.jumpers = jumpers.data.value;
+    axios
+      .get(environment.API_URL + '/jumpers', {
+        headers: { Authorization: 'Bearer ' + token }
+      })
+      .then((response) => {
+        this.jumpers = response.data.value;
+      })
+      .catch((error) => {
+        this.toast.show('Unable to retreive jumpers list.', 'error');
+      });
   }
+
+  delete = async (row) => {
+    let token = window.sessionStorage.getItem('token');
+    let id = '';
+    if (row.id) {
+      id = row.id;
+    } else if (row.href) {
+      id = row.href.replace(
+        'http://dev.wrk.fs.usda.gov/masteraction/services/api/jumpers/',
+        ''
+      );
+    }
+    let deleted = await axios
+      .delete(environment.API_URL + '/jumpers/' + id, {
+        headers: { Authorization: 'Bearer ' + token }
+      })
+      .then((response) => {
+        this.toast.show('Success deleting jumper', 'success');
+      })
+      .catch((error) => {
+        this.toast.show('Error deleting jumper', 'error');
+      });
+  };
 }

@@ -26,20 +26,13 @@ export class NewChuteComponent implements OnInit {
     {
       title: 'Parachute Information',
       data: [
-        // {
-        //   choice: {},
-        //   dropdown: true,
-        //   label: 'Base',
-        //   key: 'baseCode',
-        //   options: [
-        //     {
-        //       base: '',
-        //       baseId: '',
-        //       name: '',
-        //       value: ''
-        //     }
-        //   ]
-        // },
+        {
+          choice: {},
+          dropdown: true,
+          label: 'Base',
+          key: 'baseId',
+          options: []
+        },
         {
           input: true,
           placeholder: 'Chute Number',
@@ -124,13 +117,13 @@ export class NewChuteComponent implements OnInit {
     });
     this.bases = bases.data;
     this.bases.forEach((base) => {
-      base.name = base.base;
-      base.value = base.baseId.toString();
+      base.name = base.text;
+      base.value = base.id;
     });
     // populate dropdown options
     this.sections.forEach((section) => {
       section.data.forEach((datum) => {
-        if (datum.key === 'baseCode') {
+        if (datum.key === 'baseId') {
           datum.options = this.bases;
         }
         if (this.params[datum.key]) {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-qualifications',
@@ -34,10 +35,33 @@ export class QualificationsComponent implements OnInit {
     route: 'qualifications'
   };
 
-  constructor() {}
+  constructor(private toast: ToastService) {}
 
   async ngOnInit() {
     let qualifications = await axios.get(environment.API_URL + '/Quals');
     this.qualifications = qualifications.data;
   }
+
+  delete = async (row) => {
+    let token = window.sessionStorage.getItem('token');
+    let id = '';
+    if (row.id) {
+      id = row.id;
+    } else if (row.href) {
+      id = row.href.replace(
+        'http://dev.wrk.fs.usda.gov/masteraction/services/api/Quals/',
+        ''
+      );
+    }
+    let deleted = await axios
+      .delete(environment.API_URL + '/Quals/' + id, {
+        headers: { Authorization: 'Bearer ' + token }
+      })
+      .then((response) => {
+        this.toast.show('Success deleting qualification', 'success');
+      })
+      .catch((error) => {
+        this.toast.show('Error deleting qualification', 'error');
+      });
+  };
 }

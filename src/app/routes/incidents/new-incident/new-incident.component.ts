@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import axios from 'axios';
 import { environment } from '../../../../environments/environment';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
   selector: 'app-new-incident',
@@ -17,8 +18,11 @@ export class NewIncidentComponent implements OnInit {
     _notes: ''
   };
   bases;
+  dispsandreturn;
   selectedBase;
   pilots;
+  travelmodes;
+  selectedTravelmode;
   selectedPilot;
   selectedCopilot;
   selectedSpotter1;
@@ -46,39 +50,21 @@ export class NewIncidentComponent implements OnInit {
         {
           dropdown: true,
           label: 'Dispatched From',
-          key: 'DispFromBase',
+          key: '_dispatchedFrom_Code',
           choice: {},
-          options: [
-            {
-              name: 'Alabama',
-              value: 'alabama'
-            },
-            {
-              name: 'Texers',
-              value: 'texas'
-            }
-          ]
+          options: [{}]
         },
         {
           dropdown: true,
           choice: {},
           label: 'Returned To',
-          key: 'ReturnToBase',
-          options: [
-            {
-              name: 'Alabama',
-              value: 'alabama'
-            },
-            {
-              name: 'Texers',
-              value: 'texas'
-            }
-          ]
+          key: '_returnedTo_Code',
+          options: [{}]
         },
         {
           dropdown: true,
           label: 'To Area',
-          key: 'AreaId',
+          key: '_areaId',
           choice: {},
           options: [
             {
@@ -94,7 +80,7 @@ export class NewIncidentComponent implements OnInit {
         {
           dropdown: true,
           label: 'State',
-          key: 'StateId',
+          key: '_stateId',
           choice: {},
           options: [
             {
@@ -111,7 +97,7 @@ export class NewIncidentComponent implements OnInit {
           choice: {},
           dropdown: true,
           label: 'Agency',
-          key: 'AgencyId',
+          key: '_agencyId',
           options: [
             {
               name: 'AAA',
@@ -158,11 +144,11 @@ export class NewIncidentComponent implements OnInit {
           choice: {},
           dropdown: true,
           label: 'Method of Travel',
-          key: 'Mode',
+          key: '_methodOfTravel_Id',
           options: [
             {
-              name: 'Airplane',
-              value: 'airplane'
+              name: '',
+              value: ''
             }
           ]
         },
@@ -174,7 +160,7 @@ export class NewIncidentComponent implements OnInit {
         {
           input: true,
           placeholder: 'Dispatched Time',
-          key: 'Dispatched'
+          key: '_departTimeMilitary'
         },
         {
           input: true,
@@ -239,6 +225,10 @@ export class NewIncidentComponent implements OnInit {
             {
               name: 'Fire Jump',
               value: 'Fire Jump'
+            },
+            {
+              name: 'Rescue Jump',
+              value: 'Rescue Jump'
             }
           ]
         },
@@ -275,7 +265,7 @@ export class NewIncidentComponent implements OnInit {
           dropdown: true,
           choice: {},
           label: 'Initial Attack',
-          key: 'InitialAttack',
+          key: '_initialAttack',
           options: [
             {
               name: 'Yes',
@@ -290,7 +280,7 @@ export class NewIncidentComponent implements OnInit {
         {
           dropdown: true,
           label: 'Type',
-          key: 'Type',
+          key: '_type',
           choice: {},
           options: [
             {
@@ -306,12 +296,12 @@ export class NewIncidentComponent implements OnInit {
         {
           input: true,
           placeholder: 'Latitude',
-          key: 'Latitude'
+          key: '_latitude'
         },
         {
           input: true,
           placeholder: 'Longitude',
-          key: 'Longitude'
+          key: '_longitude'
         },
         {
           dropdown: true,
@@ -326,6 +316,14 @@ export class NewIncidentComponent implements OnInit {
             {
               name: '100',
               value: 100
+            },
+            {
+              name: '150',
+              value: 150
+            },
+            {
+              name: '200',
+              value: 200
             }
           ]
         }
@@ -364,7 +362,11 @@ export class NewIncidentComponent implements OnInit {
     }
   ];
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private toast: ToastService
+  ) {
     this.route.params.subscribe((params) => {
       this.params = params;
       for (const key in params) {
@@ -389,6 +391,17 @@ export class NewIncidentComponent implements OnInit {
       headers: { Authorization: 'Bearer ' + token }
     });
     this.bases = bases.data;
+    let disps = await axios.get(
+      environment.API_URL + '/base/dropdown/dispandreturn/',
+      {
+        headers: { Authorization: 'Bearer ' + token }
+      }
+    );
+    this.dispsandreturn = disps.data;
+    this.dispsandreturn.forEach((disp) => {
+      disp.name = disp.text.toString();
+      disp.value = disp.value.toString();
+    });
     let pilots = await axios.get(environment.API_URL + '/pilots', {
       headers: { Authorization: 'Bearer ' + token }
     });
@@ -396,6 +409,14 @@ export class NewIncidentComponent implements OnInit {
     this.pilots.forEach((pilot) => {
       pilot.name = pilot.text;
       pilot.value = pilot.id.toString();
+    });
+    let travelmodes = await axios.get(environment.API_URL + '/travelmodes', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    this.travelmodes = travelmodes.data;
+    this.travelmodes.forEach((travelmode) => {
+      travelmode.name = travelmode.text;
+      travelmode.value = travelmode.id.toString();
     });
 
     // get any jumpers associated with the incident
@@ -425,6 +446,15 @@ export class NewIncidentComponent implements OnInit {
         ) {
           datum.options = this.pilots;
         }
+        if (datum.key === '_methodOfTravel_Id') {
+          datum.options = this.travelmodes;
+        }
+        if (
+          datum.key === '_returnedTo_Code' ||
+          datum.key === '_dispatchedFrom_Code'
+        ) {
+          datum.options = this.dispsandreturn;
+        }
         if (this.params[datum.key]) {
           this.data[datum.key] = this.params[datum.key];
           if (datum.dropdown) {
@@ -453,9 +483,11 @@ export class NewIncidentComponent implements OnInit {
         .post(url, this.data, options)
         .then((response) => {
           // pop success toast and redirect to chutes list
+          this.toast.show('Created incident', 'success');
           this.router.navigate(['/incidents']);
         })
         .catch((error) => {
+          this.toast.show('Error creating incident', 'error');
           console.dir(error);
         });
     } else if (this.mode === 'Update') {
@@ -464,9 +496,11 @@ export class NewIncidentComponent implements OnInit {
         .put(url, this.data, options)
         .then((response) => {
           // pop success toast and redirect to chutes list
+          this.toast.show('Updated incident', 'success');
           this.router.navigate(['/incidents']);
         })
         .catch((error) => {
+          this.toast.show('Error updating incident', 'error');
           console.dir(error);
         });
     }
@@ -480,7 +514,7 @@ export class NewIncidentComponent implements OnInit {
     this.incidentJumpers.push(this.selectedJumper);
   };
   removeJumper = (jumper) => {
-    this.incidentJumpers.splice(jumper);
+    this.incidentJumpers.splice(jumper, 1);
   };
 
   selectJumper = (event) => {

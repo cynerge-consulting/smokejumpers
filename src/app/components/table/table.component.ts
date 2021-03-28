@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
@@ -10,6 +10,7 @@ export class TableComponent implements OnInit {
   @Input() rows: any;
   @Input() columns: any;
   @Input() settings: any;
+  @Output() deleted = new EventEmitter<Object>();
   showingDetails = false;
   selected;
   rowMenu = 'clickmask';
@@ -39,6 +40,7 @@ export class TableComponent implements OnInit {
   };
   delete = (row) => {
     this.rowMenu = 'clickmask';
+    this.deleted.emit(row);
   };
 
   new = () => {
