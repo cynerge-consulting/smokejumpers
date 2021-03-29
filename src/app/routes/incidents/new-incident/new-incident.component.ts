@@ -405,7 +405,7 @@ export class NewIncidentComponent implements OnInit {
     let pilots = await axios.get(environment.API_URL + '/pilots', {
       headers: { Authorization: 'Bearer ' + token }
     });
-    this.pilots = pilots.data;
+    this.pilots = pilots.data.value;
     this.pilots.forEach((pilot) => {
       pilot.name = pilot.text;
       pilot.value = pilot.id.toString();
