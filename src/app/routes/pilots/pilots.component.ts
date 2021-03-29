@@ -45,7 +45,7 @@ export class PilotsComponent implements OnInit {
         headers: { Authorization: 'Bearer ' + token }
       })
       .then((response) => {
-        this.pilots = response.data;
+        this.pilots = response.data.value;
       })
       .catch((error) => {
         this.toast.show('Unable to retreive pilots list.', 'error');
