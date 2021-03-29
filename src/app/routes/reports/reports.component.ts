@@ -73,17 +73,22 @@ export class ReportsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let bases = await axios.get(environment.API_URL + '/base/dropdown/main');
+    let token = window.sessionStorage.getItem('token');
+    const options = {
+      headers: { Authorization: 'Bearer ' + token }
+    };
+    let bases = await axios.get(
+      environment.API_URL + '/base/dropdown/main',
+      options
+    );
     this.bases = bases.data;
-    let jumpers = await axios.get(environment.API_URL + '/jumpers');
+    let jumpers = await axios.get(environment.API_URL + '/jumpers', options);
     this.jumpers = jumpers.data.value;
-    // let qualifications = await axios.get(environment.API_URL + '/qualifications');
-    // this.qualifications = qualifications.data
-    this.qualifications = [
-      {
-        name: 'qual 1'
-      }
-    ];
+    let qualifications = await axios.get(
+      environment.API_URL + '/Quals',
+      options
+    );
+    this.qualifications = qualifications.data;
 
     // parse jumper data for friendly display
     for (let x = 0; x < this.jumpers.length; x++) {
