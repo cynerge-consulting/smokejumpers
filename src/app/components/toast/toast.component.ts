@@ -37,6 +37,7 @@ export class ToastComponent implements OnInit, OnDestroy {
   show: boolean;
   message: string;
   type: string = 'success';
+  duration: number;
   private toastSubscription: Subscription;
 
   constructor(private toastService: ToastService) {}
@@ -50,9 +51,14 @@ export class ToastComponent implements OnInit, OnDestroy {
       }
       this.message = state.message;
       this.show = state.show;
+      if (this.type === 'error' || this.type === 'warning') {
+        this.duration = 10000;
+      } else {
+        this.duration = 5000;
+      }
       setTimeout(() => {
         this.show = false;
-      }, 3000);
+      }, this.duration);
     });
   }
 

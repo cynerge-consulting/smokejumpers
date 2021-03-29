@@ -80,6 +80,7 @@ export class IncidentsComponent implements OnInit {
         console.dir(error);
         this.toast.show('Unable to retreive incidents.', 'error');
       });
+    this.toast.show('Example toast', 'warning');
   }
 
   confirmDeleteIncident = (incident) => {
