@@ -37,7 +37,10 @@ export class ChutesComponent implements OnInit {
   constructor() {}
 
   async ngOnInit() {
-    let chutes = await axios.get(environment.API_URL + '/chutemain');
+    let token = window.sessionStorage.getItem('token');
+    let chutes = await axios.get(environment.API_URL + '/chutemain', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
     this.chutes = chutes.data;
   }
 }

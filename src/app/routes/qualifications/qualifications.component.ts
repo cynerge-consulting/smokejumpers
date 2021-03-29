@@ -38,7 +38,10 @@ export class QualificationsComponent implements OnInit {
   constructor(private toast: ToastService) {}
 
   async ngOnInit() {
-    let qualifications = await axios.get(environment.API_URL + '/Quals');
+    let token = window.sessionStorage.getItem('token');
+    let qualifications = await axios.get(environment.API_URL + '/Quals', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
     this.qualifications = qualifications.data;
   }
 
