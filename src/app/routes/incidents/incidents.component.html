@@ -1,6 +1,13 @@
+<app-modal
+  [active]="modal.active"
+  [data]="modal.data"
+  (confirmed)="modalConfirmed($event)"
+  (denied)="modalDenied($event)"
+>
+</app-modal>
 <app-table
   [settings]="settings"
   [rows]="incidents"
   [columns]="headings"
-  (deleted)="deleteIncident($event)"
+  (deleted)="confirmDeleteIncident($event)"
 ></app-table>

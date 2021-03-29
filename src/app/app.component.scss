@@ -2,12 +2,12 @@
   background: #ededed;
   position: absolute;
   top: 64px;
-  width: calc(100% - 252px);
+  width: calc(100% - 250px);
   height: calc(100% - 64px);
   left: 250px;
   transition: all 0.33s ease;
   &.fullwidth {
     left: 0px;
-    width: calc(100% - 2px);
+    width: 100%;
   }
 }

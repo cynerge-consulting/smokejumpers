@@ -31,6 +31,7 @@ import { NewQualificationComponent } from './routes/qualifications/new-qualifica
 import { NewPilotComponent } from './routes/pilots/new-pilot/new-pilot.component';
 import { NewAircraftComponent } from './routes/aircraft/new-aircraft/new-aircraft.component';
 import { NewChuteComponent } from './routes/chutes/new-chute/new-chute.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { NewChuteComponent } from './routes/chutes/new-chute/new-chute.component
     NewQualificationComponent,
     NewPilotComponent,
     NewAircraftComponent,
-    NewChuteComponent
+    NewChuteComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

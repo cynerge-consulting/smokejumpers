@@ -1,0 +1,18 @@
+<div [ngClass]="active ? 'active' : ''" class="modal-background"></div>
+<div [ngClass]="active ? 'active' : ''" class="modal">
+  <div class="content">
+    {{ data.content }}
+  </div>
+  <div class="buttons">
+    <app-button
+      (clicked)="clickedConfirm($event)"
+      [text]="data.confirm"
+      class="confirm-button"
+    ></app-button>
+    <app-button
+      (clicked)="clickedDeny($event)"
+      [text]="data.deny"
+      class="deny-button"
+    ></app-button>
+  </div>
+</div>

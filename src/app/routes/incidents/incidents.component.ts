@@ -11,6 +11,11 @@ import { ToastService } from '../../services/toast.service';
 })
 export class IncidentsComponent implements OnInit {
   incidents = [];
+  modal = {
+    active: false,
+    data: {}
+  };
+
   headings = [
     {
       label: 'Incident',
@@ -77,13 +82,26 @@ export class IncidentsComponent implements OnInit {
       });
   }
 
-  deleteIncident = async (row) => {
+  confirmDeleteIncident = (incident) => {
+    this.modal = {
+      data: {
+        content: 'Are you sure you want to delete this incident?',
+        deny: 'Cancel',
+        confirm: 'Delete',
+        action: 'delete',
+        incident: incident
+      },
+      active: true
+    };
+  };
+
+  deleteIncident = async (incident) => {
     let token = window.sessionStorage.getItem('token');
     let id = '';
-    if (row.id) {
-      id = row.id;
-    } else if (row.href) {
-      id = row.href.replace(
+    if (incident.id) {
+      id = incident.id;
+    } else if (incident.href) {
+      id = incident.href.replace(
         'http://dev.wrk.fs.usda.gov/masteraction/services/api/incidents/',
         ''
       );
@@ -93,10 +111,20 @@ export class IncidentsComponent implements OnInit {
         headers: { Authorization: 'Bearer ' + token }
       })
       .then((response) => {
-        this.toast.show('Success deleting incident', 'success');
+        this.toast.show('Deleted Incident', 'success');
       })
       .catch((error) => {
-        this.toast.show('Error deleting incident', 'error');
+        this.toast.show('Error deleting Incident', 'error');
       });
+  };
+
+  modalConfirmed = (data) => {
+    if (data.action === 'delete') {
+      this.deleteIncident(data.incident);
+    }
+    this.modal.active = false;
+  };
+  modalDenied = (data) => {
+    this.modal.active = false;
   };
 }
