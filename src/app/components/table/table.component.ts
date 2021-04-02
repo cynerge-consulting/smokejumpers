@@ -31,13 +31,11 @@ export class TableComponent implements OnInit {
     if (row.id) {
       id = row.id;
     } else if (row.href) {
-      id = row.href.replace(
-        'http://dev.wrk.fs.usda.gov/masteraction/services/api/incidents/',
-        ''
-      );
+      id = row.href.slice(row.href.lastIndexOf('/') + 1, row.href.length);
     }
-    this.router.navigate([this.settings.route + '/' + id, row]);
+    this.router.navigate([this.settings.route + '/' + id]);
   };
+
   delete = (row) => {
     this.rowMenu = 'clickmask';
     this.deleted.emit(row);
@@ -63,6 +61,10 @@ export class TableComponent implements OnInit {
   };
 
   onKey = (event) => {
+    if (!this.searching) {
+      this.query = null;
+      return;
+    }
     // always filter against the original set of rows
     if (!this.hasBeenFiltered) {
       this.hasBeenFiltered = true;

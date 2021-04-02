@@ -1,3 +1,10 @@
+<app-modal
+  [active]="modal.active"
+  [data]="modal.data"
+  (confirmed)="modalConfirmed($event)"
+  (denied)="modalDenied($event)"
+>
+</app-modal>
 <div class="form">
   <div class="section-container" *ngFor="let section of sections">
     <div class="title">
@@ -38,7 +45,7 @@
     </div>
   </div>
   <!-- add jumper section -->
-  <div class="section-container">
+  <div class="section-container" *ngIf="mode === 'Update'">
     <div class="title">
       <span>Incident Jumpers</span>
     </div>
@@ -48,10 +55,9 @@
         *ngFor="let jumper of incidentJumpers; index as i"
       >
         <div class="remove-jumper-button">
-          <span (click)="removeJumper(i)">X</span>
+          <span (click)="confirmDeleteJumper(jumper, i)">X</span>
         </div>
-        <div>{{ jumper.friendly }}</div>
-        <div>{{ jumper.basePosition }}</div>
+        <div>{{ jumper.jumperName }} | {{ jumper.Base }}</div>
       </div>
     </div>
     <!-- add incident jumper subform -->

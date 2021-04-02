@@ -18,16 +18,16 @@ export class IncidentsComponent implements OnInit {
 
   headings = [
     {
-      label: 'Incident',
-      key: '_mission'
+      label: 'Name',
+      key: '_nameofIncident'
     },
     {
-      label: 'Type',
+      label: 'Mode',
       key: '_mode'
     },
     {
-      label: 'Name',
-      key: '_nameofIncident'
+      label: 'Mission',
+      key: '_mission'
     },
     {
       label: 'Date',
@@ -67,19 +67,38 @@ export class IncidentsComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     let token = window.sessionStorage.getItem('token');
-    axios
-      .get(environment.API_URL + '/incidents', {
+    let currentIncidents;
+    let pastIncidents;
+    try {
+      currentIncidents = await axios.get(environment.API_URL + '/incidents', {
         headers: { Authorization: 'Bearer ' + token }
-      })
-      .then((response) => {
-        this.incidents = response.data.value;
-      })
-      .catch((error) => {
-        console.dir(error);
-        this.toast.show('Unable to retreive incidents.', 'error');
       });
+    } catch (error) {
+      console.dir(error);
+      this.toast.show('Unable to retreive incidents.', 'error');
+    }
+    try {
+      pastIncidents = await axios.get(
+        environment.API_URL + '/incidents?archived=true',
+        {
+          headers: { Authorization: 'Bearer ' + token }
+        }
+      );
+    } catch (error) {
+      console.dir(error);
+      this.toast.show('Unable to retreive incidents.', 'error');
+    }
+    currentIncidents = currentIncidents.data.value;
+    pastIncidents = pastIncidents.data.value;
+    currentIncidents.forEach((incident) => {
+      incident.archived = false;
+    });
+    pastIncidents.forEach((incident) => {
+      incident.arched = true;
+    });
+    this.incidents = pastIncidents.concat(currentIncidents);
   }
 
   confirmDeleteIncident = (incident) => {
@@ -97,19 +116,25 @@ export class IncidentsComponent implements OnInit {
 
   deleteIncident = async (incident) => {
     let token = window.sessionStorage.getItem('token');
+    let userId = 111;
+    // let userInfo = window.sessionStorage.getItem('userInfo')
+    // let userId = userInfo.id
     let id = '';
     if (incident.id) {
       id = incident.id;
     } else if (incident.href) {
-      id = incident.href.replace(
-        'http://dev.wrk.fs.usda.gov/masteraction/services/api/incidents/',
-        ''
+      id = incident.href.slice(
+        incident.href.indexOf('/incidents/') + '/incidents/'.length,
+        incident.href.length
       );
     }
     let deleted = await axios
-      .delete(environment.API_URL + '/incidents/' + id, {
-        headers: { Authorization: 'Bearer ' + token }
-      })
+      .delete(
+        environment.API_URL + '/incidents/' + id + '/delete?userId=' + userId,
+        {
+          headers: { Authorization: 'Bearer ' + token }
+        }
+      )
       .then((response) => {
         this.toast.show('Deleted Incident', 'success');
       })

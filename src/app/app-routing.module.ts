@@ -22,87 +22,127 @@ import { NewQualificationComponent } from './routes/qualifications/new-qualifica
 import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
+  {
+    path: '',
+    component: DashboardComponent
+    // canActivate: [AuthGuard]
+  },
   { path: 'welcome', component: WelcomeComponent },
   {
     path: 'incidents',
-    component: IncidentsComponent,
-    canActivate: [AuthGuard]
+    component: IncidentsComponent
+    // canActivate: [AuthGuard]
   },
   {
     path: 'incidents/new',
-    component: NewIncidentComponent,
-    canActivate: [AuthGuard]
+    component: NewIncidentComponent
+    // canActivate: [AuthGuard]
   },
   {
     path: 'incidents/:id',
-    component: NewIncidentComponent,
-    canActivate: [AuthGuard]
+    component: NewIncidentComponent
+    // canActivate: [AuthGuard]
   },
-  { path: 'aircraft', component: AircraftComponent, canActivate: [AuthGuard] },
+  {
+    path: 'aircraft',
+    component: AircraftComponent
+    // canActivate: [AuthGuard]
+  },
   {
     path: 'aircraft/new',
-    component: NewAircraftComponent,
-    canActivate: [AuthGuard]
+    component: NewAircraftComponent
+    // canActivate: [AuthGuard]
   },
   {
     path: 'aircraft/:id',
-    component: NewAircraftComponent,
-    canActivate: [AuthGuard]
+    component: NewAircraftComponent
+    // canActivate: [AuthGuard]
   },
-  { path: 'jumpers', component: JumpersComponent, canActivate: [AuthGuard] },
+  {
+    path: 'jumpers',
+    component: JumpersComponent
+    // canActivate: [AuthGuard]
+  },
   {
     path: 'jumpers/new',
-    component: NewJumperComponent,
-    canActivate: [AuthGuard]
+    component: NewJumperComponent
+    // canActivate: [AuthGuard]
   },
   {
     path: 'jumpers/:id',
-    component: NewJumperComponent,
-    canActivate: [AuthGuard]
+    component: NewJumperComponent
+    // canActivate: [AuthGuard]
   },
-  { path: 'reports', component: ReportsComponent, canActivate: [AuthGuard] },
-  { path: 'admin/users', component: UsersComponent, canActivate: [AuthGuard] },
-  { path: 'bases', component: BasesComponent, canActivate: [AuthGuard] },
-  { path: 'pilots', component: PilotsComponent, canActivate: [AuthGuard] },
+  {
+    path: 'reports',
+    component: ReportsComponent
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: 'admin/users',
+    component: UsersComponent
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: 'bases',
+    component: BasesComponent
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: 'pilots',
+    component: PilotsComponent
+    // canActivate: [AuthGuard]
+  },
   {
     path: 'pilots/new',
-    component: NewPilotComponent,
-    canActivate: [AuthGuard]
+    component: NewPilotComponent
+    // canActivate: [AuthGuard]
   },
   {
     path: 'pilots/:id',
-    component: NewPilotComponent,
-    canActivate: [AuthGuard]
+    component: NewPilotComponent
+    // canActivate: [AuthGuard]
   },
-  { path: 'chutes', component: ChutesComponent, canActivate: [AuthGuard] },
+  {
+    path: 'chutes',
+    component: ChutesComponent
+    // canActivate: [AuthGuard]
+  },
   {
     path: 'chutes/new',
-    component: NewChuteComponent,
-    canActivate: [AuthGuard]
+    component: NewChuteComponent
+    // canActivate: [AuthGuard]
   },
   {
     path: 'chutes/:id',
-    component: NewChuteComponent,
-    canActivate: [AuthGuard]
+    component: NewChuteComponent
+    // canActivate: [AuthGuard]
   },
   {
     path: 'qualifications',
-    component: QualificationsComponent,
-    canActivate: [AuthGuard]
+    component: QualificationsComponent
+    // canActivate: [AuthGuard]
   },
   {
     path: 'qualifications/new',
-    component: NewQualificationComponent,
-    canActivate: [AuthGuard]
+    component: NewQualificationComponent
+    // canActivate: [AuthGuard]
   },
   {
     path: 'qualifications/:id',
-    component: NewQualificationComponent,
-    canActivate: [AuthGuard]
+    component: NewQualificationComponent
+    // canActivate: [AuthGuard]
   },
-  { path: 'booster', component: BoosterComponent, canActivate: [AuthGuard] },
-  { path: '**', component: DashboardComponent, canActivate: [AuthGuard] }
+  {
+    path: 'booster',
+    component: BoosterComponent
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: '**',
+    component: DashboardComponent
+    // canActivate: [AuthGuard]
+  }
 ];
 
 @NgModule({

@@ -1,0 +1,430 @@
+{
+  "sections": [
+    {
+      "title": "General Information",
+      "data": [
+        {
+          "input": true,
+          "placeholder": "Incident Name",
+          "key": "_nameofIncident"
+        },
+        {
+          "input": true,
+          "type": "date",
+          "placeholder": "Incident Date",
+          "key": "_incidentDate"
+        },
+        {
+          "dropdown": true,
+          "label": "Dispatched From",
+          "endpoint": "dispandreturn",
+          "key": "_dispatchedFrom_Code",
+          "choice": {},
+          "options": [{}]
+        },
+        {
+          "dropdown": true,
+          "endpoint": "dispandreturn",
+          "choice": {},
+          "label": "Returned To",
+          "key": "_returnedTo_Code",
+          "options": [{}]
+        },
+        {
+          "dropdown": true,
+          "label": "To Area",
+          "endpoint": "area",
+          "key": "_areaId",
+          "choice": {},
+          "options": [
+            {
+              "name": "",
+              "value": ""
+            }
+          ]
+        },
+        {
+          "dropdown": true,
+          "endpoint": "states",
+          "label": "State",
+          "key": "_stateId",
+          "choice": {},
+          "options": [
+            {
+              "name": "",
+              "value": ""
+            }
+          ]
+        },
+        {
+          "choice": {},
+          "dropdown": true,
+          "endpoint": "agency",
+          "label": "Agency",
+          "key": "_agencyId",
+          "options": [
+            {
+              "name": "",
+              "value": ""
+            }
+          ]
+        },
+        {
+          "choice": {},
+          "dropdown": true,
+          "label": "Unit Identifier",
+          "key": "UnitName",
+          "options": [
+            {
+              "name": "unit 1",
+              "value": "1"
+            },
+            {
+              "name": "unit 2",
+              "value": "2"
+            }
+          ]
+        },
+        {
+          "input": true,
+          "placeholder": "USFS Job Codes",
+          "key": "_usfsNum"
+        },
+        {
+          "input": true,
+          "placeholder": "BLM Job Codes",
+          "key": "_blmNum"
+        }
+      ]
+    },
+    {
+      "title": "Time and Travel",
+      "data": [
+        {
+          "choice": {},
+          "dropdown": true,
+          "endpoint": "travelmodes",
+          "label": "Method of Travel",
+          "key": "_methodOfTravel_Id",
+          "options": [
+            {
+              "name": "",
+              "value": ""
+            }
+          ]
+        },
+        {
+          "input": true,
+          "placeholder": "Hobbs Time",
+          "key": "_hobbsTime"
+        },
+        {
+          "input": true,
+          "placeholder": "Dispatched Time",
+          "key": "_departTimeMilitary"
+        },
+        {
+          "input": true,
+          "placeholder": "Time Over Fire",
+          "key": "_timeOverFire"
+        }
+      ]
+    },
+    {
+      "title": "Crew Information",
+      "data": [
+        {
+          "choice": {},
+          "endpoint": "pilots",
+          "dropdown": true,
+          "label": "Pilot",
+          "key": "_pilotId",
+          "options": [{}]
+        },
+        {
+          "choice": {},
+          "endpoint": "pilots",
+          "dropdown": true,
+          "label": "CoPilot",
+          "key": "_copilotId",
+          "options": [{}]
+        },
+        {
+          "choice": {},
+          "endpoint": "pilots",
+          "dropdown": true,
+          "label": "Spotter 1",
+          "key": "_spotterId",
+          "options": [{}]
+        },
+        {
+          "choice": {},
+          "dropdown": true,
+          "label": "Spotter 2",
+          "endpoint": "pilots",
+          "key": "_asstSpotterId",
+          "options": [{}]
+        },
+        {
+          "choice": {},
+          "dropdown": true,
+          "label": "Spotter Trainee",
+          "endpoint": "pilots",
+          "key": "_spotterTraineeId",
+          "options": [{}]
+        }
+      ]
+    },
+    {
+      "title": "Incident Details",
+      "data": [
+        {
+          "choice": {},
+          "dropdown": true,
+          "label": "Mode",
+          "key": "_mode",
+          "options": [
+            {
+              "name": "Proficiency / Training Jump",
+              "value": "Proficiency / Training Jump"
+            },
+            {
+              "name": "Fire Jump",
+              "value": "Fire Jump"
+            },
+            {
+              "name": "Single Resource",
+              "value": "Single Resource"
+            },
+            {
+              "name": "Ground Crew",
+              "value": "Ground Crew"
+            },
+            {
+              "name": "Booster In",
+              "value": "Booster In"
+            },
+            {
+              "name": "Booster Out",
+              "value": "Booster Out"
+            },
+            {
+              "name": "Point To Point",
+              "value": "Point To Point"
+            },
+            {
+              "name": "Preposition",
+              "value": "Preposition"
+            },
+            {
+              "name": "Dry Run",
+              "value": "Dry Run"
+            },
+            {
+              "name": "Other Jump",
+              "value": "Other Jump"
+            },
+            {
+              "name": "Rescue Jump",
+              "value": "Rescue Jump"
+            },
+            {
+              "name": "Paracargo",
+              "value": "Paracargo"
+            },
+            {
+              "name": "Admin Detail",
+              "value": "Admin Detail"
+            },
+            {
+              "name": "Recon/Patrol",
+              "value": "Recon/Patrol"
+            },
+            {
+              "name": "On Jump List",
+              "value": "On Jump List"
+            },
+            {
+              "name": "Demobilization",
+              "value": "Demobilization"
+            },
+            {
+              "name": "Training",
+              "value": "Training"
+            },
+            {
+              "name": "Other",
+              "value": "Other"
+            },
+            {
+              "name": "Day Off",
+              "value": "Day Off"
+            }
+          ]
+        },
+        {
+          "choice": {},
+          "dropdown": true,
+          "label": "Mission",
+          "key": "_mission",
+          "options": [
+            {
+              "name": "Training",
+              "value": "Training"
+            },
+            {
+              "name": "Wildland Fire",
+              "value": "Wildland Fire"
+            },
+            {
+              "name": "Prescribed Fire",
+              "value": "Prescribed Fire"
+            },
+            {
+              "name": "Mech Fuels Treatment",
+              "value": "Mech Fuels Treatment"
+            },
+            {
+              "name": "Structure Protection",
+              "value": "Structure Protection"
+            },
+            {
+              "name": "Logistics",
+              "value": "Logistics"
+            },
+            {
+              "name": "Other Action",
+              "value": "Other Action"
+            }
+          ]
+        },
+        {
+          "input": true,
+          "placeholder": "Acres",
+          "key": "_acres"
+        },
+        {
+          "dropdown": true,
+          "label": "Fuel Type",
+          "key": "_fuelType",
+          "choice": {},
+          "options": [
+            {
+              "name": "Grass",
+              "value": "grass"
+            },
+            {
+              "name": "Shrub",
+              "value": "shrub"
+            },
+            {
+              "name": "Slash",
+              "value": "slash"
+            },
+            {
+              "name": "Tinder",
+              "value": "tinder"
+            }
+          ]
+        },
+        {
+          "dropdown": true,
+          "choice": {},
+          "label": "Initial Attack",
+          "key": "_initialAttack",
+          "options": [
+            {
+              "name": "Yes",
+              "value": "yes"
+            },
+            {
+              "name": "No",
+              "value": "no"
+            }
+          ]
+        },
+        {
+          "dropdown": true,
+          "label": "Type",
+          "key": "_type",
+          "choice": {},
+          "options": [
+            {
+              "name": "1",
+              "value": "1"
+            },
+            {
+              "name": "2",
+              "value": "2"
+            }
+          ]
+        },
+        {
+          "input": true,
+          "placeholder": "Latitude",
+          "key": "_latitude"
+        },
+        {
+          "input": true,
+          "placeholder": "Longitude",
+          "key": "_longitude"
+        },
+        {
+          "dropdown": true,
+          "choice": {},
+          "label": "Yards Of Drift",
+          "key": "_yardsofDrift",
+          "options": [
+            {
+              "name": "50",
+              "value": 50
+            },
+            {
+              "name": "100",
+              "value": 100
+            },
+            {
+              "name": "150",
+              "value": 150
+            },
+            {
+              "name": "200",
+              "value": 200
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Paracargo Details",
+      "data": [
+        {
+          "input": true,
+          "placeholder": "# of Bundles",
+          "key": "_pcNumberBundles"
+        },
+        {
+          "input": true,
+          "placeholder": "Total Weight",
+          "key": "_pcTotalWeight"
+        },
+        {
+          "dropdown": true,
+          "choice": {},
+          "label": "Malfunction",
+          "key": "_pcMalfunction",
+          "options": [
+            {
+              "name": "Yes",
+              "value": true
+            },
+            {
+              "name": "No",
+              "value": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

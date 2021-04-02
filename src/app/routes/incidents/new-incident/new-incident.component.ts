@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router } from '@angular/router';
 import axios from 'axios';
 import { environment } from '../../../../environments/environment';
 import { ToastService } from '../../../services/toast.service';
+import * as formData from './form.json';
 
 @Component({
   selector: 'app-new-incident',
@@ -10,375 +11,79 @@ import { ToastService } from '../../../services/toast.service';
   styleUrls: ['./new-incident.component.scss']
 })
 export class NewIncidentComponent implements OnInit {
-  params;
+  modal = {
+    active: false,
+    data: {}
+  };
   mode = 'Create';
-  // define incident object
   data = {
     id: '',
-    _notes: ''
+    _notes: '',
+    _incidentDate: ''
   };
+
+  // endpoint data vars
   bases;
-  dispsandreturn;
-  selectedBase;
+  dispandreturn;
   pilots;
   travelmodes;
-  selectedTravelmode;
-  selectedPilot;
-  selectedCopilot;
-  selectedSpotter1;
-  selectedSpotter2;
-  selectedTrainee;
+  states;
+  agency;
+  area;
   jumpers;
+
+  // incident jumper vars
+  selectedBase;
   selectedJumper;
   incidentJumpers = [];
-  // define form sections
-  sections = [
-    {
-      title: 'General Information',
-      data: [
-        {
-          input: true,
-          placeholder: 'Incident Name',
-          key: '_nameofIncident'
-        },
-        {
-          input: true,
-          type: 'date',
-          placeholder: 'Incident Date',
-          key: '_incidentDate'
-        },
-        {
-          dropdown: true,
-          label: 'Dispatched From',
-          key: '_dispatchedFrom_Code',
-          choice: {},
-          options: [{}]
-        },
-        {
-          dropdown: true,
-          choice: {},
-          label: 'Returned To',
-          key: '_returnedTo_Code',
-          options: [{}]
-        },
-        {
-          dropdown: true,
-          label: 'To Area',
-          key: '_areaId',
-          choice: {},
-          options: [
-            {
-              name: 'LOL',
-              value: 'lol'
-            },
-            {
-              name: 'HELLO',
-              value: 'hello'
-            }
-          ]
-        },
-        {
-          dropdown: true,
-          label: 'State',
-          key: '_stateId',
-          choice: {},
-          options: [
-            {
-              name: 'Michigan',
-              value: 'michigan'
-            },
-            {
-              name: 'Egypt',
-              value: 'egypt'
-            }
-          ]
-        },
-        {
-          choice: {},
-          dropdown: true,
-          label: 'Agency',
-          key: '_agencyId',
-          options: [
-            {
-              name: 'AAA',
-              value: 'aaa'
-            },
-            {
-              name: 'LMNOP',
-              value: 'lmnop'
-            }
-          ]
-        },
-        {
-          choice: {},
-          dropdown: true,
-          label: 'Unit Identifier',
-          key: 'UnitName',
-          options: [
-            {
-              name: 'unit 1',
-              value: '1'
-            },
-            {
-              name: 'unit 2',
-              value: '2'
-            }
-          ]
-        },
-        {
-          input: true,
-          placeholder: 'USFS Job Codes',
-          key: '_usfsNum'
-        },
-        {
-          input: true,
-          placeholder: 'BLM Job Codes',
-          key: '_blmNum'
-        }
-      ]
-    },
-    {
-      title: 'Time and Travel',
-      data: [
-        {
-          choice: {},
-          dropdown: true,
-          label: 'Method of Travel',
-          key: '_methodOfTravel_Id',
-          options: [
-            {
-              name: '',
-              value: ''
-            }
-          ]
-        },
-        {
-          input: true,
-          placeholder: 'Hobbs Time',
-          key: '_hobbsTime'
-        },
-        {
-          input: true,
-          placeholder: 'Dispatched Time',
-          key: '_departTimeMilitary'
-        },
-        {
-          input: true,
-          placeholder: 'Time Over Fire',
-          key: '_timeOverFire'
-        }
-      ]
-    },
-    {
-      title: 'Crew Information',
-      data: [
-        {
-          choice: {},
-          dropdown: true,
-          label: 'Pilot',
-          key: '_pilotId',
-          options: [{}]
-        },
-        {
-          choice: {},
-          dropdown: true,
-          label: 'CoPilot',
-          key: '_copilotId',
-          options: [{}]
-        },
-        {
-          choice: {},
-          dropdown: true,
-          label: 'Spotter 1',
-          key: '_spotterId',
-          options: [{}]
-        },
-        {
-          choice: {},
-          dropdown: true,
-          label: 'Spotter 2',
-          key: '_asstSpotterId',
-          options: [{}]
-        },
-        {
-          choice: {},
-          dropdown: true,
-          label: 'Spotter Trainee',
-          key: '_spotterTraineeId',
-          options: [{}]
-        }
-      ]
-    },
-    {
-      title: 'Incident Details',
-      data: [
-        {
-          choice: {},
-          dropdown: true,
-          label: 'Mode',
-          key: '_mode',
-          options: [
-            {
-              name: 'Proficiency / Training Jump',
-              value: 'Proficiency / Training Jump'
-            },
-            {
-              name: 'Fire Jump',
-              value: 'Fire Jump'
-            },
-            {
-              name: 'Rescue Jump',
-              value: 'Rescue Jump'
-            }
-          ]
-        },
-        {
-          input: true,
-          placeholder: 'Acres',
-          key: '_acres'
-        },
-        {
-          dropdown: true,
-          label: 'Fuel Type',
-          key: '_fuelType',
-          choice: {},
-          options: [
-            {
-              name: 'Grass',
-              value: 'grass'
-            },
-            {
-              name: 'Shrub',
-              value: 'shrub'
-            },
-            {
-              name: 'Slash',
-              value: 'slash'
-            },
-            {
-              name: 'Tinder',
-              value: 'tinder'
-            }
-          ]
-        },
-        {
-          dropdown: true,
-          choice: {},
-          label: 'Initial Attack',
-          key: '_initialAttack',
-          options: [
-            {
-              name: 'Yes',
-              value: 'yes'
-            },
-            {
-              name: 'No',
-              value: 'no'
-            }
-          ]
-        },
-        {
-          dropdown: true,
-          label: 'Type',
-          key: '_type',
-          choice: {},
-          options: [
-            {
-              name: '1',
-              value: '1'
-            },
-            {
-              name: '2',
-              value: '2'
-            }
-          ]
-        },
-        {
-          input: true,
-          placeholder: 'Latitude',
-          key: '_latitude'
-        },
-        {
-          input: true,
-          placeholder: 'Longitude',
-          key: '_longitude'
-        },
-        {
-          dropdown: true,
-          choice: {},
-          label: 'Yards Of Drift',
-          key: '_yardsofDrift',
-          options: [
-            {
-              name: '50',
-              value: 50
-            },
-            {
-              name: '100',
-              value: 100
-            },
-            {
-              name: '150',
-              value: 150
-            },
-            {
-              name: '200',
-              value: 200
-            }
-          ]
-        }
-      ]
-    },
-    {
-      title: 'Paracargo Details',
-      data: [
-        {
-          input: true,
-          placeholder: '# of Bundles',
-          key: '_pcNumberBundles'
-        },
-        {
-          input: true,
-          placeholder: 'Total Weight',
-          key: '_pcTotalWeight'
-        },
-        {
-          dropdown: true,
-          choice: {},
-          label: 'Malfunction',
-          key: '_pcMalfunction',
-          options: [
-            {
-              name: 'Yes',
-              value: true
-            },
-            {
-              name: 'No',
-              value: false
-            }
-          ]
-        }
-      ]
-    }
-  ];
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private toast: ToastService
-  ) {
-    this.route.params.subscribe((params) => {
-      this.params = params;
-      for (const key in params) {
-        if (params.hasOwnProperty(key)) {
-          this.mode = 'Update';
-          this.data[key] = params[key];
-        }
-      }
-    });
-  }
+  // form sections imported from json file
+  sections = formData.sections;
+
+  constructor(private router: Router, private toast: ToastService) {}
 
   async ngOnInit() {
+    this.loadFormData();
+
+    // if we see an '/:id' instead of '/new' in the URL,
+    // we are in "update" mode instead of "create" mode
+    let url = window.location.href;
+    let id = url.slice(url.lastIndexOf('/') + 1, url.length);
+    if (id !== 'new') {
+      this.beginUpdateMode(id);
+    }
+  }
+
+  beginUpdateMode = async (id) => {
+    this.mode = 'Update';
+    let token = window.sessionStorage.getItem('token');
+    let incident = await axios.get(environment.API_URL + '/incidents/' + id, {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    this.data = incident.data;
+    this.data.id = id;
+    let date = this.data._incidentDate.split('-');
+    this.data._incidentDate =
+      date[0] + '-' + date[1] + '-' + date[2].substr(0, 2);
+
+    // get any jumpers associated with the incident
+    try {
+      let incJumpers = await axios.get(
+        environment.API_URL +
+          '/incidentjumper?incidentId=' +
+          id +
+          '&archived=true',
+        {
+          headers: { Authorization: 'Bearer ' + token }
+        }
+      );
+      this.incidentJumpers = incJumpers.data.value;
+    } catch (error) {
+      console.dir(error);
+    }
+  };
+
+  loadFormData = async () => {
     let token = window.sessionStorage.getItem('token');
     let jumpers = await axios.get(environment.API_URL + '/jumpers', {
       headers: { Authorization: 'Bearer ' + token }
@@ -387,81 +92,93 @@ export class NewIncidentComponent implements OnInit {
     this.jumpers.forEach((jumper) => {
       jumper.friendly = jumper.firstName + ' ' + jumper.lastName;
     });
+
     let bases = await axios.get(environment.API_URL + '/base/dropdown/main', {
       headers: { Authorization: 'Bearer ' + token }
     });
     this.bases = bases.data;
+
     let disps = await axios.get(
       environment.API_URL + '/base/dropdown/dispandreturn/',
       {
         headers: { Authorization: 'Bearer ' + token }
       }
     );
-    this.dispsandreturn = disps.data;
-    this.dispsandreturn.forEach((disp) => {
-      disp.name = disp.text.toString();
-      disp.value = disp.value.toString();
+    this.dispandreturn = disps.data;
+    this.dispandreturn.forEach((disp) => {
+      disp.name = disp.text;
+      disp.value = disp.value;
     });
+
     let pilots = await axios.get(environment.API_URL + '/pilots', {
       headers: { Authorization: 'Bearer ' + token }
     });
     this.pilots = pilots.data.value;
     this.pilots.forEach((pilot) => {
-      pilot.name = pilot.text;
-      pilot.value = pilot.id.toString();
+      let id = pilot.href.slice(
+        pilot.href.lastIndexOf('/') + 1,
+        pilot.href.length
+      );
+      pilot.name =
+        pilot.firstName + ' ' + pilot.lastName + ' | ' + pilot.baseCode;
+      pilot.value = id;
     });
+
     let travelmodes = await axios.get(environment.API_URL + '/travelmodes', {
       headers: { Authorization: 'Bearer ' + token }
     });
-    this.travelmodes = travelmodes.data;
+    this.travelmodes = travelmodes.data.value;
     this.travelmodes.forEach((travelmode) => {
-      travelmode.name = travelmode.text;
-      travelmode.value = travelmode.id.toString();
+      let id = Number(
+        travelmode.href.slice(
+          travelmode.href.lastIndexOf('/') + 1,
+          travelmode.href.length
+        )
+      );
+      travelmode.name = travelmode.Aircraft_Name;
+      travelmode.value = id;
     });
 
-    // get any jumpers associated with the incident
-    if (this.mode === 'Update') {
-      try {
-        let incJumpers = await axios.get(
-          environment.API_URL + '/incidentjumpers/' + this.data.id,
-          {
-            headers: { Authorization: 'Bearer ' + token }
-          }
-        );
-        this.incidentJumpers = incJumpers.data.value;
-      } catch (error) {
-        console.dir(error);
-      }
-    }
+    let states = await axios.get(environment.API_URL + '/states', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    this.states = states.data;
+    this.states.forEach((state) => {
+      state.name = state.text;
+      state.value = state.id;
+    });
 
-    // populate dropdown options
+    let agencies = await axios.get(environment.API_URL + '/agency', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    this.agency = agencies.data;
+    this.agency.forEach((agency) => {
+      agency.name = agency.text;
+      agency.value = agency.id;
+    });
+
+    let areas = await axios.get(environment.API_URL + '/area', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    this.area = areas.data;
+    this.area.forEach((area) => {
+      area.name = area.text;
+      area.value = area.id;
+    });
+
+    // populate dropdown options according to formData.sections
     this.sections.forEach((section) => {
       section.data.forEach((datum) => {
-        if (
-          datum.key === '_pilotId' ||
-          datum.key === '_copilotId' ||
-          datum.key === '_spotterId' ||
-          datum.key === '_asstSpotterId' ||
-          datum.key === '_spotterTraineeId'
-        ) {
-          datum.options = this.pilots;
+        if (datum.endpoint) {
+          datum.options = this[datum.endpoint];
         }
-        if (datum.key === '_methodOfTravel_Id') {
-          datum.options = this.travelmodes;
-        }
-        if (
-          datum.key === '_returnedTo_Code' ||
-          datum.key === '_dispatchedFrom_Code'
-        ) {
-          datum.options = this.dispsandreturn;
-        }
-        if (this.params[datum.key]) {
-          this.data[datum.key] = this.params[datum.key];
-          if (datum.dropdown) {
-            let choice = datum.options.filter(
-              (option) =>
-                option.value.toString() === this.params[datum.key].toString()
-            );
+        if (datum.dropdown) {
+          if (this.data[datum.key]) {
+            let choice = datum.options.filter((option) => {
+              let optString = option.value;
+              let dataString = this.data[datum.key];
+              return optString.toString() === dataString.toString();
+            });
             if (choice.length) {
               datum.choice = choice[0];
             }
@@ -469,34 +186,46 @@ export class NewIncidentComponent implements OnInit {
         }
       });
     });
-  }
+  };
 
   submitForm = (data) => {
     let token = window.sessionStorage.getItem('token');
+    let userInfo = window.sessionStorage.getItem('userInfo');
+    // let userId = userInfo.id;
+    let userId = 111;
+
     const options = {
       headers: { Authorization: 'Bearer ' + token }
     };
-    let url = environment.API_URL + '/incidents';
+    let url = environment.API_URL + '/incidents/add?userId=' + userId;
 
     if (this.mode === 'Create') {
       axios
         .post(url, this.data, options)
         .then((response) => {
+          // POST to incidentjumpers
+
           // pop success toast and redirect to chutes list
           this.toast.show('Created incident', 'success');
           this.router.navigate(['/incidents']);
         })
         .catch((error) => {
           this.toast.show('Error creating incident', 'error');
-          console.dir(error);
         });
     } else if (this.mode === 'Update') {
-      url = environment.API_URL + '/incidents' + '/' + this.data.id;
+      url =
+        environment.API_URL +
+        '/incidents' +
+        '/' +
+        this.data.id +
+        '/update?userId=' +
+        userId;
       axios
-        .put(url, this.data, options)
+        .post(url, this.data, options)
         .then((response) => {
-          // pop success toast and redirect to chutes list
-          this.toast.show('Updated incident', 'success');
+          // POST to incidentjumpers
+
+          this.toast.show('Updated Incident ' + this.data.id, 'success');
           this.router.navigate(['/incidents']);
         })
         .catch((error) => {
@@ -506,21 +235,150 @@ export class NewIncidentComponent implements OnInit {
     }
   };
 
+  // dropdown handler
   onSelectedDropdownItem = (event, datum) => {
     this.data[datum.key] = event.value;
   };
 
+  // incident jumper methods
   addJumper = () => {
-    this.incidentJumpers.push(this.selectedJumper);
+    let jumper = {
+      Base: this.selectedJumper.base.code,
+      JumperId: this.selectedJumper.id,
+      // T1: null,
+      // T2: null,
+      // T3: null,
+      arrivalDate: this.data._incidentDate,
+      arrivalTime: '',
+      chuteType: '',
+      drogueId: null,
+      homeBaseId: this.selectedJumper.base.id,
+      incidentId: this.data.id,
+      jumpOrder: 1,
+      jumpRating: '',
+      jumperName:
+        this.selectedJumper.lastName + ', ' + this.selectedJumper.firstName,
+      main: this.selectedJumper.base.code,
+      mainId: this.selectedJumper.base.id
+      // position1Id: 53
+      // position2Id: null
+      // position3Id: null
+      // reserveId: null
+      // returnDate: null
+      // returnTime: ""
+      // totalDays: null
+    };
+    this.modal = {
+      data: {
+        content: 'Are you sure you want to add this jumper?',
+        deny: 'Cancel',
+        confirm: 'Add Jumper',
+        action: 'addJumper',
+        jumper: jumper
+      },
+      active: true
+    };
   };
-  removeJumper = (jumper) => {
-    this.incidentJumpers.splice(jumper, 1);
+
+  confirmDeleteJumper = (jumper, index) => {
+    this.modal = {
+      data: {
+        content: 'Are you sure you want to remove this jumper?',
+        deny: 'Cancel',
+        confirm: 'Delete',
+        action: 'delete',
+        jumper: jumper,
+        index: index
+      },
+      active: true
+    };
+  };
+
+  modalDenied = (data) => {
+    this.modal.active = false;
+  };
+
+  modalConfirmed = async (data) => {
+    let token = window.sessionStorage.getItem('token');
+    let userInfo = window.sessionStorage.getItem('userInfo');
+    // let userId = userInfo.id;
+    let userId = 111;
+
+    const options = {
+      headers: { Authorization: 'Bearer ' + token }
+    };
+
+    // delete incident jumper
+    if (data.action === 'delete') {
+      let id = data.jumper.href.slice(
+        data.jumper.href.lastIndexOf('/') + 1,
+        data.jumper.href.length
+      );
+      let url =
+        environment.API_URL +
+        '/incidentjumper/' +
+        id +
+        '/delete?userId=' +
+        userId;
+      axios
+        .delete(url, options)
+        .then((deleted) => {
+          this.incidentJumpers.splice(data.index, 1);
+          this.toast.show('Removed Jumper ' + id, 'success');
+          this.refreshIncidentJumpers();
+          this.modal.active = false;
+        })
+        .catch((error) => {
+          this.toast.show('Error removing Jumper', 'error');
+          console.dir(error);
+        });
+    }
+
+    // add incident jumper
+    if (data.action === 'addJumper') {
+      let url =
+        environment.API_URL +
+        '/incidentjumper/' +
+        this.data.id +
+        '/singleAdd?userId=' +
+        userId;
+      axios
+        .post(url, data.jumper, options)
+        .then((response) => {
+          this.toast.show('Added Jumper', 'success');
+          this.refreshIncidentJumpers();
+          this.modal.active = false;
+        })
+        .catch((error) => {
+          this.toast.show('Error adding Jumper', 'error');
+          console.dir(error);
+        });
+    }
+  };
+
+  refreshIncidentJumpers = () => {
+    let token = window.sessionStorage.getItem('token');
+    axios
+      .get(
+        environment.API_URL +
+          '/incidentjumper?incidentId=' +
+          this.data.id +
+          '&archived=true',
+        {
+          headers: { Authorization: 'Bearer ' + token }
+        }
+      )
+      .then((response) => {
+        this.incidentJumpers = response.data.value;
+      })
+      .catch((error) => {
+        console.dir(error);
+      });
   };
 
   selectJumper = (event) => {
     this.selectedJumper = event;
   };
-
   selectBase = (event) => {
     this.selectedBase = event;
   };
