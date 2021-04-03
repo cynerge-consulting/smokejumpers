@@ -79,6 +79,18 @@
         ></app-dropdown>
       </div>
       <div class="datum">
+        <input
+          type="date"
+          [(ngModel)]="jumperArrivalDate"
+          placeholder="Arrival Date"
+        />
+        <input
+          type="date"
+          [(ngModel)]="jumperReturnDate"
+          placeholder="Return Date"
+        />
+      </div>
+      <div class="datum">
         <app-button
           text="Add Jumper"
           (clicked)="selectedJumper ? addJumper() : ''"
