@@ -32,6 +32,7 @@ import { NewPilotComponent } from './routes/pilots/new-pilot/new-pilot.component
 import { NewAircraftComponent } from './routes/aircraft/new-aircraft/new-aircraft.component';
 import { NewChuteComponent } from './routes/chutes/new-chute/new-chute.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { ComboboxComponent } from './components/combobox/combobox.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { ModalComponent } from './components/modal/modal.component';
     NewPilotComponent,
     NewAircraftComponent,
     NewChuteComponent,
-    ModalComponent
+    ModalComponent,
+    ComboboxComponent
   ],
   imports: [
     BrowserModule,

@@ -23,6 +23,7 @@ export class NewIncidentComponent implements OnInit {
   };
 
   // endpoint data vars
+  chutes;
   bases;
   dispandreturn;
   pilots;
@@ -33,6 +34,7 @@ export class NewIncidentComponent implements OnInit {
   jumpers;
 
   // incident jumper vars
+  selectedChute;
   selectedBase;
   selectedJumper;
   incidentJumpers = [];
@@ -165,6 +167,28 @@ export class NewIncidentComponent implements OnInit {
       area.name = area.text;
       area.value = area.id;
     });
+
+    // populate jumper combobox
+    axios
+      .get(environment.API_URL + '/chutemain', {
+        headers: { Authorization: 'Bearer ' + token }
+      })
+      .then((response) => {
+        let chutes = response.data.value;
+        chutes.forEach((chute) => {
+          let id = chute.href.slice(
+            chute.href.lastIndexOf('/') + 1,
+            chute.href.length
+          );
+          id = Number(id.slice(0, id.lastIndexOf('?')));
+          chute.name = chute.chuteType + ' ' + chute.main + ' | ' + chute.Base;
+          chute.value = id;
+        });
+        this.chutes = chutes;
+      })
+      .catch((error) => {
+        console.dir(error);
+      });
 
     // populate dropdown options according to formData.sections
     this.sections.forEach((section) => {
@@ -376,6 +400,9 @@ export class NewIncidentComponent implements OnInit {
       });
   };
 
+  selectChute = (event) => {
+    this.selectedChute = event;
+  };
   selectJumper = (event) => {
     this.selectedJumper = event;
   };

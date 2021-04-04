@@ -79,11 +79,21 @@
         ></app-dropdown>
       </div>
       <div class="datum">
+        <app-combobox
+          label="Parachute"
+          [options]="chutes"
+          key="name"
+          (selectedComboboxItem)="selectChute($event)"
+        ></app-combobox>
+      </div>
+      <div class="datum">
         <input
           type="date"
           [(ngModel)]="jumperArrivalDate"
           placeholder="Arrival Date"
         />
+      </div>
+      <div class="datum">
         <input
           type="date"
           [(ngModel)]="jumperReturnDate"
