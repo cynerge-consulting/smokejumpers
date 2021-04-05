@@ -67,7 +67,54 @@ export class IncidentsComponent implements OnInit {
     });
   }
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.refreshIncidents();
+  }
+
+  confirmDeleteIncident = (incident) => {
+    this.modal = {
+      data: {
+        content: 'Are you sure you want to delete this incident?',
+        deny: 'Cancel',
+        confirm: 'Delete',
+        action: 'delete',
+        incident: incident
+      },
+      active: true
+    };
+  };
+
+  deleteIncident = async (incident) => {
+    let token = window.sessionStorage.getItem('token');
+    let userId = 111;
+    // let userInfo = window.sessionStorage.getItem('userInfo')
+    // let userId = userInfo.id
+    let id = '';
+    if (incident.id) {
+      id = incident.id;
+    } else if (incident.href) {
+      id = incident.href.slice(
+        incident.href.indexOf('/incidents/') + '/incidents/'.length,
+        incident.href.length
+      );
+    }
+    axios
+      .delete(
+        environment.API_URL + '/incidents/' + id + '/delete?userId=' + userId,
+        {
+          headers: { Authorization: 'Bearer ' + token }
+        }
+      )
+      .then((response) => {
+        this.toast.show('Deleted Incident', 'success');
+        this.refreshIncidents();
+      })
+      .catch((error) => {
+        this.toast.show('Error deleting Incident', 'error');
+      });
+  };
+
+  refreshIncidents = async () => {
     let token = window.sessionStorage.getItem('token');
     let currentIncidents;
     let pastIncidents;
@@ -99,48 +146,6 @@ export class IncidentsComponent implements OnInit {
       incident.arched = true;
     });
     this.incidents = pastIncidents.concat(currentIncidents);
-  }
-
-  confirmDeleteIncident = (incident) => {
-    this.modal = {
-      data: {
-        content: 'Are you sure you want to delete this incident?',
-        deny: 'Cancel',
-        confirm: 'Delete',
-        action: 'delete',
-        incident: incident
-      },
-      active: true
-    };
-  };
-
-  deleteIncident = async (incident) => {
-    let token = window.sessionStorage.getItem('token');
-    let userId = 111;
-    // let userInfo = window.sessionStorage.getItem('userInfo')
-    // let userId = userInfo.id
-    let id = '';
-    if (incident.id) {
-      id = incident.id;
-    } else if (incident.href) {
-      id = incident.href.slice(
-        incident.href.indexOf('/incidents/') + '/incidents/'.length,
-        incident.href.length
-      );
-    }
-    let deleted = await axios
-      .delete(
-        environment.API_URL + '/incidents/' + id + '/delete?userId=' + userId,
-        {
-          headers: { Authorization: 'Bearer ' + token }
-        }
-      )
-      .then((response) => {
-        this.toast.show('Deleted Incident', 'success');
-      })
-      .catch((error) => {
-        this.toast.show('Error deleting Incident', 'error');
-      });
   };
 
   modalConfirmed = (data) => {

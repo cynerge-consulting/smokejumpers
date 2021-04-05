@@ -80,25 +80,71 @@
       </div>
       <div class="datum">
         <app-combobox
-          label="Parachute"
-          [options]="chutes"
+          label="Main Chute"
+          [options]="mainChutes"
           key="name"
-          (selectedComboboxItem)="selectChute($event)"
+          (selectedComboboxItem)="selectMainChute($event)"
         ></app-combobox>
       </div>
       <div class="datum">
-        <input
-          type="date"
-          [(ngModel)]="jumperArrivalDate"
-          placeholder="Arrival Date"
-        />
+        <app-combobox
+          label="Drogue Chute"
+          [options]="drogueChutes"
+          key="name"
+          (selectedComboboxItem)="selectDrogueChute($event)"
+        ></app-combobox>
       </div>
       <div class="datum">
-        <input
-          type="date"
-          [(ngModel)]="jumperReturnDate"
-          placeholder="Return Date"
-        />
+        <app-combobox
+          label="Reserve Chute"
+          [options]="reserveChutes"
+          key="name"
+          (selectedComboboxItem)="selectReserveChute($event)"
+        ></app-combobox>
+      </div>
+      <div class="datum">
+        <div class="input-container">
+          <span class="input-label">Arrival Date: </span>
+          <input
+            type="date"
+            [(ngModel)]="jumperArrivalDate"
+            placeholder="Arrival Date"
+          />
+        </div>
+      </div>
+      <div class="datum">
+        <div class="input-container">
+          <span class="input-label">Return Date: </span>
+          <input
+            type="date"
+            [(ngModel)]="jumperReturnDate"
+            placeholder="Return Date"
+          />
+        </div>
+      </div>
+      <div class="datum">
+        <app-dropdown
+          label="Position 1"
+          [options]="qualifications"
+          key="name"
+          (selectedDropdownItem)="selectJumperPosition($event, 1)"
+        ></app-dropdown>
+      </div>
+      <div class="datum">
+        <app-dropdown
+          label="Position 2"
+          [options]="qualifications"
+          key="name"
+          (selectedDropdownItem)="selectJumperPosition($event, 2)"
+        ></app-dropdown>
+      </div>
+      <div class="datum">
+        <app-dropdown
+          label="Position 3"
+          [options]="qualifications"
+          key="name"
+          (selectedDropdownItem)="selectJumperPosition($event, 3)"
+        ></app-dropdown>
       </div>
       <div class="datum">
         <app-button

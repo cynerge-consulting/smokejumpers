@@ -1,5 +1,5 @@
 <div class="combobox-container">
-  <span *ngIf="!searching" class="label">Parachute: </span>
+  <span *ngIf="!searching" class="label">{{ label }}: </span>
   <span
     (click)="showMenu()"
     [ngClass]="searching ? 'hidden' : ''"

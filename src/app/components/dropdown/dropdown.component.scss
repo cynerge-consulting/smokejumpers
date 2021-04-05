@@ -30,7 +30,6 @@
 .menu {
   position: absolute;
   z-index: 200;
-  width: 200px;
   background: white;
   color: #006632;
   text-align: center;
@@ -52,9 +51,7 @@
     position: relative;
     text-overflow: ellipsis;
     overflow: hidden;
-    padding-left: 20px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 20px;
     &:hover {
       background: #006632;
       color: white;

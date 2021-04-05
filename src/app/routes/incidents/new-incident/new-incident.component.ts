@@ -23,7 +23,9 @@ export class NewIncidentComponent implements OnInit {
   };
 
   // endpoint data vars
-  chutes;
+  mainChutes;
+  drogueChutes;
+  reserveChutes;
   bases;
   dispandreturn;
   pilots;
@@ -31,12 +33,32 @@ export class NewIncidentComponent implements OnInit {
   states;
   agency;
   area;
+  qualifications;
   jumpers;
 
   // incident jumper vars
-  selectedChute;
+  selectedMainChute = {
+    id: ''
+  };
+  selectedDrogueChute = {
+    id: ''
+  };
+  selectedReserveChute = {
+    id: ''
+  };
   selectedBase;
   selectedJumper;
+  selectedPosition1 = {
+    id: ''
+  };
+  selectedPosition2 = {
+    id: ''
+  };
+  selectedPosition3 = {
+    id: ''
+  };
+  jumperReturnDate;
+  jumperArrivalDate;
   incidentJumpers = [];
 
   // form sections imported from json file
@@ -168,7 +190,16 @@ export class NewIncidentComponent implements OnInit {
       area.value = area.id;
     });
 
-    // populate jumper combobox
+    let qualifications = await axios.get(environment.API_URL + '/Quals', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    this.qualifications = qualifications.data.value;
+    this.qualifications.forEach((qualification) => {
+      qualification.name = qualification.title + ' | ' + qualification.Acronym;
+      qualification.value = qualification.id;
+    });
+
+    // populate chute comboboxes
     axios
       .get(environment.API_URL + '/chutemain', {
         headers: { Authorization: 'Bearer ' + token }
@@ -183,8 +214,51 @@ export class NewIncidentComponent implements OnInit {
           id = Number(id.slice(0, id.lastIndexOf('?')));
           chute.name = chute.chuteType + ' ' + chute.main + ' | ' + chute.Base;
           chute.value = id;
+          chute.id = id;
         });
-        this.chutes = chutes;
+        this.mainChutes = chutes;
+      })
+      .catch((error) => {
+        console.dir(error);
+      });
+    axios
+      .get(environment.API_URL + '/chutedrogue', {
+        headers: { Authorization: 'Bearer ' + token }
+      })
+      .then((response) => {
+        let chutes = response.data.value;
+        chutes.forEach((chute) => {
+          let id = chute.href.slice(
+            chute.href.lastIndexOf('/') + 1,
+            chute.href.length
+          );
+          id = Number(id.slice(0, id.lastIndexOf('?')));
+          chute.name = chute.drogue + ' | ' + chute.Base;
+          chute.value = id;
+          chute.id = id;
+        });
+        this.drogueChutes = chutes;
+      })
+      .catch((error) => {
+        console.dir(error);
+      });
+    axios
+      .get(environment.API_URL + '/chutereserve', {
+        headers: { Authorization: 'Bearer ' + token }
+      })
+      .then((response) => {
+        let chutes = response.data.value;
+        chutes.forEach((chute) => {
+          let id = chute.href.slice(
+            chute.href.lastIndexOf('/') + 1,
+            chute.href.length
+          );
+          id = Number(id.slice(0, id.lastIndexOf('?')));
+          chute.name = chute.reserve + ' | ' + chute.Base;
+          chute.value = id;
+          chute.id = id;
+        });
+        this.reserveChutes = chutes;
       })
       .catch((error) => {
         console.dir(error);
@@ -269,13 +343,13 @@ export class NewIncidentComponent implements OnInit {
     let jumper = {
       Base: this.selectedJumper.base.code,
       JumperId: this.selectedJumper.id,
-      // T1: null,
-      // T2: null,
-      // T3: null,
-      arrivalDate: this.data._incidentDate,
+      T1: null,
+      T2: null,
+      T3: null,
+      arrivalDate: this.jumperArrivalDate,
       arrivalTime: '',
       chuteType: '',
-      drogueId: null,
+      drogueId: this.selectedDrogueChute.id,
       homeBaseId: this.selectedJumper.base.id,
       incidentId: this.data.id,
       jumpOrder: 1,
@@ -283,14 +357,14 @@ export class NewIncidentComponent implements OnInit {
       jumperName:
         this.selectedJumper.lastName + ', ' + this.selectedJumper.firstName,
       main: this.selectedJumper.base.code,
-      mainId: this.selectedJumper.base.id
-      // position1Id: 53
-      // position2Id: null
-      // position3Id: null
-      // reserveId: null
-      // returnDate: null
-      // returnTime: ""
-      // totalDays: null
+      mainId: this.selectedMainChute.id,
+      position1Id: this.selectedPosition1.id,
+      position2Id: this.selectedPosition2.id,
+      position3Id: this.selectedPosition3.id,
+      reserveId: this.selectedReserveChute.id,
+      returnDate: this.jumperReturnDate,
+      returnTime: '',
+      totalDays: null
     };
     this.modal = {
       data: {
@@ -375,6 +449,7 @@ export class NewIncidentComponent implements OnInit {
         })
         .catch((error) => {
           this.toast.show('Error adding Jumper', 'error');
+          this.modal.active = false;
           console.dir(error);
         });
     }
@@ -400,13 +475,30 @@ export class NewIncidentComponent implements OnInit {
       });
   };
 
-  selectChute = (event) => {
-    this.selectedChute = event;
+  selectMainChute = (event) => {
+    this.selectedMainChute = event;
+  };
+  selectDrogueChute = (event) => {
+    this.selectedDrogueChute = event;
+  };
+  selectReserveChute = (event) => {
+    this.selectedReserveChute = event;
   };
   selectJumper = (event) => {
     this.selectedJumper = event;
   };
   selectBase = (event) => {
     this.selectedBase = event;
+  };
+  selectJumperPosition = (event, position) => {
+    if (position === 1) {
+      this.selectedPosition1 = event;
+    }
+    if (position === 2) {
+      this.selectedPosition2 = event;
+    }
+    if (position === 3) {
+      this.selectedPosition3 = event;
+    }
   };
 }
