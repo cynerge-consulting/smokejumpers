@@ -11,20 +11,24 @@ export class AircraftComponent implements OnInit {
   aircraft = [];
   headings = [
     {
-      label: 'ID',
-      key: 'id'
+      label: 'Name',
+      key: 'Aircraft_Name'
     },
     {
-      label: 'Text',
-      key: 'text'
+      label: 'Tail Number',
+      key: 'Aircraft_Tail_Number'
     },
     {
-      label: 'Value',
-      key: 'value'
+      label: 'Owner',
+      key: 'Aircraft_Owner'
     },
     {
-      label: 'Base ID',
-      key: 'baseId'
+      label: 'Callsign',
+      key: 'callsign'
+    },
+    {
+      label: 'Base',
+      key: 'homeBase'
     }
   ];
   settings = {

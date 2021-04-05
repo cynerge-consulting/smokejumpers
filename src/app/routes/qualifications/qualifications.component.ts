@@ -12,24 +12,20 @@ export class QualificationsComponent implements OnInit {
   qualifications = [];
   headings = [
     {
-      label: 'ID',
-      key: 'id'
+      label: 'Qualification',
+      key: 'Acronym'
     },
     {
-      label: 'Text',
-      key: 'text'
+      label: 'Title',
+      key: 'title'
     },
     {
-      label: 'Value',
-      key: 'value'
-    },
-    {
-      label: 'Base ID',
-      key: 'baseId'
+      label: 'Active',
+      key: 'active'
     }
   ];
   settings = {
-    label: 'New Chute',
+    label: 'New Qualification',
     action: 'create',
     target: 'qualifications',
     route: 'qualifications'
@@ -38,33 +34,44 @@ export class QualificationsComponent implements OnInit {
   constructor(private toast: ToastService) {}
 
   async ngOnInit() {
+    this.refreshQualifications();
+  }
+
+  refreshQualifications = async () => {
     let token = window.sessionStorage.getItem('token');
     let qualifications = await axios.get(environment.API_URL + '/Quals', {
       headers: { Authorization: 'Bearer ' + token }
     });
-    this.qualifications = qualifications.data;
-  }
+    this.qualifications = qualifications.data.value;
+  };
 
-  delete = async (row) => {
+  delete = async (qualification) => {
     let token = window.sessionStorage.getItem('token');
+    let userId = 111;
+    // let userInfo = window.sessionStorage.getItem('userInfo')
+    // let userId = userInfo.id
     let id = '';
-    if (row.id) {
-      id = row.id;
-    } else if (row.href) {
-      id = row.href.replace(
-        'http://dev.wrk.fs.usda.gov/masteraction/services/api/Quals/',
-        ''
+    if (qualification.id) {
+      id = qualification.id;
+    } else if (qualification.href) {
+      id = qualification.href.slice(
+        qualification.href.indexOf('/Quals/') + '/Quals/'.length,
+        qualification.href.length
       );
     }
-    let deleted = await axios
-      .delete(environment.API_URL + '/Quals/' + id, {
-        headers: { Authorization: 'Bearer ' + token }
-      })
+    axios
+      .delete(
+        environment.API_URL + '/Quals/' + id + '/delete?userId=' + userId,
+        {
+          headers: { Authorization: 'Bearer ' + token }
+        }
+      )
       .then((response) => {
-        this.toast.show('Success deleting qualification', 'success');
+        this.toast.show('Deleted Qualification', 'success');
+        this.refreshQualifications();
       })
       .catch((error) => {
-        this.toast.show('Error deleting qualification', 'error');
+        this.toast.show('Error deleting Incident', 'error');
       });
   };
 }

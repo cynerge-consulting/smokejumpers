@@ -12,20 +12,20 @@ export class PilotsComponent implements OnInit {
   pilots = [];
   headings = [
     {
-      label: 'ID',
-      key: 'id'
+      label: 'Pilot',
+      key: 'fullName'
     },
     {
-      label: 'Text',
-      key: 'text'
+      label: 'Base',
+      key: 'baseCode'
     },
     {
-      label: 'Value',
-      key: 'value'
+      label: 'Affiliation',
+      key: 'affiliation'
     },
     {
-      label: 'Base ID',
-      key: 'baseId'
+      label: 'Active',
+      key: 'active'
     }
   ];
   settings = {
@@ -46,27 +46,36 @@ export class PilotsComponent implements OnInit {
       })
       .then((response) => {
         this.pilots = response.data.value;
+        this.pilots.forEach((pilot) => {
+          pilot.fullName = pilot.firstName + ' ' + pilot.lastName;
+        });
       })
       .catch((error) => {
         this.toast.show('Unable to retreive pilots list.', 'error');
       });
   }
 
-  delete = async (row) => {
+  delete = async (pilot) => {
     let token = window.sessionStorage.getItem('token');
+    let userId = 111;
+    // let userInfo = window.sessionStorage.getItem('userInfo')
+    // let userId = userInfo.id
     let id = '';
-    if (row.id) {
-      id = row.id;
-    } else if (row.href) {
-      id = row.href.replace(
-        'http://dev.wrk.fs.usda.gov/masteraction/services/api/pilots/',
-        ''
+    if (pilot.id) {
+      id = pilot.id;
+    } else if (pilot.href) {
+      id = pilot.href.slice(
+        pilot.href.indexOf('/pilots/') + '/pilots/'.length,
+        pilot.href.length
       );
     }
     let deleted = await axios
-      .delete(environment.API_URL + '/pilots/' + id, {
-        headers: { Authorization: 'Bearer ' + token }
-      })
+      .delete(
+        environment.API_URL + '/pilots/' + id + '/delete?userId=' + userId,
+        {
+          headers: { Authorization: 'Bearer ' + token }
+        }
+      )
       .then((response) => {
         this.toast.show('Success deleting pilot', 'success');
       })

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import axios from 'axios';
 import { environment } from '../../../../environments/environment';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
   selector: 'app-new-qualification',
@@ -22,43 +23,60 @@ export class NewQualificationComponent implements OnInit {
       data: [
         {
           input: true,
-          placeholder: 'Name',
-          key: 'text'
+          placeholder: 'Title',
+          key: 'title'
         },
         {
           input: true,
           placeholder: 'Acronym',
-          key: 'value'
+          key: 'Acronym'
         }
       ]
     }
   ];
 
-  constructor(private route: ActivatedRoute, private router: Router) {
-    this.route.params.subscribe((params) => {
-      for (const key in params) {
-        if (params.hasOwnProperty(key)) {
-          this.mode = 'Update';
-          this.qualification[key] = params[key];
-        }
-      }
-    });
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private toast: ToastService
+  ) {}
+
+  ngOnInit(): void {
+    // if we see an '/:id' instead of '/new' in the URL,
+    // we are in "update" mode instead of "create" mode
+    let url = window.location.href;
+    let id = url.slice(url.lastIndexOf('/') + 1, url.length);
+    if (id !== 'new') {
+      this.beginUpdateMode(id);
+    }
   }
 
-  ngOnInit(): void {}
+  beginUpdateMode = async (id) => {
+    this.mode = 'Update';
+    let token = window.sessionStorage.getItem('token');
+    let qualification = await axios.get(environment.API_URL + '/Quals/' + id, {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    this.qualification = qualification.data;
+    // this.qualification.id = id;
+  };
 
   submitForm = (data) => {
     let token = window.sessionStorage.getItem('token');
+    let userInfo = window.sessionStorage.getItem('userInfo');
+    // let userId = userInfo.id;
+    let userId = 111;
     const options = {
       headers: { Authorization: 'Bearer ' + token }
     };
-    let url = environment.API_URL + '/qualification';
+    let url = environment.API_URL + '/Quals';
 
     if (this.mode === 'Create') {
       axios
         .post(url, this.qualification, options)
         .then((response) => {
           // pop success toast and redirect to list
+          this.toast.show('Created Qualification', 'success');
           this.router.navigate(['/qualifications']);
         })
         .catch((error) => {
@@ -66,11 +84,17 @@ export class NewQualificationComponent implements OnInit {
         });
     } else if (this.mode === 'Update') {
       url =
-        environment.API_URL + '/qualifications' + '/' + this.qualification.id;
+        environment.API_URL +
+        '/Quals' +
+        '/' +
+        this.qualification.id +
+        '/update?userId=' +
+        userId;
       axios
-        .put(url, this.qualification, options)
+        .post(url, this.qualification, options)
         .then((response) => {
           // pop success toast and redirect to list
+          this.toast.show('Updated Qualification', 'success');
           this.router.navigate(['/qualifications']);
         })
         .catch((error) => {
