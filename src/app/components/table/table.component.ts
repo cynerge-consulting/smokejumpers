@@ -82,6 +82,9 @@ export class TableComponent implements OnInit {
         let column = this.columns[key];
         let colKey = column.key;
         this.rows.forEach((row) => {
+          if (!row[colKey]) {
+            return;
+          }
           let value = row[colKey].toString().toLowerCase();
           if (value.includes(this.query.toLowerCase())) {
             filteredRows.push(row);
