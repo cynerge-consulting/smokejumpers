@@ -13,7 +13,10 @@ export class NewQualificationComponent implements OnInit {
   mode = 'Create';
   // define qualification object
   qualification = {
-    id: ''
+    id: '',
+    edit: false,
+    functionArea: '',
+    show: false
   };
 
   // define form sections
@@ -69,9 +72,11 @@ export class NewQualificationComponent implements OnInit {
     const options = {
       headers: { Authorization: 'Bearer ' + token }
     };
-    let url = environment.API_URL + '/Quals';
+    let url = environment.API_URL + '/Quals/add';
 
     if (this.mode === 'Create') {
+      delete this.qualification.id;
+      this.qualification.edit = false;
       axios
         .post(url, this.qualification, options)
         .then((response) => {
