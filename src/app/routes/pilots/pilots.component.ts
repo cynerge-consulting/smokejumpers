@@ -38,21 +38,7 @@ export class PilotsComponent implements OnInit {
   constructor(private toast: ToastService) {}
 
   ngOnInit() {
-    // check session storage for a token
-    let token = window.sessionStorage.getItem('token');
-    axios
-      .get(environment.API_URL + '/pilots', {
-        headers: { Authorization: 'Bearer ' + token }
-      })
-      .then((response) => {
-        this.pilots = response.data.value;
-        this.pilots.forEach((pilot) => {
-          pilot.fullName = pilot.firstName + ' ' + pilot.lastName;
-        });
-      })
-      .catch((error) => {
-        this.toast.show('Unable to retreive pilots list.', 'error');
-      });
+    this.refreshPilots();
   }
 
   delete = async (pilot) => {
@@ -78,9 +64,28 @@ export class PilotsComponent implements OnInit {
       )
       .then((response) => {
         this.toast.show('Success deleting pilot', 'success');
+        this.refreshPilots();
       })
       .catch((error) => {
         this.toast.show('Error deleting pilot', 'error');
+      });
+  };
+
+  refreshPilots = () => {
+    // check session storage for a token
+    let token = window.sessionStorage.getItem('token');
+    axios
+      .get(environment.API_URL + '/pilots', {
+        headers: { Authorization: 'Bearer ' + token }
+      })
+      .then((response) => {
+        this.pilots = response.data.value;
+        this.pilots.forEach((pilot) => {
+          pilot.fullName = pilot.firstName + ' ' + pilot.lastName;
+        });
+      })
+      .catch((error) => {
+        this.toast.show('Unable to retreive pilots list.', 'error');
       });
   };
 }
