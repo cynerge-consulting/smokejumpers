@@ -55,7 +55,7 @@ export class JumpersComponent implements OnInit {
         headers: { Authorization: 'Bearer ' + token }
       })
       .then((response) => {
-        this.toast.show('Success deleting jumper', 'success');
+        this.toast.show('Deleted Jumper', 'success');
         this.refreshJumpers();
       })
       .catch((error) => {

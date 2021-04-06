@@ -63,11 +63,11 @@ export class PilotsComponent implements OnInit {
         }
       )
       .then((response) => {
-        this.toast.show('Success deleting pilot', 'success');
+        this.toast.show('Deleted Pilot', 'success');
         this.refreshPilots();
       })
       .catch((error) => {
-        this.toast.show('Error deleting pilot', 'error');
+        this.toast.show('Unable to Delete Pilot', 'error');
       });
   };
 
