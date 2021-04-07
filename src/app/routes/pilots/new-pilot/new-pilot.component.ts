@@ -90,7 +90,7 @@ export class NewPilotComponent implements OnInit {
   async ngOnInit() {
     let token = window.sessionStorage.getItem('token');
     let url = window.location.href;
-    let id = url.slice(url.lastIndexOf('/') + 1, url.length);
+    let id = url.slice(url.lastIndexOf('/') + 1, url.indexOf(';'));
     if (id !== 'new') {
       this.mode = 'Update';
       let pilot = await axios.get(environment.API_URL + '/pilots/' + id, {
@@ -145,6 +145,7 @@ export class NewPilotComponent implements OnInit {
           this.router.navigate(['/pilots']);
         })
         .catch((error) => {
+          this.toast.show('Error creating Pilot', 'error');
           console.dir(error);
         });
     } else if (this.mode === 'Update') {
@@ -157,6 +158,7 @@ export class NewPilotComponent implements OnInit {
           this.router.navigate(['/pilots']);
         })
         .catch((error) => {
+          this.toast.show('Error Updating Pilot', 'error');
           console.dir(error);
         });
     }

@@ -1,38 +1,94 @@
 <div class="form new-chute-form">
-  <div class="section-container" *ngFor="let section of sections">
+  <div class="section-container">
     <div class="title">
-      <span>{{ section.title }}</span>
+      <span>{{ this.mode }} Parachute</span>
     </div>
     <div class="content">
-      <div class="datum" *ngFor="let datum of section.data">
+      <div class="datum">
+        <app-dropdown
+          [(choice)]="selectedBase"
+          label="Base"
+          [options]="bases"
+          key="name"
+          (selectedDropdownItem)="selectBase($event)"
+        ></app-dropdown>
+      </div>
+      <div class="datum" *ngIf="mode === 'Create'">
+        <app-dropdown
+          [(choice)]="selectedChuteStyle"
+          label="Type"
+          [options]="chuteStyles"
+          key="name"
+          (selectedDropdownItem)="selectChuteStyle($event)"
+        ></app-dropdown>
+      </div>
+      <div
+        class="datum"
+        *ngIf="
+          selectedChuteStyle.value === 'Drogue' ||
+          selectedChuteStyle.value === 'Reserve'
+        "
+      >
         <div class="input-container">
-          <span *ngIf="datum.input" class="input-label"
-            >{{ datum.placeholder }}:
-          </span>
-          <!-- text input -->
+          <span class="input-label">Manufacturer: </span>
           <input
-            type="text"
-            [name]="datum.key"
-            *ngIf="datum.input && datum.type !== 'date'"
-            [placeholder]="datum.placeholder"
-            [(ngModel)]="chute[datum.key]"
+            class="text"
+            [(ngModel)]="this.chute[this.chute.style.toLowerCase()]"
+            placeholder="Manufacturer"
           />
-          <!-- datepicker -->
+        </div>
+      </div>
+      <div class="datum" *ngIf="selectedChuteStyle.value === 'Main'">
+        <app-dropdown
+          [(choice)]="selectedChuteModel"
+          label="Model"
+          [options]="[
+            {
+              name: 'DC-7',
+              value: 'DC-7'
+            },
+            {
+              name: 'FS-14',
+              value: 'FS-14'
+            },
+            {
+              name: 'FS-14 Plus',
+              value: 'FS-14 Plus'
+            },
+            {
+              name: 'CR-360',
+              value: 'CR-360'
+            },
+            {
+              name: 'Prototype',
+              value: 'Prototype'
+            }
+          ]"
+          key="name"
+          (selectedDropdownItem)="selectChuteModel($event)"
+        ></app-dropdown>
+      </div>
+      <div class="datum" *ngIf="selectedChuteStyle.value === 'Main'">
+        <app-dropdown
+          [(choice)]="selectedChuteSize"
+          label="Size"
+          [options]="[
+            { name: 'L', value: 'L' },
+            { name: 'M', value: 'M' },
+            { name: 'S', value: 'S' }
+          ]"
+          key="name"
+          (selectedDropdownItem)="selectChuteSize($event)"
+        ></app-dropdown>
+      </div>
+      <div class="datum" *ngIf="selectedChuteStyle.value === 'Main'">
+        <div class="input-container">
+          <span class="input-label">Chute Number: </span>
           <input
-            type="date"
-            [name]="datum.key"
-            *ngIf="datum.type === 'date'"
-            [(ngModel)]="chute[datum.key]"
+            class="text"
+            [(ngModel)]="chute.main"
+            placeholder="Chute Number"
           />
-          <!-- dropdown -->
-          <app-dropdown
-            [(choice)]="datum.choice"
-            *ngIf="datum.dropdown"
-            [label]="datum.label"
-            [options]="datum.options"
-            key="name"
-            (selectedDropdownItem)="onSelectedDropdownItem($event, datum)"
-          ></app-dropdown>
         </div>
       </div>
     </div>

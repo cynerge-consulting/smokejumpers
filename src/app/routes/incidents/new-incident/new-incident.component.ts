@@ -72,7 +72,7 @@ export class NewIncidentComponent implements OnInit {
     // if we see an '/:id' instead of '/new' in the URL,
     // we are in "update" mode instead of "create" mode
     let url = window.location.href;
-    let id = url.slice(url.lastIndexOf('/') + 1, url.length);
+    let id = url.slice(url.lastIndexOf('/') + 1, url.indexOf(';'));
     if (id !== 'new') {
       this.beginUpdateMode(id);
     }

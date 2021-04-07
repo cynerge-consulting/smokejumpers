@@ -57,7 +57,7 @@ export class NewAircraftComponent implements OnInit {
     // if we see an '/:id' instead of '/new' in the URL,
     // we are in "update" mode instead of "create" mode
     let url = window.location.href;
-    let id = url.slice(url.lastIndexOf('/') + 1, url.length);
+    let id = url.slice(url.lastIndexOf('/') + 1, url.indexOf(';'));
     if (id !== 'new') {
       this.id = id;
       this.beginUpdateMode(id);
@@ -87,7 +87,6 @@ export class NewAircraftComponent implements OnInit {
       axios
         .post(url, this.aircraft, options)
         .then((response) => {
-          // pop success toast and redirect to chutes list
           this.toast.show('Aircraft created.', 'success');
           this.router.navigate(['/aircraft']);
         })
@@ -105,7 +104,6 @@ export class NewAircraftComponent implements OnInit {
       axios
         .post(url, this.aircraft, options)
         .then((response) => {
-          // pop success toast and redirect to chutes list
           this.toast.show('Aircraft updated.', 'success');
           this.router.navigate(['/aircraft']);
         })

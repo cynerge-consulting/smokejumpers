@@ -33,7 +33,7 @@ export class TableComponent implements OnInit {
     } else if (row.href) {
       id = row.href.slice(row.href.lastIndexOf('/') + 1, row.href.length);
     }
-    this.router.navigate([this.settings.route + '/' + id]);
+    this.router.navigate([this.settings.route + '/' + id, row]);
   };
 
   delete = (row) => {

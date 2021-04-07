@@ -48,7 +48,7 @@ export class NewQualificationComponent implements OnInit {
     // if we see an '/:id' instead of '/new' in the URL,
     // we are in "update" mode instead of "create" mode
     let url = window.location.href;
-    let id = url.slice(url.lastIndexOf('/') + 1, url.length);
+    let id = url.slice(url.lastIndexOf('/') + 1, url.indexOf(';'));
     if (id !== 'new') {
       this.beginUpdateMode(id);
     }
@@ -61,7 +61,6 @@ export class NewQualificationComponent implements OnInit {
       headers: { Authorization: 'Bearer ' + token }
     });
     this.qualification = qualification.data;
-    // this.qualification.id = id;
   };
 
   submitForm = (data) => {
@@ -85,6 +84,7 @@ export class NewQualificationComponent implements OnInit {
           this.router.navigate(['/qualifications']);
         })
         .catch((error) => {
+          this.toast.show('Unable to Create Qualification', 'error');
           console.dir(error);
         });
     } else if (this.mode === 'Update') {
@@ -103,6 +103,7 @@ export class NewQualificationComponent implements OnInit {
           this.router.navigate(['/qualifications']);
         })
         .catch((error) => {
+          this.toast.show('Unable to Update Qualification', 'error');
           console.dir(error);
         });
     }

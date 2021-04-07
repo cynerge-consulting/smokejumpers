@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-chutes',
@@ -30,9 +31,13 @@ export class ChutesComponent implements OnInit {
     route: 'chutes'
   };
 
-  constructor() {}
+  constructor(private toast: ToastService) {}
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.refreshChutes();
+  }
+
+  refreshChutes = async () => {
     let token = window.sessionStorage.getItem('token');
     let chutes = await axios.get(environment.API_URL + '/chutemain', {
       headers: { Authorization: 'Bearer ' + token }
@@ -61,5 +66,35 @@ export class ChutesComponent implements OnInit {
         chute.name = chute.reserve;
       }
     });
-  }
+  };
+
+  delete = (chute) => {
+    let token = window.sessionStorage.getItem('token');
+    let id = chute.href.slice(
+      chute.href.lastIndexOf('/') + 1,
+      chute.href.length
+    );
+    if (id.includes('base')) {
+      id = id.slice(0, id.indexOf('?'));
+    }
+    axios
+      .delete(
+        environment.API_URL +
+          '/chute' +
+          chute.style.toLowerCase() +
+          '/' +
+          id +
+          '/delete',
+        {
+          headers: { Authorization: 'Bearer ' + token }
+        }
+      )
+      .then((response) => {
+        this.toast.show('Deleted Chute', 'success');
+        this.refreshChutes();
+      })
+      .catch((error) => {
+        this.toast.show('Unable to Delete Chute', 'error');
+      });
+  };
 }
