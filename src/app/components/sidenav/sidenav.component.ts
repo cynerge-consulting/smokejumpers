@@ -19,9 +19,29 @@ export class SidenavComponent implements OnInit {
   ngOnInit(): void {
     this.menuItems = [
       {
+        name: 'Dashboard',
+        banner: 'assets/images/dashBanner.png',
+        route: 'dashboard'
+      },
+      {
         name: 'Incidents',
         banner: 'assets/images/incBanner.png',
-        route: 'incidents'
+        route: 'incidents',
+        hasItems: true,
+        items: [
+          {
+            name: 'New Incident',
+            route: 'incidents/new'
+          },
+          {
+            name: 'View/Edit Current Year',
+            route: 'incidents'
+          },
+          {
+            name: 'View Previous Years',
+            route: 'incidents'
+          }
+        ]
       },
       {
         name: 'Jumpers',

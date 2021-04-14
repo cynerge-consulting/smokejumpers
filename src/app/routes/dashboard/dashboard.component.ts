@@ -10,7 +10,5 @@ export class DashboardComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    // redirect to incidents as default page
-    this.router.navigate(['incidents']);
   }
 }
