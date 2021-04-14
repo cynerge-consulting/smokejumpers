@@ -27,7 +27,6 @@ export class SidenavComponent implements OnInit {
         name: 'Incidents',
         banner: 'assets/images/incBanner.png',
         route: 'incidents',
-        hasItems: true,
         items: [
           {
             name: 'New Incident',
@@ -39,7 +38,10 @@ export class SidenavComponent implements OnInit {
           },
           {
             name: 'View Previous Years',
-            route: 'incidents'
+            route: 'incidents',
+            params: [{
+              archived: true
+            }]
           }
         ]
       },
@@ -81,12 +83,12 @@ export class SidenavComponent implements OnInit {
     ];
   }
   select = (item) => {
-    if (item.hasItems) {
+    if (item.items) {
       item.expanded = !item.expanded;
     } else {
       this.selected = item.name;
       if (item.route) {
-        if (item.hasParams) {
+        if (item.params) {
           this.router.navigate([item.route, item.params]);
         } else {
           this.router.navigate([item.route]);
