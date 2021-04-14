@@ -64,7 +64,7 @@ export class NewIncidentComponent implements OnInit {
   // form sections imported from json file
   sections = formData.sections;
 
-  constructor(private router: Router, private toast: ToastService) {}
+  constructor(private router: Router, private toast: ToastService) { }
 
   async ngOnInit() {
     this.loadFormData();
@@ -72,7 +72,10 @@ export class NewIncidentComponent implements OnInit {
     // if we see an '/:id' instead of '/new' in the URL,
     // we are in "update" mode instead of "create" mode
     let url = window.location.href;
-    let id = url.slice(url.lastIndexOf('/') + 1, url.indexOf(';'));
+    let id = url.slice(url.lastIndexOf('/') + 1, url.length)
+    if (id.includes(';')) {
+      id = url.slice  (url.lastIndexOf('/') + 1, url.indexOf(';'));
+    }
     if (id !== 'new') {
       this.beginUpdateMode(id);
     }
@@ -87,16 +90,15 @@ export class NewIncidentComponent implements OnInit {
     this.data = incident.data;
     this.data.id = id;
     let date = this.data._incidentDate.split('-');
-    this.data._incidentDate =
-      date[0] + '-' + date[1] + '-' + date[2].substr(0, 2);
+    this.data._incidentDate = date[0] + '-' + date[1] + '-' + date[2].substr(0, 2);
 
     // get any jumpers associated with the incident
     try {
       let incJumpers = await axios.get(
         environment.API_URL +
-          '/incidentjumper?incidentId=' +
-          id +
-          '&archived=true',
+        '/incidentjumper?incidentId=' +
+        id +
+        '&archived=true',
         {
           headers: { Authorization: 'Bearer ' + token }
         }
@@ -242,27 +244,21 @@ export class NewIncidentComponent implements OnInit {
       .catch((error) => {
         console.dir(error);
       });
-    axios
-      .get(environment.API_URL + '/chutereserve', {
-        headers: { Authorization: 'Bearer ' + token }
-      })
-      .then((response) => {
-        let chutes = response.data.value;
-        chutes.forEach((chute) => {
-          let id = chute.href.slice(
-            chute.href.lastIndexOf('/') + 1,
-            chute.href.length
-          );
-          id = Number(id.slice(0, id.lastIndexOf('?')));
-          chute.name = chute.reserve + ' | ' + chute.Base;
-          chute.value = id;
-          chute.id = id;
-        });
-        this.reserveChutes = chutes;
-      })
-      .catch((error) => {
-        console.dir(error);
+    axios.get(environment.API_URL + '/chutereserve', {
+      headers: { Authorization: 'Bearer ' + token }
+    }).then((response) => {
+      let chutes = response.data.value;
+      chutes.forEach((chute) => {
+        let id = chute.href.slice(chute.href.lastIndexOf('/') + 1, chute.href.length);
+        id = Number(id.slice(0, id.lastIndexOf('?')));
+        chute.name = chute.reserve + ' | ' + chute.Base;
+        chute.value = id;
+        chute.id = id;
       });
+      this.reserveChutes = chutes;
+    }).catch((error) => {
+      console.dir(error);
+    });
 
     // populate dropdown options according to formData.sections
     this.sections.forEach((section) => {
@@ -301,9 +297,6 @@ export class NewIncidentComponent implements OnInit {
       axios
         .post(url, this.data, options)
         .then((response) => {
-          // POST to incidentjumpers
-
-          // pop success toast and redirect to chutes list
           this.toast.show('Created incident', 'success');
           this.router.navigate(['/incidents']);
         })
@@ -318,18 +311,13 @@ export class NewIncidentComponent implements OnInit {
         this.data.id +
         '/update?userId=' +
         userId;
-      axios
-        .post(url, this.data, options)
-        .then((response) => {
-          // POST to incidentjumpers
-
-          this.toast.show('Updated Incident ' + this.data.id, 'success');
-          this.router.navigate(['/incidents']);
-        })
-        .catch((error) => {
-          this.toast.show('Error updating incident', 'error');
-          console.dir(error);
-        });
+      axios.post(url, this.data, options).then((response) => {
+        this.toast.show('Updated Incident ' + this.data.id, 'success');
+        this.router.navigate(['/incidents']);
+      }).catch((error) => {
+        this.toast.show('Error updating incident', 'error');
+        console.dir(error);
+      });
     }
   };
 
@@ -412,46 +400,30 @@ export class NewIncidentComponent implements OnInit {
         data.jumper.href.lastIndexOf('/') + 1,
         data.jumper.href.length
       );
-      let url =
-        environment.API_URL +
-        '/incidentjumper/' +
-        id +
-        '/delete?userId=' +
-        userId;
-      axios
-        .delete(url, options)
-        .then((deleted) => {
-          this.incidentJumpers.splice(data.index, 1);
-          this.toast.show('Removed Jumper ' + id, 'success');
-          this.refreshIncidentJumpers();
-          this.modal.active = false;
-        })
-        .catch((error) => {
-          this.toast.show('Error removing Jumper', 'error');
-          console.dir(error);
-        });
+      let url = environment.API_URL + '/incidentjumper/' + id + '/delete?userId=' + userId;
+      axios.delete(url, options).then((deleted) => {
+        this.incidentJumpers.splice(data.index, 1);
+        this.toast.show('Removed Jumper ' + id, 'success');
+        this.refreshIncidentJumpers();
+        this.modal.active = false;
+      }).catch((error) => {
+        this.toast.show('Error removing Jumper', 'error');
+        console.dir(error);
+      });
     }
 
     // add incident jumper
     if (data.action === 'addJumper') {
-      let url =
-        environment.API_URL +
-        '/incidentjumper/' +
-        this.data.id +
-        '/singleAdd?userId=' +
-        userId;
-      axios
-        .post(url, data.jumper, options)
-        .then((response) => {
-          this.toast.show('Added Jumper', 'success');
-          this.refreshIncidentJumpers();
-          this.modal.active = false;
-        })
-        .catch((error) => {
-          this.toast.show('Error adding Jumper', 'error');
-          this.modal.active = false;
-          console.dir(error);
-        });
+      let url = environment.API_URL + '/incidentjumper/' + this.data.id + '/singleAdd?userId=' + userId;
+      axios.post(url, data.jumper, options).then((response) => {
+        this.toast.show('Added Jumper', 'success');
+        this.refreshIncidentJumpers();
+        this.modal.active = false;
+      }).catch((error) => {
+        this.toast.show('Error adding Jumper', 'error');
+        this.modal.active = false;
+        console.dir(error);
+      });
     }
   };
 
@@ -460,9 +432,9 @@ export class NewIncidentComponent implements OnInit {
     axios
       .get(
         environment.API_URL +
-          '/incidentjumper?incidentId=' +
-          this.data.id +
-          '&archived=true',
+        '/incidentjumper?incidentId=' +
+        this.data.id +
+        '&archived=true',
         {
           headers: { Authorization: 'Bearer ' + token }
         }

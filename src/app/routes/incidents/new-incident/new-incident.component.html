@@ -14,7 +14,11 @@
       <div class="datum" *ngFor="let datum of section.data">
         <div class="input-container">
           <span *ngIf="datum.input" class="input-label"
-            >{{ datum.placeholder }}:
+            >{{ datum.placeholder }}:<span
+              class="required-asterisk"
+              *ngIf="datum.required"
+              >*</span
+            >
           </span>
           <!-- text input -->
           <input

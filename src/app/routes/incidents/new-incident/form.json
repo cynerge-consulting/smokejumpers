@@ -5,6 +5,7 @@
       "data": [
         {
           "input": true,
+          "required": true,
           "placeholder": "Incident Name",
           "key": "_nameofIncident"
         },
