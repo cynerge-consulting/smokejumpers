@@ -6,6 +6,9 @@
   overflow-y: inherit;
   width: 100%;
   transition: all 0.33s ease;
+  &.has-random-actions {
+    height: calc(100% - 50px);
+  }
   .settings-menu,
   .row-menu {
     transition: all 0.33s ease;
@@ -135,7 +138,8 @@
       font-weight: bold;
       font-size: 20px;
       cursor: pointer;
-      right: 20px;
+      right: 0px;
+      padding: 20px;
     }
     .menu-button {
       position: absolute;

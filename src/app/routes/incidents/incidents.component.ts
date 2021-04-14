@@ -10,7 +10,13 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./incidents.component.scss']
 })
 export class IncidentsComponent implements OnInit {
+  isAdmin = false;
   incidents = [];
+  selectedBase = {
+    baseCode: '',
+    value: ''
+  };
+  bases;
   modal = {
     active: false,
     data: {}
@@ -69,7 +75,25 @@ export class IncidentsComponent implements OnInit {
   }
 
   ngOnInit() {
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    if (userInfo) {
+      this.selectedBase.baseCode = userInfo.basecode
+      this.selectedBase.value = userInfo.basecode
+      if (userInfo.role === 'baseadmin') {
+        this.isAdmin = true
+      }
+    }
+    this.getBases();
     this.refreshIncidents();
+  }
+
+  getBases = () => {
+    let token = window.sessionStorage.getItem('token');
+    axios.get(environment.API_URL + '/base/dropdown/main', {
+      headers: { Authorization: 'Bearer ' + token }
+    }).then((response) => {
+      this.bases = response.data
+    });
   }
 
   confirmDeleteIncident = (incident) => {
@@ -121,11 +145,7 @@ export class IncidentsComponent implements OnInit {
 
   refreshIncidents = async () => {
     let token = window.sessionStorage.getItem('token');
-    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    let baseCode = 'BOI'
-    if (userInfo) {
-      baseCode = userInfo.basecode
-    }
+    let baseCode = this.selectedBase.baseCode
     let incidents;
     if (!this.archived) {
       try {
@@ -175,4 +195,9 @@ export class IncidentsComponent implements OnInit {
   modalDenied = (data) => {
     this.modal.active = false;
   };
+
+  selectBase = (base) => {
+    this.selectedBase = base
+    this.refreshIncidents()
+  }
 }

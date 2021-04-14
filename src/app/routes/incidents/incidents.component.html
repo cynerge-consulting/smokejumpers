@@ -1,13 +1,6 @@
-<app-modal
-  [active]="modal.active"
-  [data]="modal.data"
-  (confirmed)="modalConfirmed($event)"
-  (denied)="modalDenied($event)"
->
+<app-modal [active]="modal.active" [data]="modal.data" (confirmed)="modalConfirmed($event)" (denied)="modalDenied($event)">
 </app-modal>
-<app-table
-  [settings]="settings"
-  [rows]="incidents"
-  [columns]="headings"
-  (deleted)="confirmDeleteIncident($event)"
-></app-table>
+<div class="random-actions" *ngIf="isAdmin">
+  <app-dropdown [(choice)]="selectedBase" label="Base" [options]="bases" key="value" (selectedDropdownItem)="selectBase($event)"></app-dropdown>
+</div>
+<app-table class="incidents-table" [hasActions]="isAdmin" [settings]="settings" [rows]="incidents" [columns]="headings" (deleted)="confirmDeleteIncident($event)"></app-table>

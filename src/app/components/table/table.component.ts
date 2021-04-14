@@ -10,6 +10,7 @@ export class TableComponent implements OnInit {
   @Input() rows: any;
   @Input() columns: any;
   @Input() settings: any;
+  @Input() hasActions: false;
   @Output() deleted = new EventEmitter<Object>();
   showingDetails = false;
   selected;
