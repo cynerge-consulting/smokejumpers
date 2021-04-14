@@ -55,7 +55,7 @@ export class IncidentsComponent implements OnInit {
       }
     ]
   };
-  year;
+  archived = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -63,7 +63,8 @@ export class IncidentsComponent implements OnInit {
     private router: Router
   ) {
     this.route.params.subscribe((params) => {
-      this.year = params.year;
+      this.archived = params.archived;
+      this.refreshIncidents()
     });
   }
 
@@ -86,9 +87,13 @@ export class IncidentsComponent implements OnInit {
 
   deleteIncident = async (incident) => {
     let token = window.sessionStorage.getItem('token');
-    let userId = 111;
-    // let userInfo = window.sessionStorage.getItem('userInfo')
-    // let userId = userInfo.id
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
+    let userId;
+    if (userInfo) {
+      userId = userInfo.id
+    } else {
+      userId = 111;
+    }
     let id = '';
     if (incident.id) {
       id = incident.id;
@@ -116,36 +121,49 @@ export class IncidentsComponent implements OnInit {
 
   refreshIncidents = async () => {
     let token = window.sessionStorage.getItem('token');
-    let currentIncidents;
-    let pastIncidents;
-    try {
-      currentIncidents = await axios.get(environment.API_URL + '/incidents', {
-        headers: { Authorization: 'Bearer ' + token }
-      });
-    } catch (error) {
-      console.dir(error);
-      this.toast.show('Unable to retreive incidents.', 'error');
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    let baseCode = 'BOI'
+    if (userInfo) {
+      baseCode = userInfo.basecode
     }
-    try {
-      pastIncidents = await axios.get(
-        environment.API_URL + '/incidents?archived=true',
-        {
+    let incidents;
+    if (!this.archived) {
+      try {
+        incidents = await axios.get(environment.API_URL + '/incidents?baseCode=' + baseCode, {
           headers: { Authorization: 'Bearer ' + token }
-        }
-      );
-    } catch (error) {
-      console.dir(error);
-      this.toast.show('Unable to retreive incidents.', 'error');
+        });
+      } catch (error) {
+        console.dir(error);
+        this.toast.show('Unable to retreive incidents.', 'error');
+      }
+    } else {
+      try {
+        incidents = await axios.get(
+          environment.API_URL + '/incidents/?baseCode=' + baseCode + '&archived=true',
+          {
+            headers: { Authorization: 'Bearer ' + token }
+          }
+        );
+      } catch (error) {
+        console.dir(error);
+        this.toast.show('Unable to retreive incidents.', 'error');
+      }
     }
-    currentIncidents = currentIncidents.data.value;
-    pastIncidents = pastIncidents.data.value;
-    currentIncidents.forEach((incident) => {
-      incident.archived = false;
+
+    this.incidents = incidents.data.value;
+
+    // default sort by descending by date
+    this.incidents.sort((a, b) => {
+      var keyA = a._incidentDate;
+      var keyB = b._incidentDate;
+      if (keyA < keyB) {
+        return 1;
+      }
+      if (keyA > keyB) {
+        return -1;
+      }
+      return 0;
     });
-    pastIncidents.forEach((incident) => {
-      incident.arched = true;
-    });
-    this.incidents = pastIncidents.concat(currentIncidents);
   };
 
   modalConfirmed = (data) => {
