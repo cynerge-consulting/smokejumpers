@@ -14,6 +14,7 @@ import {
 })
 export class ButtonComponent implements OnInit {
   @Input() text: any;
+  @Input() disabled = false;
   @Output() clicked = new EventEmitter<Object>();
 
   constructor(private elementRef: ElementRef) {}
@@ -21,6 +22,9 @@ export class ButtonComponent implements OnInit {
   ngOnInit(): void {}
 
   clickedButton = (target) => {
+    if (this.disabled) {
+      return
+    }
     this.clicked.emit(target);
   };
 }

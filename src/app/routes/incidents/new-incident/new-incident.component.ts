@@ -19,7 +19,15 @@ export class NewIncidentComponent implements OnInit {
   data = {
     id: '',
     _notes: '',
-    _incidentDate: ''
+    _incidentDate: null,
+    _nameofIncident: null,
+    _dispatchedFrom_Code: null,
+    _areaId: null,
+    _stateId: null,
+    _methodOfTravel_Id: null,
+    _mode: null,
+    _mission: null,
+    _departTimeMilitary: null
   };
 
   // endpoint data vars
@@ -473,4 +481,12 @@ export class NewIncidentComponent implements OnInit {
       this.selectedPosition3 = event;
     }
   };
+
+  isInvalid = () => {
+    let invalid = false
+    if (!this.data._incidentDate || !this.data._nameofIncident || !this.data._dispatchedFrom_Code || !this.data._areaId || !this.data._stateId || !this.data._methodOfTravel_Id || !this.data._mode || !this.data._mission || !this.data._departTimeMilitary) {
+      invalid = true
+    }
+    return invalid
+  }
 }

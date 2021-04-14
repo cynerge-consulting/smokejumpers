@@ -12,12 +12,12 @@
           </span>
           <!-- text input -->
           <input type="text" [name]="datum.key" *ngIf="datum.input && datum.type !== 'date'" [placeholder]="datum.placeholder" [(ngModel)]="data[datum.key]" />
-          <span class="required-asterisk" *ngIf="datum.required">*</span>
           <!-- datepicker -->
           <input type="date" [name]="datum.key" *ngIf="datum.type === 'date'" [(ngModel)]="data[datum.key]" />
           <!-- dropdown -->
           <app-dropdown [(choice)]="datum.choice" *ngIf="datum.dropdown" [label]="datum.label" [options]="datum.options" key="name" (selectedDropdownItem)="onSelectedDropdownItem($event, datum)"></app-dropdown>
         </div>
+        <span class="required-asterisk" *ngIf="datum.required">*</span>
       </div>
     </div>
   </div>
@@ -88,6 +88,6 @@
     </div>
   </div>
   <div class="section-container submit-button-container">
-    <app-button [text]="mode" (clicked)="submitForm($event)" class="new-incident-button"></app-button>
+    <app-button [disabled]="isInvalid()" [text]="mode" (clicked)="submitForm($event)" class="new-incident-button"></app-button>
   </div>
 </div>

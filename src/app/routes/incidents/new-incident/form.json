@@ -11,12 +11,14 @@
         },
         {
           "input": true,
+          "required": true,
           "type": "date",
           "placeholder": "Incident Date",
           "key": "_incidentDate"
         },
         {
           "dropdown": true,
+          "required": true,
           "label": "Dispatched From",
           "endpoint": "dispandreturn",
           "key": "_dispatchedFrom_Code",
@@ -33,6 +35,7 @@
         },
         {
           "dropdown": true,
+          "required": true,
           "label": "To Area",
           "endpoint": "area",
           "key": "_areaId",
@@ -46,6 +49,7 @@
         },
         {
           "dropdown": true,
+          "required": true,
           "endpoint": "states",
           "label": "State",
           "key": "_stateId",
@@ -104,6 +108,7 @@
         {
           "choice": {},
           "dropdown": true,
+          "required": true,
           "endpoint": "travelmodes",
           "label": "Method of Travel",
           "key": "_methodOfTravel_Id",
@@ -182,6 +187,7 @@
         {
           "choice": {},
           "dropdown": true,
+          "required": true,
           "label": "Mode",
           "key": "_mode",
           "options": [
@@ -267,6 +273,7 @@
           "choice": {},
           "dropdown": true,
           "label": "Mission",
+          "required": true,
           "key": "_mission",
           "options": [
             {

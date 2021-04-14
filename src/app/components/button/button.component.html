@@ -1,4 +1,4 @@
-<div (click)="clickedButton($event)" class="button">
+<div [ngClass]="disabled ? 'disabled' : ''" (click)="clickedButton($event)" class="button">
   <span class="text">
     {{ text }}
   </span>
