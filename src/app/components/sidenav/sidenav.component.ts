@@ -48,7 +48,17 @@ export class SidenavComponent implements OnInit {
       {
         name: 'Jumpers',
         banner: 'assets/images/MarsBanner.jpg',
-        route: 'jumpers'
+        route: 'jumpers',
+        items: [{
+          name: 'View Jumpers',
+          route: 'jumpers'
+        }, {
+          name: 'Transfer Jumper',
+          route: 'jumpers/transfer'
+        }, {
+          name: 'Edit LDO',
+          route: 'jumpers/ldo'
+        }]
       },
       {
         name: 'Pilots',

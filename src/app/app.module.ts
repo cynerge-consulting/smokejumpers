@@ -33,6 +33,8 @@ import { NewAircraftComponent } from './routes/aircraft/new-aircraft/new-aircraf
 import { NewChuteComponent } from './routes/chutes/new-chute/new-chute.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { ComboboxComponent } from './components/combobox/combobox.component';
+import { TransferJumperComponent } from './routes/jumpers/transfer-jumper/transfer-jumper.component';
+import { EditLdoComponent } from './routes/jumpers/edit-ldo/edit-ldo.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +66,9 @@ import { ComboboxComponent } from './components/combobox/combobox.component';
     NewAircraftComponent,
     NewChuteComponent,
     ModalComponent,
-    ComboboxComponent
+    ComboboxComponent,
+    TransferJumperComponent,
+    EditLdoComponent
   ],
   imports: [
     BrowserModule,

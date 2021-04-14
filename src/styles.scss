@@ -6,3 +6,10 @@
 body {
   font-family: Roboto;
 }
+
+.required-asterisk {
+  color: red;
+  position: relative;
+  left: 5px;
+  top: -2px;
+}

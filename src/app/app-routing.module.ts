@@ -9,6 +9,8 @@ import { JumpersComponent } from './routes/jumpers/jumpers.component';
 import { AircraftComponent } from './routes/aircraft/aircraft.component';
 import { NewAircraftComponent } from './routes/aircraft/new-aircraft/new-aircraft.component';
 import { NewJumperComponent } from './routes/jumpers/new-jumper/new-jumper.component';
+import { TransferJumperComponent } from './routes/jumpers/transfer-jumper/transfer-jumper.component';
+import { EditLdoComponent } from './routes/jumpers/edit-ldo/edit-ldo.component';
 import { UsersComponent } from './routes/admin/users/users.component';
 import { BoosterComponent } from './routes/booster/booster.component';
 import { ReportsComponent } from './routes/reports/reports.component';
@@ -66,6 +68,16 @@ const routes: Routes = [
   {
     path: 'jumpers/new',
     component: NewJumperComponent
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: 'jumpers/transfer',
+    component: TransferJumperComponent
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: 'jumpers/ldo',
+    component: EditLdoComponent
     // canActivate: [AuthGuard]
   },
   {
