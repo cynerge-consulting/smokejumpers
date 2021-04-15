@@ -4,7 +4,9 @@
     <span class="usda-text">United States Department of Agriculture</span>
   </div>
   <div>
-    <span class="government-site-text">An official website of the United States government</span>
+    <span class="government-site-text"
+      >An official website of the United States government</span
+    >
     <img class="flag" [src]="'assets/images/flag.png'" />
   </div>
 </div>
@@ -12,18 +14,14 @@
   <div class="background-image">
     <img [src]="location.banner" />
   </div>
-  <div (click)="toggleSidenav()" class="menu-button">
-    ☰
-  </div>
+  <div (click)="toggleSidenav()" class="menu-button">☰</div>
   <div class="logo left">
     <img [src]="'assets/images/FS-white.png'" />
   </div>
   <div class="title">
-    {{location.title}}
+    {{ location.title }}
   </div>
-  <div class="logout-button">
-    ➲
-  </div>
+  <div class="logout-button">➲</div>
   <div class="logo right">
     <img [src]="'assets/images/BLM_Shield.png'" />
   </div>

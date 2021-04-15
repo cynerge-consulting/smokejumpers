@@ -1,4 +1,9 @@
-<app-modal [active]="modal.active" [data]="modal.data" (confirmed)="modalConfirmed($event)" (denied)="modalDenied($event)">
+<app-modal
+  [active]="modal.active"
+  [data]="modal.data"
+  (confirmed)="modalConfirmed($event)"
+  (denied)="modalDenied($event)"
+>
 </app-modal>
 <div class="form">
   <div class="section-container" *ngFor="let section of sections">
@@ -8,14 +13,33 @@
     <div class="content">
       <div class="datum" *ngFor="let datum of section.data">
         <div class="input-container">
-          <span *ngIf="datum.input" class="input-label">{{ datum.placeholder }}:
+          <span *ngIf="datum.input" class="input-label"
+            >{{ datum.placeholder }}:
           </span>
           <!-- text input -->
-          <input type="text" [name]="datum.key" *ngIf="datum.input && datum.type !== 'date'" [placeholder]="datum.placeholder" [(ngModel)]="data[datum.key]" />
+          <input
+            type="text"
+            [name]="datum.key"
+            *ngIf="datum.input && datum.type !== 'date'"
+            [placeholder]="datum.placeholder"
+            [(ngModel)]="data[datum.key]"
+          />
           <!-- datepicker -->
-          <input type="date" [name]="datum.key" *ngIf="datum.type === 'date'" [(ngModel)]="data[datum.key]" />
+          <input
+            type="date"
+            [name]="datum.key"
+            *ngIf="datum.type === 'date'"
+            [(ngModel)]="data[datum.key]"
+          />
           <!-- dropdown -->
-          <app-dropdown [(choice)]="datum.choice" *ngIf="datum.dropdown" [label]="datum.label" [options]="datum.options" key="name" (selectedDropdownItem)="onSelectedDropdownItem($event, datum)"></app-dropdown>
+          <app-dropdown
+            [(choice)]="datum.choice"
+            *ngIf="datum.dropdown"
+            [label]="datum.label"
+            [options]="datum.options"
+            key="name"
+            (selectedDropdownItem)="onSelectedDropdownItem($event, datum)"
+          ></app-dropdown>
         </div>
         <span class="required-asterisk" *ngIf="datum.required">*</span>
       </div>
@@ -27,7 +51,10 @@
       <span>Incident Jumpers</span>
     </div>
     <div *ngIf="incidentJumpers.length > 0" class="incident-jumpers">
-      <div class="incident-jumper" *ngFor="let jumper of incidentJumpers; index as i">
+      <div
+        class="incident-jumper"
+        *ngFor="let jumper of incidentJumpers; index as i"
+      >
         <div class="remove-jumper-button">
           <span (click)="confirmDeleteJumper(jumper, i)">X</span>
         </div>
@@ -37,43 +64,95 @@
     <!-- add incident jumper subform -->
     <div class="content incident-jumper-subform">
       <div class="datum">
-        <app-dropdown label="Base" [options]="bases" key="text" (selectedDropdownItem)="selectBase($event)"></app-dropdown>
+        <app-dropdown
+          label="Base"
+          [options]="bases"
+          key="text"
+          (selectedDropdownItem)="selectBase($event)"
+        ></app-dropdown>
       </div>
       <div class="datum">
-        <app-dropdown label="Jumpers" [options]="jumpers" key="friendly" (selectedDropdownItem)="selectJumper($event)"></app-dropdown>
+        <app-dropdown
+          label="Jumpers"
+          [options]="jumpers"
+          key="friendly"
+          (selectedDropdownItem)="selectJumper($event)"
+        ></app-dropdown>
       </div>
       <div class="datum">
-        <app-combobox label="Main Chute" [options]="mainChutes" key="name" (selectedComboboxItem)="selectMainChute($event)"></app-combobox>
+        <app-combobox
+          label="Main Chute"
+          [options]="mainChutes"
+          key="name"
+          (selectedComboboxItem)="selectMainChute($event)"
+        ></app-combobox>
       </div>
       <div class="datum">
-        <app-combobox label="Drogue Chute" [options]="drogueChutes" key="name" (selectedComboboxItem)="selectDrogueChute($event)"></app-combobox>
+        <app-combobox
+          label="Drogue Chute"
+          [options]="drogueChutes"
+          key="name"
+          (selectedComboboxItem)="selectDrogueChute($event)"
+        ></app-combobox>
       </div>
       <div class="datum">
-        <app-combobox label="Reserve Chute" [options]="reserveChutes" key="name" (selectedComboboxItem)="selectReserveChute($event)"></app-combobox>
+        <app-combobox
+          label="Reserve Chute"
+          [options]="reserveChutes"
+          key="name"
+          (selectedComboboxItem)="selectReserveChute($event)"
+        ></app-combobox>
       </div>
       <div class="datum">
         <div class="input-container">
           <span class="input-label">Arrival Date: </span>
-          <input type="date" [(ngModel)]="jumperArrivalDate" placeholder="Arrival Date" />
+          <input
+            type="date"
+            [(ngModel)]="jumperArrivalDate"
+            placeholder="Arrival Date"
+          />
         </div>
       </div>
       <div class="datum">
         <div class="input-container">
           <span class="input-label">Return Date: </span>
-          <input type="date" [(ngModel)]="jumperReturnDate" placeholder="Return Date" />
+          <input
+            type="date"
+            [(ngModel)]="jumperReturnDate"
+            placeholder="Return Date"
+          />
         </div>
       </div>
       <div class="datum">
-        <app-dropdown label="Position 1" [options]="qualifications" key="name" (selectedDropdownItem)="selectJumperPosition($event, 1)"></app-dropdown>
+        <app-dropdown
+          label="Position 1"
+          [options]="qualifications"
+          key="name"
+          (selectedDropdownItem)="selectJumperPosition($event, 1)"
+        ></app-dropdown>
       </div>
       <div class="datum">
-        <app-dropdown label="Position 2" [options]="qualifications" key="name" (selectedDropdownItem)="selectJumperPosition($event, 2)"></app-dropdown>
+        <app-dropdown
+          label="Position 2"
+          [options]="qualifications"
+          key="name"
+          (selectedDropdownItem)="selectJumperPosition($event, 2)"
+        ></app-dropdown>
       </div>
       <div class="datum">
-        <app-dropdown label="Position 3" [options]="qualifications" key="name" (selectedDropdownItem)="selectJumperPosition($event, 3)"></app-dropdown>
+        <app-dropdown
+          label="Position 3"
+          [options]="qualifications"
+          key="name"
+          (selectedDropdownItem)="selectJumperPosition($event, 3)"
+        ></app-dropdown>
       </div>
       <div class="datum">
-        <app-button text="Add Jumper" (clicked)="selectedJumper ? addJumper() : ''" class="add-jumper-button"></app-button>
+        <app-button
+          text="Add Jumper"
+          (clicked)="selectedJumper ? addJumper() : ''"
+          class="add-jumper-button"
+        ></app-button>
       </div>
     </div>
   </div>
@@ -83,11 +162,19 @@
     </div>
     <div class="content">
       <div class="datum">
-        <textarea [(ngModel)]="data._notes" placeholder="Enter notes here"></textarea>
+        <textarea
+          [(ngModel)]="data._notes"
+          placeholder="Enter notes here"
+        ></textarea>
       </div>
     </div>
   </div>
   <div class="section-container submit-button-container">
-    <app-button [disabled]="isInvalid()" [text]="mode" (clicked)="submitForm($event)" class="new-incident-button"></app-button>
+    <app-button
+      [disabled]="isInvalid()"
+      [text]="mode"
+      (clicked)="submitForm($event)"
+      class="new-incident-button"
+    ></app-button>
   </div>
 </div>

@@ -10,14 +10,12 @@ export class NavbarComponent implements OnInit {
   @Output() toggledSidenav = new EventEmitter<boolean>();
   showingSidenav = true;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   toggleSidenav = () => {
     this.showingSidenav = !this.showingSidenav;
     this.toggledSidenav.emit(this.showingSidenav);
-  }
-
+  };
 }

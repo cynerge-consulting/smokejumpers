@@ -24,7 +24,7 @@ export class IncidentsComponent implements OnInit {
   selectedYear = {
     name: 'Current Year',
     value: 'current'
-  }
+  };
 
   headings = [
     {
@@ -74,17 +74,17 @@ export class IncidentsComponent implements OnInit {
   ) {
     this.route.params.subscribe((params) => {
       this.archived = params.archived;
-      this.refreshIncidents()
+      this.refreshIncidents();
     });
   }
 
   ngOnInit() {
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
     if (userInfo) {
-      this.selectedBase.baseCode = userInfo.basecode
-      this.selectedBase.value = userInfo.basecode
+      this.selectedBase.baseCode = userInfo.basecode;
+      this.selectedBase.value = userInfo.basecode;
       if (userInfo.role === 'baseadmin') {
-        this.isAdmin = true
+        this.isAdmin = true;
       }
     }
     this.getBases();
@@ -93,12 +93,14 @@ export class IncidentsComponent implements OnInit {
 
   getBases = () => {
     let token = window.sessionStorage.getItem('token');
-    axios.get(environment.API_URL + '/base/dropdown/main', {
-      headers: { Authorization: 'Bearer ' + token }
-    }).then((response) => {
-      this.bases = response.data
-    });
-  }
+    axios
+      .get(environment.API_URL + '/base/dropdown/main', {
+        headers: { Authorization: 'Bearer ' + token }
+      })
+      .then((response) => {
+        this.bases = response.data;
+      });
+  };
 
   confirmDeleteIncident = (incident) => {
     this.modal = {
@@ -115,10 +117,10 @@ export class IncidentsComponent implements OnInit {
 
   deleteIncident = async (incident) => {
     let token = window.sessionStorage.getItem('token');
-    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
     let userId;
     if (userInfo) {
-      userId = userInfo.id
+      userId = userInfo.id;
     } else {
       userId = 111;
     }
@@ -149,13 +151,16 @@ export class IncidentsComponent implements OnInit {
 
   refreshIncidents = async () => {
     let token = window.sessionStorage.getItem('token');
-    let baseCode = this.selectedBase.baseCode
+    let baseCode = this.selectedBase.baseCode;
     let incidents;
     if (!this.archived) {
       try {
-        incidents = await axios.get(environment.API_URL + '/incidents?baseCode=' + baseCode, {
-          headers: { Authorization: 'Bearer ' + token }
-        });
+        incidents = await axios.get(
+          environment.API_URL + '/incidents?baseCode=' + baseCode,
+          {
+            headers: { Authorization: 'Bearer ' + token }
+          }
+        );
       } catch (error) {
         console.dir(error);
         this.toast.show('Unable to retreive incidents.', 'error');
@@ -163,7 +168,10 @@ export class IncidentsComponent implements OnInit {
     } else {
       try {
         incidents = await axios.get(
-          environment.API_URL + '/incidents/?baseCode=' + baseCode + '&archived=true',
+          environment.API_URL +
+            '/incidents/?baseCode=' +
+            baseCode +
+            '&archived=true',
           {
             headers: { Authorization: 'Bearer ' + token }
           }
@@ -201,16 +209,16 @@ export class IncidentsComponent implements OnInit {
   };
 
   selectBase = (base) => {
-    this.selectedBase = base
-    this.refreshIncidents()
-  }
+    this.selectedBase = base;
+    this.refreshIncidents();
+  };
   selectYear = (year) => {
-    this.selectedYear = year
+    this.selectedYear = year;
     if (year.value === 'current') {
-      this.archived = false
+      this.archived = false;
     } else {
-      this.archived = true
+      this.archived = true;
     }
-    this.refreshIncidents()
-  }
+    this.refreshIncidents();
+  };
 }

@@ -5,15 +5,30 @@
     </div>
     <div class="content">
       <div class="datum">
-        <app-dropdown label="Base" [options]="bases" key="value" (selectedDropdownItem)="selectBase($event)"></app-dropdown>
-        </div>
+        <app-dropdown
+          label="Base"
+          [options]="bases"
+          key="value"
+          (selectedDropdownItem)="selectBase($event)"
+        ></app-dropdown>
+      </div>
       <div class="datum">
-        <app-combobox [(choice)]="selectedJumper.name" label="Select Jumper" [options]="jumpers" key="name" (selectedComboboxItem)="selectJumper($event)"></app-combobox>
+        <app-combobox
+          [(choice)]="selectedJumper.name"
+          label="Select Jumper"
+          [options]="jumpers"
+          key="name"
+          (selectedComboboxItem)="selectJumper($event)"
+        ></app-combobox>
         <span class="required-asterisk">*</span>
       </div>
     </div>
   </div>
   <div class="section-container submit-button-container">
-    <app-button [disabled]="!selectedJumper" [text]="buttonText" (clicked)="transferJumper($event)"></app-button>
+    <app-button
+      [disabled]="!selectedJumper"
+      [text]="buttonText"
+      (clicked)="transferJumper($event)"
+    ></app-button>
   </div>
 </div>

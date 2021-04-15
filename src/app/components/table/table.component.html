@@ -1,4 +1,8 @@
-<div class="table" [ngClass]="showingDetails ? 'showing-details' : ''" [ngClass]="hasActions ? 'has-random-actions' : ''">
+<div
+  class="table"
+  [ngClass]="showingDetails ? 'showing-details' : ''"
+  [ngClass]="hasActions ? 'has-random-actions' : ''"
+>
   <div class="row headings" [ngClass]="showingDetails ? 'showing-details' : ''">
     <div
       (click)="sort(column)"

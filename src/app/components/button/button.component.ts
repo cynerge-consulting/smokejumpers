@@ -23,7 +23,7 @@ export class ButtonComponent implements OnInit {
 
   clickedButton = (target) => {
     if (this.disabled) {
-      return
+      return;
     }
     this.clicked.emit(target);
   };
