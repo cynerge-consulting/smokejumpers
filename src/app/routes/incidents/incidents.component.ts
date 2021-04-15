@@ -21,6 +21,10 @@ export class IncidentsComponent implements OnInit {
     active: false,
     data: {}
   };
+  selectedYear = {
+    name: 'Current Year',
+    value: 'current'
+  }
 
   headings = [
     {
@@ -198,6 +202,15 @@ export class IncidentsComponent implements OnInit {
 
   selectBase = (base) => {
     this.selectedBase = base
+    this.refreshIncidents()
+  }
+  selectYear = (year) => {
+    this.selectedYear = year
+    if (year.value === 'current') {
+      this.archived = false
+    } else {
+      this.archived = true
+    }
     this.refreshIncidents()
   }
 }

@@ -4,15 +4,6 @@
       <span>{{ this.mode }} Parachute</span>
     </div>
     <div class="content">
-      <div class="datum">
-        <app-dropdown
-          [(choice)]="selectedBase"
-          label="Base"
-          [options]="bases"
-          key="name"
-          (selectedDropdownItem)="selectBase($event)"
-        ></app-dropdown>
-      </div>
       <div class="datum" *ngIf="mode === 'Create'">
         <app-dropdown
           [(choice)]="selectedChuteStyle"

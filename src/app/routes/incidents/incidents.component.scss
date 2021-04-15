@@ -4,9 +4,11 @@
   background: white;
   position: relative;
   z-index: 2;
+  display: flex;
   app-dropdown {
     position: relative;
     left: 20px;
     top: 20px;
+    margin-right: 100px;
   }
 }

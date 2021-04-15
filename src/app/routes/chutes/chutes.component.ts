@@ -13,15 +13,23 @@ export class ChutesComponent implements OnInit {
   headings = [
     {
       label: 'Chute',
-      key: 'name'
-    },
-    {
-      label: 'Chute Type',
       key: 'style'
     },
     {
-      label: 'Base',
-      key: 'Base'
+      label: 'Chute Number',
+      key: 'name'
+    },
+    {
+      label: 'Chute Type/Model',
+      key: 'chuteType'
+    },
+    {
+      label: 'Chute Size',
+      key: 'chuteSize'
+    },
+    {
+      label: 'Active',
+      key: 'inService'
     }
   ];
   settings = {
@@ -55,7 +63,7 @@ export class ChutesComponent implements OnInit {
     this.chutes.forEach((chute) => {
       if (chute.main) {
         chute.style = 'Main';
-        chute.name = chute.main + ' ' + chute.chuteType;
+        chute.name = chute.main;
       }
       if (chute.drogue) {
         chute.style = 'Drogue';
