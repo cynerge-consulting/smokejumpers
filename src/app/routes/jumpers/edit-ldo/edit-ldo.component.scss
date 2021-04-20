@@ -9,6 +9,9 @@
     overflow: hidden;
     .left-section {
       width: 40%;
+      .datum {
+        width: 100%;
+      }
     }
     .right-section {
       overflow: overlay;
