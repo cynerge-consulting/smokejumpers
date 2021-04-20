@@ -57,7 +57,10 @@ export class NewAircraftComponent implements OnInit {
     // if we see an '/:id' instead of '/new' in the URL,
     // we are in "update" mode instead of "create" mode
     let url = window.location.href;
-    let id = url.slice(url.lastIndexOf('/') + 1, url.indexOf(';'));
+    let id = url.slice(url.lastIndexOf('/') + 1, url.length);
+    if (id.includes(';')) {
+      id = url.slice(url.lastIndexOf('/') + 1, url.indexOf(';'));
+    }
     if (id !== 'new') {
       this.id = id;
       this.beginUpdateMode(id);

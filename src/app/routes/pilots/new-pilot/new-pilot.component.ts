@@ -90,7 +90,10 @@ export class NewPilotComponent implements OnInit {
   async ngOnInit() {
     let token = window.sessionStorage.getItem('token');
     let url = window.location.href;
-    let id = url.slice(url.lastIndexOf('/') + 1, url.indexOf(';'));
+    let id = url.slice(url.lastIndexOf('/') + 1, url.length);
+    if (id.includes(';')) {
+      id = url.slice(url.lastIndexOf('/') + 1, url.indexOf(';'));
+    }
     if (id !== 'new') {
       this.mode = 'Update';
       let pilot = await axios.get(environment.API_URL + '/pilots/' + id, {
