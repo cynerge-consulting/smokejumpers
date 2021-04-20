@@ -1,12 +1,36 @@
-<div class="request-report-form">
-  <div class="report-name">
-    <app-dropdown
-      label=""
-      (selectedDropdownItem)="selectReport($event)"
-      [options]="reports"
-      key="name"
-    ></app-dropdown>
+<div *ngIf="showingDashboard" class="reports-dashboard">
+  <div class="daily-reports">
+    <div class="daily-title card">Daily</div>
+    <div class="reports-container">
+      <div
+        (click)="selectReport(report)"
+        class="report card"
+        *ngFor="let report of dailyReports"
+      >
+        {{ report.name }}
+      </div>
+    </div>
   </div>
+  <div class="annual-reports">
+    <div class="annual-title card">Annual</div>
+    <div class="reports-container">
+      <div
+        class="report card"
+        (click)="selectReport(report)"
+        *ngFor="let report of annualReports"
+      >
+        {{ report.name }}
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="!showingDashboard" class="request-report-form">
+  <!-- <app-dropdown
+    label="Report"
+    (selectedDropdownItem)="selectReport($event)"
+    [options]="reports"
+    key="name"
+  ></app-dropdown> -->
   <app-dropdown
     *ngIf="showingYear"
     label="Year"
@@ -55,9 +79,16 @@
     key="name"
     (selectedDropdownItem)="selectedFileType = $event.value"
   ></app-dropdown>
-  <app-button
-    class="generate-report-button"
-    text="Generate Report"
-    (clicked)="generateReport()"
-  ></app-button>
+  <div class="buttons">
+    <app-button
+      class="generate-report-button"
+      text="Generate Report"
+      (clicked)="generateReport()"
+    ></app-button>
+    <app-button
+      class="return-to-dashboard-button"
+      text="Return to Reports"
+      (clicked)="goToDash()"
+    ></app-button>
+  </div>
 </div>

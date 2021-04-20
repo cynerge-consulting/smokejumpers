@@ -5,6 +5,7 @@
       "route": "reports",
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
+      "period": "daily",
       "params": {
         "type": "baseroster",
         "title": "Base Roster",
@@ -13,6 +14,7 @@
     },
     {
       "name": "Booster Sheet",
+      "period": "daily",
       "route": "reports",
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
@@ -25,6 +27,7 @@
     },
     {
       "name": "Days Off",
+      "period": "daily",
       "route": "reports",
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
@@ -36,6 +39,7 @@
     },
     {
       "name": "Last Jumps",
+      "period": "daily",
       "route": "reports",
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
@@ -47,6 +51,7 @@
     },
     {
       "name": "Last Spotter",
+      "period": "daily",
       "route": "reports",
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
@@ -58,6 +63,7 @@
     },
     {
       "name": "ICS Qualifications",
+      "period": "daily",
       "route": "reports",
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
@@ -70,6 +76,7 @@
     },
     {
       "name": "Parachute History",
+      "period": "annual",
       "route": "reports",
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
@@ -82,6 +89,7 @@
     },
     {
       "name": "Single Resources",
+      "period": "annual",
       "route": "reports",
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
@@ -93,6 +101,7 @@
     },
     {
       "name": "Individual Jump Records",
+      "period": "annual",
       "route": "reports",
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
@@ -106,6 +115,7 @@
     {
       "name": "Individual Spotter Assignment",
       "route": "reports",
+      "period": "annual",
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
       "params": {
@@ -117,6 +127,7 @@
     },
     {
       "name": "Mission By Aircroft",
+      "period": "annual",
       "route": "reports",
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
@@ -129,6 +140,7 @@
     },
     {
       "name": "Master Actions",
+      "period": "annual",
       "route": "reports",
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
@@ -141,6 +153,7 @@
     },
     {
       "name": "Jumpers Nationwide",
+      "period": "annual",
       "route": "reports",
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
@@ -153,6 +166,7 @@
     },
     {
       "name": "Administered Actions",
+      "period": "annual",
       "route": "reports",
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
@@ -165,6 +179,7 @@
     },
     {
       "name": "National BLM",
+      "period": "annual",
       "route": "reports",
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
@@ -176,6 +191,7 @@
     },
     {
       "name": "Natiomal USFS",
+      "period": "annual",
       "route": "reports",
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
@@ -187,6 +203,7 @@
     },
     {
       "name": "Nationwide by Base",
+      "period": "annual",
       "route": "reports",
       "banner": "assets/images/incBanner.png",
       "hasParams": true,

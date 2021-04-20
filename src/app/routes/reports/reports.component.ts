@@ -11,6 +11,8 @@ import * as reportsData from './reports.json';
 })
 export class ReportsComponent implements OnInit {
   reports;
+  dailyReports = [];
+  annualReports = [];
   reportType;
   fileTypes = [
     {
@@ -58,10 +60,23 @@ export class ReportsComponent implements OnInit {
   showingQualifications = false;
   showingYear = false;
   showingChutes = false;
+  showingDashboard = true;
 
   constructor(private route: ActivatedRoute, private router: Router) {
     this.reports = reportsData.reports;
+    this.reports.forEach((report) => {
+      if (report.period === 'daily') {
+        this.dailyReports.push(report);
+      } else {
+        this.annualReports.push(report);
+      }
+    });
     this.route.params.subscribe((params) => {
+      if (params.type) {
+        this.showingDashboard = false;
+      } else {
+        this.showingDashboard = true;
+      }
       this.reportType = params.type;
       this.showingJumpers = params.jumpers;
       this.showingBases = params.bases;
@@ -100,7 +115,12 @@ export class ReportsComponent implements OnInit {
     this.selectedQualification = this.qualifications[0];
   }
 
+  goToDash = () => {
+    this.router.navigate(['reports']);
+  };
+
   selectReport = (report) => {
+    this.showingDashboard = false;
     this.router.navigate([report.route, report.params]);
   };
 
