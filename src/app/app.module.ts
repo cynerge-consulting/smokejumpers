@@ -35,6 +35,7 @@ import { ModalComponent } from './components/modal/modal.component';
 import { ComboboxComponent } from './components/combobox/combobox.component';
 import { TransferJumperComponent } from './routes/jumpers/transfer-jumper/transfer-jumper.component';
 import { EditLdoComponent } from './routes/jumpers/edit-ldo/edit-ldo.component';
+import { NewBaseComponent } from './routes/bases/new-base/new-base.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { EditLdoComponent } from './routes/jumpers/edit-ldo/edit-ldo.component';
     ModalComponent,
     ComboboxComponent,
     TransferJumperComponent,
-    EditLdoComponent
+    EditLdoComponent,
+    NewBaseComponent
   ],
   imports: [
     BrowserModule,

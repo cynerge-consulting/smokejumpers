@@ -15,6 +15,7 @@ import { UsersComponent } from './routes/admin/users/users.component';
 import { BoosterComponent } from './routes/booster/booster.component';
 import { ReportsComponent } from './routes/reports/reports.component';
 import { BasesComponent } from './routes/bases/bases.component';
+import { NewBaseComponent } from './routes/bases/new-base/new-base.component';
 import { PilotsComponent } from './routes/pilots/pilots.component';
 import { NewPilotComponent } from './routes/pilots/new-pilot/new-pilot.component';
 import { ChutesComponent } from './routes/chutes/chutes.component';
@@ -99,6 +100,14 @@ const routes: Routes = [
     path: 'bases',
     component: BasesComponent
     // canActivate: [AuthGuard]
+  },
+  {
+    path: 'bases/new',
+    component: NewBaseComponent
+  },
+  {
+    path: 'bases/:id',
+    component: NewBaseComponent
   },
   {
     path: 'pilots',

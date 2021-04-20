@@ -12,38 +12,48 @@ export class BasesComponent implements OnInit {
   bases = [];
   headings = [
     {
-      label: 'ID',
-      key: 'id'
+      label: 'Base Name',
+      key: 'name'
     },
     {
-      label: 'Text',
-      key: 'text'
+      label: 'Code',
+      key: 'code'
     },
     {
-      label: 'Value',
-      key: 'value'
-    },
-    {
-      label: 'Base ID',
-      key: 'baseId'
+      label: 'Active',
+      key: 'active'
     }
   ];
-  settings = [
-    {
-      label: 'New Base',
-      action: 'create',
-      target: 'bases'
-    }
-  ];
+  settings = {
+    label: 'New Base',
+    action: 'create',
+    route: 'bases',
+    target: 'bases'
+  };
 
   constructor(private toast: ToastService) {}
 
   async ngOnInit() {
     let token = window.sessionStorage.getItem('token');
-    let bases = await axios.get(environment.API_URL + '/base/dropdown/main', {
-      headers: { Authorization: 'Bearer ' + token }
+    let baseCode = 'BOI';
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    if (userInfo) {
+      baseCode = userInfo.basecode;
+    }
+    let bases = await axios.get(
+      environment.API_URL + '/base/?type=spike&baseCode=' + baseCode,
+      {
+        headers: { Authorization: 'Bearer ' + token }
+      }
+    );
+    this.bases = bases.data.value;
+    this.bases.forEach((base) => {
+      if (base.deleted) {
+        base.active = false;
+      } else {
+        base.active = true;
+      }
     });
-    this.bases = bases.data;
   }
 
   delete = async (row) => {
@@ -52,13 +62,10 @@ export class BasesComponent implements OnInit {
     if (row.id) {
       id = row.id;
     } else if (row.href) {
-      id = row.href.replace(
-        'http://dev.wrk.fs.usda.gov/masteraction/services/api/base/',
-        ''
-      );
+      id = row.href.slice(row.href.lastIndexOf('/') + 1, row.href.length);
     }
     let deleted = await axios
-      .delete(environment.API_URL + '/base/' + id, {
+      .delete(environment.API_URL + '/base/' + id + '/delete', {
         headers: { Authorization: 'Bearer ' + token }
       })
       .then((response) => {

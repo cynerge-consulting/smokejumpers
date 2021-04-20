@@ -38,6 +38,7 @@
             [(ngModel)]="data[datum.key]"
             [placeholder]="datum.label"
           ></textarea>
+          <span *ngIf="datum.required" class="required-asterisk">*</span>
         </div>
       </div>
     </div>
