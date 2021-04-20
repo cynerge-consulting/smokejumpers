@@ -29,13 +29,14 @@ export class NewAircraftComponent implements OnInit {
       data: [
         {
           input: true,
-          placeholder: 'Name',
-          key: 'Aircraft_Name'
+          placeholder: 'Call Sign',
+          key: 'callsign'
         },
         {
           input: true,
-          placeholder: 'Owner',
-          key: 'Aircraft_Owner'
+          required: true,
+          placeholder: 'Make/Model',
+          key: 'Aircraft_Name'
         },
         {
           input: true,
@@ -44,8 +45,8 @@ export class NewAircraftComponent implements OnInit {
         },
         {
           input: true,
-          placeholder: 'Call Sign',
-          key: 'callsign'
+          placeholder: 'Operator',
+          key: 'Aircraft_Owner'
         }
       ]
     }

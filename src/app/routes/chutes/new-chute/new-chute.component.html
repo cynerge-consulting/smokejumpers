@@ -12,6 +12,7 @@
           key="name"
           (selectedDropdownItem)="selectChuteStyle($event)"
         ></app-dropdown>
+        <span class="required-asterisk">*</span>
       </div>
       <div
         class="datum"
@@ -27,6 +28,7 @@
             [(ngModel)]="this.chute[this.chute.style.toLowerCase()]"
             placeholder="Manufacturer"
           />
+          <span class="required-asterisk">*</span>
         </div>
       </div>
       <div class="datum" *ngIf="selectedChuteStyle.value === 'Main'">
@@ -80,6 +82,7 @@
             [(ngModel)]="chute.main"
             placeholder="Chute Number"
           />
+          <span class="required-asterisk">*</span>
         </div>
       </div>
     </div>

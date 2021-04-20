@@ -32,11 +32,13 @@ export class NewJumperComponent implements OnInit {
       data: [
         {
           input: true,
+          required: true,
           placeholder: 'First Name',
           key: 'firstName'
         },
         {
           input: true,
+          required: true,
           placeholder: 'Last Name',
           key: 'lastName'
         },

@@ -25,11 +25,13 @@ export class NewQualificationComponent implements OnInit {
       title: 'Qualification Information',
       data: [
         {
+          required: true,
           input: true,
           placeholder: 'Title',
           key: 'title'
         },
         {
+          required: true,
           input: true,
           placeholder: 'Acronym',
           key: 'Acronym'
