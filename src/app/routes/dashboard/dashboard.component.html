@@ -1,1 +1,7 @@
-Welcome to the Dashboard Page.
+<div class="content-header"></div>
+<div class="dashboard-content">
+  <div *ngFor="let card of cards" (click)="go(card.route)" class="card">
+    <span class="title">{{ card.title }}</span>
+    <span class="description">{{ card.description }}</span>
+  </div>
+</div>

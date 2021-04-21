@@ -126,7 +126,7 @@
       }
     },
     {
-      "name": "Mission By Aircroft",
+      "name": "Mission By Aircraft",
       "period": "annual",
       "route": "reports",
       "banner": "assets/images/incBanner.png",
@@ -190,7 +190,7 @@
       }
     },
     {
-      "name": "Natiomal USFS",
+      "name": "National USFS",
       "period": "annual",
       "route": "reports",
       "banner": "assets/images/incBanner.png",
