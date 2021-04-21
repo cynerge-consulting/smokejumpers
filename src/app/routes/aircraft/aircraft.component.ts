@@ -43,17 +43,16 @@ export class AircraftComponent implements OnInit {
 
   async ngOnInit() {
     let token = window.sessionStorage.getItem('token');
-    let aircraft = await axios.get(environment.API_URL + '/travelmodes', {
-      headers: { Authorization: 'Bearer ' + token }
-    });
-    this.aircraft = aircraft.data.value;
+    this.refreshAircraft();
   }
 
   delete = async (aircraft) => {
     let token = window.sessionStorage.getItem('token');
     let userId = 111;
-    // let userInfo = window.sessionStorage.getItem('userInfo')
-    // let userId = userInfo.id
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    if (userInfo) {
+      userId = userInfo.id;
+    }
     let id = '';
     if (aircraft.id) {
       id = aircraft.id;
@@ -63,7 +62,7 @@ export class AircraftComponent implements OnInit {
         aircraft.href.length
       );
     }
-    let deleted = await axios
+    axios
       .delete(
         environment.API_URL + '/travelmodes/' + id + '/delete?userId=' + userId,
         {
@@ -82,8 +81,13 @@ export class AircraftComponent implements OnInit {
   refreshAircraft = () => {
     // check session storage for a token
     let token = window.sessionStorage.getItem('token');
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    let baseCode = 'BOI';
+    if (userInfo) {
+      baseCode = userInfo.basecode;
+    }
     axios
-      .get(environment.API_URL + '/travelmodes', {
+      .get(environment.API_URL + '/travelmodes?baseCode=' + baseCode, {
         headers: { Authorization: 'Bearer ' + token }
       })
       .then((response) => {

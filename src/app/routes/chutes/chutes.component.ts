@@ -47,17 +47,31 @@ export class ChutesComponent implements OnInit {
 
   refreshChutes = async () => {
     let token = window.sessionStorage.getItem('token');
-    let chutes = await axios.get(environment.API_URL + '/chutemain', {
-      headers: { Authorization: 'Bearer ' + token }
-    });
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    let baseCode = 'BOI';
+    if (userInfo) {
+      baseCode = userInfo.basecode;
+    }
+    let chutes = await axios.get(
+      environment.API_URL + '/chutemain?baseCode=' + baseCode,
+      {
+        headers: { Authorization: 'Bearer ' + token }
+      }
+    );
     this.chutes = chutes.data.value;
-    chutes = await axios.get(environment.API_URL + '/chutedrogue', {
-      headers: { Authorization: 'Bearer ' + token }
-    });
+    chutes = await axios.get(
+      environment.API_URL + '/chutedrogue?baseCode=' + baseCode,
+      {
+        headers: { Authorization: 'Bearer ' + token }
+      }
+    );
     this.chutes = this.chutes.concat(chutes.data.value);
-    chutes = await axios.get(environment.API_URL + '/chutereserve', {
-      headers: { Authorization: 'Bearer ' + token }
-    });
+    chutes = await axios.get(
+      environment.API_URL + '/chutereserve?baseCode=' + baseCode,
+      {
+        headers: { Authorization: 'Bearer ' + token }
+      }
+    );
     this.chutes = this.chutes.concat(chutes.data.value);
 
     this.chutes.forEach((chute) => {

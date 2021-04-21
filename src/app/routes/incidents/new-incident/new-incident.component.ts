@@ -299,9 +299,11 @@ export class NewIncidentComponent implements OnInit {
 
   submitForm = (data) => {
     let token = window.sessionStorage.getItem('token');
-    let userInfo = window.sessionStorage.getItem('userInfo');
-    // let userId = userInfo.id;
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
     let userId = 111;
+    if (userInfo) {
+      userId = userInfo.id;
+    }
 
     const options = {
       headers: { Authorization: 'Bearer ' + token }
@@ -404,9 +406,11 @@ export class NewIncidentComponent implements OnInit {
 
   modalConfirmed = async (data) => {
     let token = window.sessionStorage.getItem('token');
-    let userInfo = window.sessionStorage.getItem('userInfo');
-    // let userId = userInfo.id;
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
     let userId = 111;
+    if (userInfo) {
+      userId = userInfo.id;
+    }
 
     const options = {
       headers: { Authorization: 'Bearer ' + token }

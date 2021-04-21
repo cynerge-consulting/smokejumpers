@@ -66,8 +66,13 @@ export class JumpersComponent implements OnInit {
   refreshJumpers = () => {
     // check session storage for a token
     let token = window.sessionStorage.getItem('token');
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    let baseId = 11;
+    if (userInfo) {
+      baseId = userInfo.baseId;
+    }
     axios
-      .get(environment.API_URL + '/jumpers', {
+      .get(environment.API_URL + '/jumpers?baseId=' + baseId, {
         headers: { Authorization: 'Bearer ' + token }
       })
       .then((response) => {

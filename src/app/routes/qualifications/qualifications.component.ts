@@ -47,9 +47,11 @@ export class QualificationsComponent implements OnInit {
 
   delete = async (qualification) => {
     let token = window.sessionStorage.getItem('token');
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
     let userId = 111;
-    // let userInfo = window.sessionStorage.getItem('userInfo')
-    // let userId = userInfo.id
+    if (userInfo) {
+      userId = userInfo.id;
+    }
     let id = '';
     if (qualification.id) {
       id = qualification.id;
