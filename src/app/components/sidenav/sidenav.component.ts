@@ -17,6 +17,12 @@ export class SidenavComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    let role = 'admin';
+    if (userInfo) {
+      role = userInfo.role;
+    }
+
     this.menuItems = [
       {
         name: 'Dashboard',
@@ -95,7 +101,16 @@ export class SidenavComponent implements OnInit {
         route: 'reports'
       }
     ];
+
+    if (role === 'baseadmin' || role === 'sysadmin' || role === 'admin') {
+      this.menuItems.push({
+        name: 'User Management',
+        banner: 'assets/images/dbmBanner.png',
+        route: 'users'
+      });
+    }
   }
+
   select = (item) => {
     if (item.items) {
       item.expanded = !item.expanded;

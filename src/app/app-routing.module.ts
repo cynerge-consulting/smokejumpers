@@ -11,7 +11,6 @@ import { NewAircraftComponent } from './routes/aircraft/new-aircraft/new-aircraf
 import { NewJumperComponent } from './routes/jumpers/new-jumper/new-jumper.component';
 import { TransferJumperComponent } from './routes/jumpers/transfer-jumper/transfer-jumper.component';
 import { EditLdoComponent } from './routes/jumpers/edit-ldo/edit-ldo.component';
-import { UsersComponent } from './routes/admin/users/users.component';
 import { BoosterComponent } from './routes/booster/booster.component';
 import { ReportsComponent } from './routes/reports/reports.component';
 import { BasesComponent } from './routes/bases/bases.component';
@@ -22,6 +21,7 @@ import { ChutesComponent } from './routes/chutes/chutes.component';
 import { NewChuteComponent } from './routes/chutes/new-chute/new-chute.component';
 import { QualificationsComponent } from './routes/qualifications/qualifications.component';
 import { NewQualificationComponent } from './routes/qualifications/new-qualification/new-qualification.component';
+import { UsersComponent } from './routes/users/users.component';
 import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
@@ -157,6 +157,11 @@ const routes: Routes = [
   {
     path: 'booster',
     component: BoosterComponent
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: 'users',
+    component: UsersComponent
     // canActivate: [AuthGuard]
   },
   {

@@ -4,15 +4,15 @@ import { environment } from '../../../environments/environment';
 import { ToastService } from '../../services/toast.service';
 
 @Component({
-  selector: 'app-pilots',
-  templateUrl: './pilots.component.html',
-  styleUrls: ['./pilots.component.scss']
+  selector: 'app-users',
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.scss']
 })
-export class PilotsComponent implements OnInit {
-  pilots = [];
+export class UsersComponent implements OnInit {
+  users = [];
   headings = [
     {
-      label: 'Pilot',
+      label: 'Name',
       key: 'fullName'
     },
     {
@@ -20,28 +20,24 @@ export class PilotsComponent implements OnInit {
       key: 'baseCode'
     },
     {
-      label: 'Affiliation',
-      key: 'affiliation'
-    },
-    {
       label: 'Active',
       key: 'active'
     }
   ];
   settings = {
-    label: 'New Pilot',
+    label: 'New User',
     action: 'create',
-    target: 'pilots',
-    route: 'pilots'
+    target: 'users',
+    route: 'users'
   };
 
   constructor(private toast: ToastService) {}
 
   ngOnInit() {
-    this.refreshPilots();
+    this.refreshUsers();
   }
 
-  delete = async (pilot) => {
+  delete = async (user) => {
     let token = window.sessionStorage.getItem('token');
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
     let userId = 111;
@@ -49,31 +45,31 @@ export class PilotsComponent implements OnInit {
       userId = userInfo.id;
     }
     let id = '';
-    if (pilot.id) {
-      id = pilot.id;
-    } else if (pilot.href) {
-      id = pilot.href.slice(
-        pilot.href.indexOf('/pilots/') + '/pilots/'.length,
-        pilot.href.length
+    if (user.id) {
+      id = user.id;
+    } else if (user.href) {
+      id = user.href.slice(
+        user.href.indexOf('/users/') + '/users/'.length,
+        user.href.length
       );
     }
     let deleted = await axios
       .delete(
-        environment.API_URL + '/pilots/' + id + '/delete?userId=' + userId,
+        environment.API_URL + '/users/' + id + '/delete?userId=' + userId,
         {
           headers: { Authorization: 'Bearer ' + token }
         }
       )
       .then((response) => {
-        this.toast.show('Deleted Pilot', 'success');
-        this.refreshPilots();
+        this.toast.show('Deleted User', 'success');
+        this.refreshUsers();
       })
       .catch((error) => {
-        this.toast.show('Unable to Delete Pilot', 'error');
+        this.toast.show('Unable to Delete User', 'error');
       });
   };
 
-  refreshPilots = () => {
+  refreshUsers = () => {
     // check session storage for a token
     let token = window.sessionStorage.getItem('token');
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
@@ -82,17 +78,17 @@ export class PilotsComponent implements OnInit {
       baseCode = userInfo.basecode;
     }
     axios
-      .get(environment.API_URL + '/pilots?baseCode=' + baseCode, {
+      .get(environment.AUTH_URL + '/getUserList', {
         headers: { Authorization: 'Bearer ' + token }
       })
       .then((response) => {
-        this.pilots = response.data.value;
-        this.pilots.forEach((pilot) => {
-          pilot.fullName = pilot.firstName + ' ' + pilot.lastName;
+        this.users = response.data.value;
+        this.users.forEach((user) => {
+          user.name = user.firstName + ' ' + user.lastName;
         });
       })
       .catch((error) => {
-        this.toast.show('Unable to retreive pilots list.', 'error');
+        this.toast.show('Unable to retreive users list.', 'error');
       });
   };
 }
