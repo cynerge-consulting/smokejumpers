@@ -11,14 +11,14 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  max-width: 795px;
+  max-width: 90%;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
   .card {
     box-shadow: grey 1px 2px 2px 1px;
     cursor: pointer;
-    width: 225px;
+    width: 28%;
     height: 100px;
     background: #006632;
     margin: 10px;

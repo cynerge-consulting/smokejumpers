@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
 import { ToastService } from '../../services/toast.service';
@@ -9,6 +10,15 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
+  role = 'user';
+  query;
+  searching = true;
+  hasBeenFiltered = false;
+  originalUsers = [];
+  bases = [];
+  usersWithRoleChange = [];
+  usersWithBaseChange = [];
+  usersWithActiveChange = [];
   users = [];
   headings = [
     {
@@ -33,7 +43,20 @@ export class UsersComponent implements OnInit {
 
   constructor(private toast: ToastService) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    if (userInfo) {
+      this.role = userInfo.role;
+    }
+    let token = window.sessionStorage.getItem('token');
+    let bases = await axios.get(environment.API_URL + '/base/dropdown/main', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    this.bases = bases.data;
+    this.bases.forEach((base) => {
+      base.name = base.baseCode;
+      base.value = base.baseId;
+    });
     this.refreshUsers();
   }
 
@@ -69,6 +92,32 @@ export class UsersComponent implements OnInit {
       });
   };
 
+  onKey = (event) => {
+    if (!this.searching) {
+      this.query = null;
+      return;
+    }
+    // always filter against the original set of options
+    if (!this.hasBeenFiltered) {
+      this.hasBeenFiltered = true;
+      this.originalUsers = this.users;
+    }
+    this.users = this.originalUsers;
+
+    // find users that match query
+    let filteredUsers = [];
+    this.users.forEach((user) => {
+      let name = user.name.toString().toLowerCase();
+      if (name.includes(this.query.toLowerCase())) {
+        filteredUsers.push(user);
+      }
+    });
+
+    // dedupe users
+    let uniqueUsers = [...new Set(filteredUsers)];
+    this.users = uniqueUsers;
+  };
+
   refreshUsers = () => {
     // check session storage for a token
     let token = window.sessionStorage.getItem('token');
@@ -85,10 +134,105 @@ export class UsersComponent implements OnInit {
         this.users = response.data.value;
         this.users.forEach((user) => {
           user.name = user.firstName + ' ' + user.lastName;
+          user.baseChoice = {
+            name: user.basecode,
+            value: user.baseId
+          };
+          user.roleChoice = {
+            name: user.role,
+            value: user.role
+          };
         });
       })
       .catch((error) => {
         this.toast.show('Unable to retreive users list.', 'error');
       });
+  };
+
+  selectActive = (user) => {
+    this.usersWithActiveChange.push(user);
+  };
+
+  selectRole = (role, user) => {
+    user.role = role.value;
+    this.usersWithRoleChange.push(user);
+  };
+
+  selectBase = (base, user) => {
+    user.basecode = base.name;
+    user.baseId = base.value;
+    this.usersWithBaseChange.push(user);
+  };
+
+  updateUsers = () => {
+    this.usersWithBaseChange.forEach(async (user) => {
+      await this.changeUserBase(user);
+    });
+    this.usersWithActiveChange.forEach(async (user) => {
+      await this.changeUserActive(user);
+    });
+    this.usersWithRoleChange.forEach(async (user) => {
+      await this.changeUserRole(user);
+    });
+    this.refreshUsers();
+  };
+
+  changeUserBase = async (user) => {
+    let token = window.sessionStorage.getItem('token');
+    let url =
+      environment.AUTH_URL +
+      '/setUserBase?baseCode=' +
+      user.basecode +
+      '&id=' +
+      user.id.toString() +
+      '&baseId=' +
+      user.baseId;
+
+    try {
+      let updatedUser = await axios.get(url, {
+        headers: { Authorization: 'Bearer ' + token }
+      });
+      this.toast.show('Updated User Base', 'success');
+    } catch (error) {
+      this.toast.show('Unable to Update User Base', 'error');
+    }
+  };
+
+  changeUserActive = async (user) => {
+    let token = window.sessionStorage.getItem('token');
+    let url =
+      environment.AUTH_URL +
+      (user.active ? '/' : '/de') +
+      'activateUser?' +
+      'id=' +
+      user.id.toString();
+
+    try {
+      let updatedUser = await axios.get(url, {
+        headers: { Authorization: 'Bearer ' + token }
+      });
+      this.toast.show('Updated User Active Status', 'success');
+    } catch (error) {
+      this.toast.show('Unable to Update User Active Status', 'error');
+    }
+  };
+
+  changeUserRole = async (user) => {
+    let token = window.sessionStorage.getItem('token');
+    let url =
+      environment.AUTH_URL +
+      '/setAdminRole?role=' +
+      user.role +
+      '&id=' +
+      user.id.toString();
+
+    try {
+      let updatedUser = await axios.get(url, {
+        headers: { Authorization: 'Bearer ' + token }
+      });
+      this.toast.show('Updated User Role', 'success');
+    } catch (error) {
+      this.toast.show('Unable to Update User Role', 'error');
+    }
   };
 }

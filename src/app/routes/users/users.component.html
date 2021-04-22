@@ -1,0 +1,62 @@
+<div class="filter-container">
+  <input
+    *ngIf="searching"
+    (keyup)="onKey($event)"
+    type="text"
+    placeholder="Filter by Name"
+    [(ngModel)]="query"
+  />
+  <app-button (clicked)="updateUsers()" text="Update Users"></app-button>
+</div>
+<div class="user-table">
+  <div class="headers row">
+    <div class="header">
+      <span>Name</span>
+    </div>
+    <div class="header">
+      <span>Base</span>
+    </div>
+    <div class="header">
+      <span>Active</span>
+    </div>
+    <div *ngIf="role === 'sysadmin'" class="header">
+      <span>User Role</span>
+    </div>
+  </div>
+  <div class="rows">
+    <div class="row" *ngFor="let user of users">
+      <div class="cell">
+        <span>{{ user.name }}</span>
+      </div>
+      <div class="cell">
+        <app-dropdown
+          [choice]="user.baseChoice"
+          [options]="bases"
+          key="name"
+          label="Base"
+          (selectedDropdownItem)="selectBase($event, user)"
+        ></app-dropdown>
+      </div>
+      <div class="cell">
+        <input
+          type="checkbox"
+          (click)="selectActive(user)"
+          [(ngModel)]="user.active"
+        />
+      </div>
+      <div class="cell" *ngIf="role === 'sysadmin'">
+        <app-dropdown
+          [choice]="user.roleChoice"
+          [options]="[
+            { name: 'user', value: 'user' },
+            { name: 'admin', value: 'admin' },
+            { name: 'sysadmin', value: 'sysadmin' }
+          ]"
+          key="name"
+          label="Base"
+          (selectedDropdownItem)="selectRole($event, user)"
+        ></app-dropdown>
+      </div>
+    </div>
+  </div>
+</div>

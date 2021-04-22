@@ -15,7 +15,7 @@ import { DatabaseComponent } from './routes/database/database.component';
 import { JumpersComponent } from './routes/jumpers/jumpers.component';
 import { NewJumperComponent } from './routes/jumpers/new-jumper/new-jumper.component';
 import { BoosterComponent } from './routes/booster/booster.component';
-import { UsersComponent } from './routes/admin/users/users.component';
+import { UsersComponent } from './routes/users/users.component';
 import { AircraftComponent } from './routes/aircraft/aircraft.component';
 import { ChutesComponent } from './routes/chutes/chutes.component';
 import { PilotsComponent } from './routes/pilots/pilots.component';
