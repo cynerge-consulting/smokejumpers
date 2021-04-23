@@ -17,6 +17,7 @@ export class IncidentsComponent implements OnInit {
     value: ''
   };
   bases;
+  states;
   modal = {
     active: false,
     data: {}
@@ -29,7 +30,7 @@ export class IncidentsComponent implements OnInit {
   headings = [
     {
       label: 'Date',
-      key: '_incidentDate'
+      key: 'friendlyDate'
     },
     {
       label: 'Name',
@@ -37,7 +38,7 @@ export class IncidentsComponent implements OnInit {
     },
     {
       label: 'State',
-      key: '_state'
+      key: 'state'
     },
     {
       label: 'Mode',
@@ -46,7 +47,7 @@ export class IncidentsComponent implements OnInit {
     {
       label: 'Mission',
       key: '_mission'
-    },
+    }
   ];
   settings = {
     name: 'Incident',
@@ -87,9 +88,6 @@ export class IncidentsComponent implements OnInit {
     if (userInfo) {
       this.selectedBase.baseCode = userInfo.basecode;
       this.selectedBase.value = userInfo.basecode;
-      if (userInfo.role === 'baseadmin') {
-        this.isAdmin = true;
-      }
     }
     this.getBases();
     this.refreshIncidents();
@@ -155,8 +153,13 @@ export class IncidentsComponent implements OnInit {
 
   refreshIncidents = async () => {
     let token = window.sessionStorage.getItem('token');
-    let baseCode = this.selectedBase.baseCode;
     let incidents;
+    let baseCode = this.selectedBase.baseCode;
+    let states = await axios.get(environment.API_URL + '/states', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    this.states = states.data;
+
     if (!this.archived) {
       try {
         incidents = await axios.get(
@@ -188,9 +191,19 @@ export class IncidentsComponent implements OnInit {
 
     this.incidents = incidents.data.value;
 
-    // this.incidents.forEach(incident => {
-    //   incident.date
-    // });
+    this.incidents.forEach(async (incident) => {
+      // parse friendly date
+      let date = incident._incidentDate.split('-');
+      incident.friendlyDate =
+        date[0] + '-' + date[1] + '-' + date[2].substr(0, 2);
+
+      // get incident state
+      this.states.filter((state) => {
+        if (state.id === incident._stateId) {
+          incident.state = state.text;
+        }
+      });
+    });
 
     // default sort by descending by date
     this.incidents.sort((a, b) => {
