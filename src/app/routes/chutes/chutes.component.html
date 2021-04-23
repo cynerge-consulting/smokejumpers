@@ -1,4 +1,20 @@
+<div class="random-actions">
+  <app-dropdown
+    *ngIf="true"
+    [(choice)]="type"
+    label="Chute Type"
+    [options]="[
+      { name: 'All', value: 'All' },
+      { name: 'Main', value: 'Main' },
+      { name: 'Drogue', value: 'Drogue' },
+      { name: 'Reserve', value: 'Reserve' }
+    ]"
+    key="value"
+    (selectedDropdownItem)="selectType($event)"
+  ></app-dropdown>
+</div>
 <app-table
+  hasActions="true"
   [settings]="settings"
   [rows]="chutes"
   [columns]="headings"

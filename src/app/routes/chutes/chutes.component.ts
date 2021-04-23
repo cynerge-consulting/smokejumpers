@@ -9,7 +9,12 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./chutes.component.scss']
 })
 export class ChutesComponent implements OnInit {
+  type = {
+    name: 'All',
+    value: 'All'
+  };
   chutes = [];
+  originalChutes = [];
   headings = [
     {
       label: 'Chute',
@@ -89,6 +94,9 @@ export class ChutesComponent implements OnInit {
       }
       chute.active = chute.inService ? 'Yes' : 'No';
     });
+
+    // for filtering
+    this.originalChutes = this.chutes;
   };
 
   delete = (chute) => {
@@ -119,5 +127,23 @@ export class ChutesComponent implements OnInit {
       .catch((error) => {
         this.toast.show('Unable to Delete Chute', 'error');
       });
+  };
+
+  selectType = (type) => {
+    let filteredChutes = [];
+    this.type = type;
+
+    if (type.value === 'All') {
+      this.chutes = this.originalChutes;
+      return;
+    }
+
+    this.originalChutes.forEach((chute) => {
+      if (chute.style === type.value) {
+        filteredChutes.push(chute);
+      }
+    });
+
+    this.chutes = filteredChutes;
   };
 }
