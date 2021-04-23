@@ -28,8 +28,16 @@ export class IncidentsComponent implements OnInit {
 
   headings = [
     {
+      label: 'Date',
+      key: '_incidentDate'
+    },
+    {
       label: 'Name',
       key: '_nameofIncident'
+    },
+    {
+      label: 'State',
+      key: '_state'
     },
     {
       label: 'Mode',
@@ -39,10 +47,6 @@ export class IncidentsComponent implements OnInit {
       label: 'Mission',
       key: '_mission'
     },
-    {
-      label: 'Date',
-      key: '_incidentDate'
-    }
   ];
   settings = {
     name: 'Incident',
@@ -183,6 +187,10 @@ export class IncidentsComponent implements OnInit {
     }
 
     this.incidents = incidents.data.value;
+
+    // this.incidents.forEach(incident => {
+    //   incident.date
+    // });
 
     // default sort by descending by date
     this.incidents.sort((a, b) => {

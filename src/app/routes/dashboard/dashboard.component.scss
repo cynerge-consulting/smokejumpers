@@ -6,6 +6,10 @@
   background-position: top right;
 }
 .dashboard-content {
+  margin-top: 50px;
+  height: calc(100% - 165px);
+  overflow: overlay;
+  padding: 0 75px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -19,21 +23,27 @@
     box-shadow: grey 1px 2px 2px 1px;
     cursor: pointer;
     width: 28%;
-    height: 100px;
     background: #006632;
     margin: 10px;
-    padding: 10px;
     border-radius: 4px;
     color: white;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     .title {
+      padding: 10px;
       font-size: 18px;
       font-weight: bold;
     }
     .description {
+      padding: 0px 10px;
       font-size: 14px;
+    }
+    .image {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      margin-top: 20px;
     }
   }
 }

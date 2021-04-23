@@ -10,7 +10,7 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  role = 'user';
+  role = 'sysadmin';
   query;
   searching = true;
   hasBeenFiltered = false;
@@ -19,7 +19,33 @@ export class UsersComponent implements OnInit {
   usersWithRoleChange = [];
   usersWithBaseChange = [];
   usersWithActiveChange = [];
-  users = [];
+  // users = [];
+  users = [
+    {
+      id: 14,
+      name: 'Bobbies, Billy',
+      firstName: 'Billy',
+      lastName: 'Bobbies',
+      basecode: 'BOI',
+      baseId: 11,
+      role: 'user',
+      baseChoice: {},
+      roleChoice: {},
+      active: true
+    },
+    {
+      id: 72,
+      name: 'Billies, Bobby',
+      firstName: 'Bobby',
+      lastName: 'Billies',
+      basecode: 'RDD',
+      baseId: 58,
+      role: 'admin',
+      baseChoice: {},
+      roleChoice: {},
+      active: false
+    }
+  ];
   headings = [
     {
       label: 'Name',
@@ -57,7 +83,18 @@ export class UsersComponent implements OnInit {
       base.name = base.baseCode;
       base.value = base.baseId;
     });
-    this.refreshUsers();
+    this.users.forEach((user) => {
+      user.name = user.firstName + ' ' + user.lastName;
+      user.baseChoice = {
+        name: user.basecode,
+        value: user.baseId
+      };
+      user.roleChoice = {
+        name: user.role,
+        value: user.role
+      };
+    })
+    // this.refreshUsers();
   }
 
   delete = async (user) => {

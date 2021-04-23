@@ -39,15 +39,8 @@ export class SidenavComponent implements OnInit {
             route: 'incidents/new'
           },
           {
-            name: 'View/Edit Current Year',
+            name: 'View/Edit Incidents',
             route: 'incidents'
-          },
-          {
-            name: 'View Previous Years',
-            route: 'incidents',
-            params: {
-              archived: true
-            }
           }
         ]
       },
