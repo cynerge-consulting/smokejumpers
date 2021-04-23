@@ -21,7 +21,8 @@ export class NewChuteComponent implements OnInit {
     base: '',
     baseId: '',
     id: '',
-    main: ''
+    main: '',
+    inService: true
   };
   chuteStyles = [
     {
@@ -68,6 +69,7 @@ export class NewChuteComponent implements OnInit {
       // determine chute type in order to load proper form
       this.chute.style = this.params.style;
       this.chute.chuteType = this.params.chuteType;
+      this.chute.inService = this.params.inService;
 
       // get chute id
       if (params.id) {
@@ -93,6 +95,11 @@ export class NewChuteComponent implements OnInit {
         value: this.params.style
       };
       this.chute.chuteSize = this.params.chuteSize;
+      if (this.params.inService === 'false') {
+        this.chute.inService = false;
+      } else {
+        this.chute.inService = true;
+      }
       this.selectedChuteSize = {
         name: this.params.chuteSize,
         value: this.params.chuteSize
@@ -168,6 +175,7 @@ export class NewChuteComponent implements OnInit {
       baseId: this.selectedBase.value,
       chuteType: this.chute.chuteType,
       chuteSize: '',
+      inService: this.chute.inService,
       [type]: this.chute[type]
     };
 
