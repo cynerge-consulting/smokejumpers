@@ -12,16 +12,20 @@ export class QualificationsComponent implements OnInit {
   qualifications = [];
   headings = [
     {
-      label: 'Qualification',
-      key: 'Acronym'
-    },
-    {
       label: 'Title',
       key: 'title'
     },
     {
+      label: 'Acronym',
+      key: 'Acronym'
+    },
+    {
+      label: 'Function Area',
+      key: 'functionArea'
+    },
+    {
       label: 'Active',
-      key: 'active'
+      key: 'friendlyActive'
     }
   ];
   settings = {
@@ -43,6 +47,9 @@ export class QualificationsComponent implements OnInit {
       headers: { Authorization: 'Bearer ' + token }
     });
     this.qualifications = qualifications.data.value;
+    this.qualifications.forEach((qual) => {
+      qual.friendlyActive = qual.active ? 'Yes' : 'No';
+    });
   };
 
   delete = async (qualification) => {

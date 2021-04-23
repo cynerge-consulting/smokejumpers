@@ -33,7 +33,7 @@ export class IncidentsComponent implements OnInit {
       key: 'friendlyDate'
     },
     {
-      label: 'Name',
+      label: 'Incident Name',
       key: '_nameofIncident'
     },
     {

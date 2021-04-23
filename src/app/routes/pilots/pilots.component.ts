@@ -12,20 +12,16 @@ export class PilotsComponent implements OnInit {
   pilots = [];
   headings = [
     {
-      label: 'Pilot',
+      label: 'Name',
       key: 'fullName'
     },
     {
-      label: 'Base',
-      key: 'baseCode'
-    },
-    {
-      label: 'Affiliation',
+      label: 'Affiliations',
       key: 'affiliation'
     },
     {
       label: 'Active',
-      key: 'active'
+      key: 'friendlyActive'
     }
   ];
   settings = {
@@ -88,7 +84,8 @@ export class PilotsComponent implements OnInit {
       .then((response) => {
         this.pilots = response.data.value;
         this.pilots.forEach((pilot) => {
-          pilot.fullName = pilot.firstName + ' ' + pilot.lastName;
+          pilot.fullName = pilot.lastName + ', ' + pilot.firstName;
+          pilot.friendlyActive = pilot.active ? 'Yes' : 'No';
         });
       })
       .catch((error) => {

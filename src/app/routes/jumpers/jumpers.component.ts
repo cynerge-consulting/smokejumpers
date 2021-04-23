@@ -13,20 +13,16 @@ export class JumpersComponent implements OnInit {
   jumpers = [];
   headings = [
     {
-      label: 'First Name',
-      key: 'firstName'
+      label: 'Name',
+      key: 'name'
     },
     {
-      label: 'Last Name',
-      key: 'lastName'
+      label: 'Phone #',
+      key: 'phoneNumber'
     },
     {
-      label: 'Grade',
-      key: 'grade'
-    },
-    {
-      label: 'Position',
-      key: 'basePosition'
+      label: 'Active',
+      key: 'active'
     }
   ];
   settings = {
@@ -77,6 +73,10 @@ export class JumpersComponent implements OnInit {
       })
       .then((response) => {
         this.jumpers = response.data.value;
+        this.jumpers.forEach((jumper) => {
+          jumper.name = jumper.lastName + ', ' + jumper.firstName;
+          jumper.active = jumper.activeStatus ? 'Yes' : 'No';
+        });
       })
       .catch((error) => {
         this.toast.show('Unable to retreive jumpers list.', 'error');

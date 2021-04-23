@@ -29,7 +29,7 @@ export class ChutesComponent implements OnInit {
     },
     {
       label: 'Active',
-      key: 'inService'
+      key: 'active'
     }
   ];
   settings = {
@@ -87,6 +87,7 @@ export class ChutesComponent implements OnInit {
         chute.style = 'Reserve';
         chute.name = chute.reserve;
       }
+      chute.active = chute.inService ? 'Yes' : 'No';
     });
   };
 

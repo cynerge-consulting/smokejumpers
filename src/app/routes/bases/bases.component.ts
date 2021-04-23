@@ -49,9 +49,9 @@ export class BasesComponent implements OnInit {
     this.bases = bases.data.value;
     this.bases.forEach((base) => {
       if (base.deleted) {
-        base.active = false;
+        base.active = 'No';
       } else {
-        base.active = true;
+        base.active = 'Yes';
       }
     });
   }

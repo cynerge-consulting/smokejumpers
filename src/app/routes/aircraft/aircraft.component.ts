@@ -12,7 +12,11 @@ export class AircraftComponent implements OnInit {
   aircraft = [];
   headings = [
     {
-      label: 'Name',
+      label: 'Callsign',
+      key: 'callsign'
+    },
+    {
+      label: 'Make/Model',
       key: 'Aircraft_Name'
     },
     {
@@ -20,16 +24,12 @@ export class AircraftComponent implements OnInit {
       key: 'Aircraft_Tail_Number'
     },
     {
-      label: 'Owner',
+      label: 'Operator',
       key: 'Aircraft_Owner'
     },
     {
-      label: 'Callsign',
-      key: 'callsign'
-    },
-    {
-      label: 'Base',
-      key: 'homeBase'
+      label: 'Active',
+      key: 'active'
     }
   ];
   settings = {
@@ -92,6 +92,9 @@ export class AircraftComponent implements OnInit {
       })
       .then((response) => {
         this.aircraft = response.data.value;
+        this.aircraft.forEach((aircraft) => {
+          aircraft.active = aircraft.deleted ? 'No' : 'Yes';
+        });
       })
       .catch((error) => {
         this.toast.show('Unable to retreive Aircraft.', 'error');
