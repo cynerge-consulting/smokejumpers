@@ -53,10 +53,21 @@ export class AuthGuard implements CanActivate {
                 headers: { Authorization: 'Bearer ' + token }
               })
               .then((userReponse) => {
+                let userInfo = userResponse.data
                 window.sessionStorage.setItem(
                   'userInfo',
-                  JSON.stringify(userReponse.data)
+                  JSON.stringify(userInfo)
                 );
+
+                if (!userInfo.status) {
+                  // if the user role is 'unregistered' redirect to /register
+                  if (userInfo.role === 'unregistered') {
+                    window.location.href = environment.HOME_URL + '/register'
+                  } else {
+                    window.location.href = environment.HOME_URL + '/welcome'
+                  }
+                }
+
                 window.location.href = environment.HOME_URL;
                 return true;
               })
@@ -65,14 +76,15 @@ export class AuthGuard implements CanActivate {
                 console.dir(error);
               });
           } else {
-            // if the user is not registered redirect to welcome
-            window.location.href = environment.HOME_URL + '/welcome';
+            // if the user is not registered redirect to /register
+            window.location.href = environment.HOME_URL + '/register';
             return false;
           }
         })
         .catch((error) => {
           console.log('error getting registration info for user');
           console.dir(error);
+          window.location.href = environment.LOGIN_PORTAL
         });
     } else {
       // if there is no token redirect to login
