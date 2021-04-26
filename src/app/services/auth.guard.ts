@@ -52,7 +52,7 @@ export class AuthGuard implements CanActivate {
               .get(environment.AUTH_URL + '/userInfo', {
                 headers: { Authorization: 'Bearer ' + token }
               })
-              .then((userReponse) => {
+              .then((userResponse) => {
                 let userInfo = userResponse.data
                 window.sessionStorage.setItem(
                   'userInfo',

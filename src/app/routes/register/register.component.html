@@ -1,0 +1,14 @@
+<div class="register-form">
+  <app-dropdown
+    [(choice)]="selectedBase"
+    label="Base"
+    [options]="bases"
+    key="value"
+    (selectedDropdownItem)="selectBase($event)"
+  ></app-dropdown>
+  <app-button
+    text="Register"
+    (clicked)="register()"
+    [disabled]="selectedBase.baseId === ''"
+  ></app-button>
+</div>

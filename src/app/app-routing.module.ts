@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { DatabaseComponent } from './routes/database/database.component';
 import { WelcomeComponent } from './routes/welcome/welcome.component';
+import { RegisterComponent } from './routes/register/register.component';
 import { IncidentsComponent } from './routes/incidents/incidents.component';
 import { NewIncidentComponent } from './routes/incidents/new-incident/new-incident.component';
 import { JumpersComponent } from './routes/jumpers/jumpers.component';
@@ -31,6 +32,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   { path: 'welcome', component: WelcomeComponent },
+  { path: 'register', component: RegisterComponent },
   {
     path: 'incidents',
     component: IncidentsComponent,
