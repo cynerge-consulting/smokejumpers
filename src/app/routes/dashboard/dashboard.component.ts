@@ -7,6 +7,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  headerImage = "url('assets/images/dashBanner.png')";
   cards = [
     {
       title: 'Booster in Brief',
