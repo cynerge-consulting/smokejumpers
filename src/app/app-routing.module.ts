@@ -31,6 +31,11 @@ const routes: Routes = [
     component: DashboardComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard]
+  },
   { path: 'welcome', component: WelcomeComponent },
   { path: 'register', component: RegisterComponent },
   {
