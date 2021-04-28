@@ -10,44 +10,38 @@ export class DashboardComponent implements OnInit {
   headerImage = "url('assets/images/dashBanner.png')";
   cards = [
     {
-      title: 'Booster in Brief',
-      description: 'Information about Boosters',
-      image: "url('assets/images/dashBanner.png')",
-      route: 'booster'
-    },
-    {
       title: 'Incidents',
       description: 'View Incidents across bases',
-      image: "url('assets/images/dbmBanner.png')",
+      image: "url('assets/images/incidents.png')",
       route: 'incidents'
-    },
-    {
-      title: 'Parachutes',
-      description: 'Information about Parachutes',
-      image: "url('assets/images/repBanner.png')",
-      route: 'chutes'
     },
     {
       title: 'Jumpers',
       description: 'View and Manage Jumpers',
-      image: "url('assets/images/incBanner.png')",
+      image: "url('assets/images/jumpers.png')",
       route: 'jumpers'
-    },
-    {
-      title: 'Aircraft',
-      description: 'Information about Aircraft',
-      image: "url('assets/images/repBanner.png')",
-      route: 'aircraft'
     },
     {
       title: 'Pilots',
       description: 'View Pilot Information',
-      image: "url('assets/images/dashBanner.png')",
+      image: "url('assets/images/pilots.png')",
       route: 'pilots'
     },
     {
+      title: 'Aircraft',
+      description: 'Information about Aircraft',
+      image: "url('assets/images/aircraft.png')",
+      route: 'aircraft'
+    },
+    {
+      title: 'Parachutes',
+      description: 'Information about Parachutes',
+      image: "url('assets/images/chutes.png')",
+      route: 'chutes'
+    },
+    {
       description: 'Review Daily and Annual Reports',
-      image: "url('assets/images/repBanner.png')",
+      image: "url('assets/images/reports.png')",
       title: 'Reports',
       route: 'reports'
     }

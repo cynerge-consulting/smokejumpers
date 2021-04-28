@@ -5,7 +5,6 @@
 <div class="dashboard-content">
   <div *ngFor="let card of cards" (click)="go(card.route)" class="card">
     <span class="title">{{ card.title }}</span>
-    <span class="description">{{ card.description }}</span>
     <div class="image" [ngStyle]="{ 'background-image': card.image }"></div>
   </div>
 </div>
