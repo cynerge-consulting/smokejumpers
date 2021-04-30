@@ -13,3 +13,12 @@ body {
   left: 5px;
   top: -2px;
 }
+
+.random-actions {
+  min-height: 55px;
+  .title {
+    color: green;
+    margin-left: 20px;
+    margin-top: 5px;
+  }
+}
