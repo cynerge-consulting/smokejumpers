@@ -10,6 +10,9 @@ import * as reportsData from './reports.json';
   styleUrls: ['./reports.component.scss']
 })
 export class ReportsComponent implements OnInit {
+  isAdmin = false
+  loading = false
+  showingDownloadData = false
   reports;
   dailyReports = [];
   annualReports = [];
@@ -43,13 +46,19 @@ export class ReportsComponent implements OnInit {
     }
   ];
 
-  selectedFileType = 'XLS';
+  selectedFileType = {
+    name: 'XLS',
+    value: 'XLS'
+  };
   selectedBase = {
     value: ''
   };
   selectedJumper = {};
   selectedQualification;
-  selectedYear = '2021';
+  selectedYear = {
+    name: '2021',
+    value: '2021'
+  };
   selectedSpotter;
   selectedChute;
 
@@ -89,6 +98,11 @@ export class ReportsComponent implements OnInit {
 
   async ngOnInit() {
     let token = window.sessionStorage.getItem('token');
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    let role = userInfo.role;
+    if (role === 'admin' || role === 'baseadmin' || role === 'sysadmin') {
+      this.isAdmin = true
+    }
     const options = {
       headers: { Authorization: 'Bearer ' + token }
     };
@@ -116,6 +130,8 @@ export class ReportsComponent implements OnInit {
   }
 
   goToDash = () => {
+    this.showingDownloadData = false
+    this.showingDashboard = true
     this.router.navigate(['reports']);
   };
 
@@ -140,4 +156,66 @@ export class ReportsComponent implements OnInit {
       options
     );
   };
+
+  downloadData = async () => {
+    this.loading = true
+    let token = window.sessionStorage.getItem('token');
+    if (this.selectedFileType.value === 'Incident Info') {
+      const options = {
+        headers: { Authorization: 'Bearer ' + token }
+      };
+      let url = environment.API_URL + '/exportIncidentByYear?year=' + this.selectedYear.value;
+      let data = await axios.get(url, options)
+      this.exportToCsv('IncidentInfo' + '-' + this.selectedYear.value + '.csv', data.data)
+      this.loading = false
+    } else if (this.selectedFileType.value === 'Incident Jumper') {
+      const options = {
+        headers: { Authorization: 'Bearer ' + token }
+      };
+      let url = environment.API_URL + '/exportJumperIncidentyear?year=' + this.selectedYear.value;
+      let data = await axios.get(url, options)
+      this.exportToCsv('IncidentJumper' + '-' + this.selectedYear.value + '.csv', data.data)
+    }
+  }
+
+  exportToCsv(filename, rows) {
+    if (!rows || !rows.length) {
+      return;
+    }
+    const separator = ',';
+    const keys = Object.keys(rows[0]);
+    const csvData =
+      keys.join(separator) +
+      '\n' +
+      rows.map(row => {
+        return keys.map(k => {
+          let cell = row[k] === null || row[k] === undefined ? '' : row[k];
+          cell = cell instanceof Date
+            ? cell.toLocaleString()
+            : cell.toString().replace(/"/g, '""');
+          if (cell.search(/("|,|\n)/g) >= 0) {
+            cell = `"${cell}"`;
+          }
+          return cell;
+        }).join(separator);
+      }).join('\n');
+
+    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    this.loading = false
+    if (navigator.msSaveBlob) { // IE 10+
+      navigator.msSaveBlob(blob, filename);
+    } else {
+      const link = document.createElement('a');
+      if (link.download !== undefined) {
+        // Browsers that support HTML5 download attribute
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', filename);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    }
+  }
 }

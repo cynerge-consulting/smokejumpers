@@ -54,22 +54,35 @@ export class AuthGuard implements CanActivate {
               })
               .then((userResponse) => {
                 let userInfo = userResponse.data;
-                window.sessionStorage.setItem(
-                  'userInfo',
-                  JSON.stringify(userInfo)
-                );
-
-                if (!userInfo.status) {
-                  // if the user role is 'unregistered' redirect to /register
-                  if (userInfo.role === 'unregistered') {
-                    window.location.href = environment.HOME_URL + 'register';
-                  } else {
-                    window.location.href = environment.HOME_URL + 'welcome';
+                axios.get(
+                  environment.API_URL + '/base/dropdown/main',
+                  {
+                    headers: { Authorization: 'Bearer ' + token }
                   }
-                }
+                ).then((response) => {
+                  let bases = response.data.filter(
+                    (base) => base.baseId.toString() === userInfo.baseId.toString()
+                  );
+                  let userBase = bases[0]
+                  userInfo.basecode = userBase.baseCode
+                  userInfo.baseCode = userBase.baseCode
+                  window.sessionStorage.setItem(
+                    'userInfo',
+                    JSON.stringify(userInfo)
+                  );
+                  if (!userInfo.status) {
+                    // if the user role is 'unregistered' redirect to /register
+                    if (userInfo.role === 'unregistered') {
+                      window.location.href = environment.HOME_URL + 'register';
+                    } else {
+                      window.location.href = environment.HOME_URL + 'welcome';
+                    }
+                  }
 
-                window.location.href = environment.HOME_URL + 'dashboard';
-                return true;
+                  window.location.href = environment.HOME_URL + 'dashboard';
+                  return true;
+                })
+
               })
               .catch((error) => {
                 console.log('error getting user info');

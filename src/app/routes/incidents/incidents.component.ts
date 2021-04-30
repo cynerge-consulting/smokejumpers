@@ -79,7 +79,7 @@ export class IncidentsComponent implements OnInit {
   ) {
     this.route.params.subscribe((params) => {
       this.archived = params.archived;
-      this.refreshIncidents();
+      this.getBases()
     });
   }
 
@@ -89,8 +89,6 @@ export class IncidentsComponent implements OnInit {
       this.selectedBase.baseCode = userInfo.basecode;
       this.selectedBase.value = userInfo.basecode;
     }
-    this.getBases();
-    this.refreshIncidents();
   }
 
   getBases = () => {
@@ -101,6 +99,7 @@ export class IncidentsComponent implements OnInit {
       })
       .then((response) => {
         this.bases = response.data;
+        this.refreshIncidents();
       });
   };
 
@@ -176,7 +175,7 @@ export class IncidentsComponent implements OnInit {
       try {
         incidents = await axios.get(
           environment.API_URL +
-            '/incidents/?baseCode=' +
+            '/incidents?baseCode=' +
             baseCode +
             '&archived=true',
           {

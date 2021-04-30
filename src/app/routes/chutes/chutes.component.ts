@@ -57,27 +57,27 @@ export class ChutesComponent implements OnInit {
     if (userInfo) {
       baseCode = userInfo.basecode;
     }
-    let chutes = await axios.get(
+    let mainChutes = await axios.get(
       environment.API_URL + '/chutemain?baseCode=' + baseCode,
       {
         headers: { Authorization: 'Bearer ' + token }
       }
     );
-    this.chutes = chutes.data.value;
-    chutes = await axios.get(
+    this.chutes = mainChutes.data.value;
+    let drogueChutes = await axios.get(
       environment.API_URL + '/chutedrogue?baseCode=' + baseCode,
       {
         headers: { Authorization: 'Bearer ' + token }
       }
     );
-    this.chutes = this.chutes.concat(chutes.data.value);
-    chutes = await axios.get(
+    this.chutes = this.chutes.concat(drogueChutes.data.value);
+    let reserveChutes = await axios.get(
       environment.API_URL + '/chutereserve?baseCode=' + baseCode,
       {
         headers: { Authorization: 'Bearer ' + token }
       }
     );
-    this.chutes = this.chutes.concat(chutes.data.value);
+    this.chutes = this.chutes.concat(reserveChutes.data.value);
 
     this.chutes.forEach((chute) => {
       if (chute.main) {
