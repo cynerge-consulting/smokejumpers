@@ -65,7 +65,7 @@
     justify-content: space-evenly;
     align-items: center;
     width: 100%;
-    height: 55px;
+    min-height: 55px;
     border-bottom: 1px solid gray;
     box-shadow: 0px -2px 8px 1px lightgrey inset;
     transition: all 0.1s ease;
@@ -77,9 +77,6 @@
       font-size: 14px;
       overflow: hidden;
       text-overflow: ellipsis;
-      span {
-        white-space: nowrap;
-      }
     }
     div:first-child {
       padding-left: 20px;
