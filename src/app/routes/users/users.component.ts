@@ -131,9 +131,9 @@ export class UsersComponent implements OnInit {
         headers: { Authorization: 'Bearer ' + token }
       })
       .then((response) => {
-        this.users = response.data.value;
+        this.users = response.data;
         this.users.forEach((user) => {
-          user.name = user.firstName + ' ' + user.lastName;
+          user.name = user.firstname + ' ' + user.lastname;
           user.baseChoice = {
             name: user.basecode,
             value: user.baseId
