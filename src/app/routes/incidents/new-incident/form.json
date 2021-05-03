@@ -126,7 +126,6 @@
         },
         {
           "input": true,
-          "required": true,
           "placeholder": "Dispatched Time",
           "key": "_departTimeMilitary"
         },
@@ -311,6 +310,9 @@
           "input": true,
           "placeholder": "Acres",
           "key": "_acres"
+        },
+        {
+          "sizeClass": true
         },
         {
           "dropdown": true,

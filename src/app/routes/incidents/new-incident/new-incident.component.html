@@ -24,6 +24,11 @@
             [placeholder]="datum.placeholder"
             [(ngModel)]="data[datum.key]"
           />
+          <!-- size class -->
+          <div *ngIf="datum.sizeClass">
+            <span class="input-label">Size Class: </span>
+            <span>{{ getSizeClass() }}</span>
+          </div>
           <!-- datepicker -->
           <input
             type="date"

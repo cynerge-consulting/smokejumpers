@@ -17,6 +17,10 @@ export class NewIncidentComponent implements OnInit {
   };
   mode = 'Create';
   data = {
+    _acres: null,
+    _latitude: '',
+    _longitude: '',
+    _hobbsTime: '',
     _baseCode: '',
     id: '',
     _notes: '',
@@ -90,8 +94,20 @@ export class NewIncidentComponent implements OnInit {
     }
     if (id !== 'new') {
       this.beginUpdateMode(id);
+    } else {
+      this.clearForm();
     }
   }
+
+  clearForm = () => {
+    this.sections.forEach((section) => {
+      section.data.forEach((datum) => {
+        if (datum.dropdown) {
+          datum.choice = {};
+        }
+      });
+    });
+  };
 
   beginUpdateMode = async (id) => {
     this.mode = 'Update';
@@ -307,7 +323,7 @@ export class NewIncidentComponent implements OnInit {
     let userId = 111;
     if (userInfo) {
       userId = userInfo.id;
-      this.data._baseCode = userInfo.basecode
+      this.data._baseCode = userInfo.basecode;
     }
 
     const options = {
@@ -349,6 +365,82 @@ export class NewIncidentComponent implements OnInit {
   // dropdown handler
   onSelectedDropdownItem = (event, datum) => {
     this.data[datum.key] = event.value;
+
+    // show or hide required asterisks based on selection
+    if (datum.key === '_mode') {
+      if (event.value === 'Proficiency / Training Jump') {
+        let hobbsAsterisk = document.getElementById('hobbs-asterisk');
+        if (hobbsAsterisk === null) {
+          let hobbsTimeElement = document.querySelector(
+            'input[placeholder="Hobbs Time"]'
+          );
+          let parent = hobbsTimeElement.parentElement;
+          let requiredAsterisk = document.createElement('span');
+          requiredAsterisk.setAttribute('class', 'required-asterisk');
+          requiredAsterisk.setAttribute('id', 'hobbs-asterisk');
+          requiredAsterisk.innerHTML = '*';
+          parent.appendChild(requiredAsterisk);
+        }
+        let latitudeAsterisk = document.getElementById('latitude-asterisk');
+        if (latitudeAsterisk !== null) {
+          latitudeAsterisk.remove();
+        }
+        let longitudeAsterisk = document.getElementById('longitude-asterisk');
+        if (longitudeAsterisk !== null) {
+          longitudeAsterisk.remove();
+        }
+      } else if (event.value === 'Fire Jump') {
+        let hobbsAsterisk = document.getElementById('hobbs-asterisk');
+        if (hobbsAsterisk === null) {
+          let hobbsTimeElement = document.querySelector(
+            'input[placeholder="Hobbs Time"]'
+          );
+          let parent = hobbsTimeElement.parentElement;
+          let requiredAsterisk = document.createElement('span');
+          requiredAsterisk.setAttribute('class', 'required-asterisk');
+          requiredAsterisk.setAttribute('id', 'hobbs-asterisk');
+          requiredAsterisk.innerHTML = '*';
+          parent.appendChild(requiredAsterisk);
+        }
+        let longitudeAsterisk = document.getElementById('longitude-asterisk');
+        if (longitudeAsterisk === null) {
+          let longitudeElement = document.querySelector(
+            'input[placeholder="Longitude"]'
+          );
+          let parent = longitudeElement.parentElement;
+          let requiredAsterisk = document.createElement('span');
+          requiredAsterisk.setAttribute('class', 'required-asterisk');
+          requiredAsterisk.setAttribute('id', 'longitude-asterisk');
+          requiredAsterisk.innerHTML = '*';
+          parent.appendChild(requiredAsterisk);
+        }
+        let latitudeAsterisk = document.getElementById('latitude-asterisk');
+        if (latitudeAsterisk === null) {
+          let latitudeElement = document.querySelector(
+            'input[placeholder="Latitude"]'
+          );
+          let parent = latitudeElement.parentElement;
+          let requiredAsterisk = document.createElement('span');
+          requiredAsterisk.setAttribute('class', 'required-asterisk');
+          requiredAsterisk.setAttribute('id', 'latitude-asterisk');
+          requiredAsterisk.innerHTML = '*';
+          parent.appendChild(requiredAsterisk);
+        }
+      } else {
+        let hobbsAsterisk = document.getElementById('hobbs-asterisk');
+        if (hobbsAsterisk !== null) {
+          hobbsAsterisk.remove();
+        }
+        let latitudeAsterisk = document.getElementById('latitude-asterisk');
+        if (latitudeAsterisk !== null) {
+          latitudeAsterisk.remove();
+        }
+        let longitudeAsterisk = document.getElementById('longitude-asterisk');
+        if (longitudeAsterisk !== null) {
+          longitudeAsterisk.remove();
+        }
+      }
+    }
   };
 
   // incident jumper methods
@@ -517,6 +609,29 @@ export class NewIncidentComponent implements OnInit {
     }
   };
 
+  getSizeClass = () => {
+    let size = 'A';
+    if (this.data._acres > 0.25) {
+      size = 'B';
+    }
+    if (this.data._acres >= 10) {
+      size = 'C';
+    }
+    if (this.data._acres >= 100) {
+      size = 'D';
+    }
+    if (this.data._acres >= 300) {
+      size = 'E';
+    }
+    if (this.data._acres >= 1000) {
+      size = 'F';
+    }
+    if (this.data._acres >= 5000) {
+      size = 'G';
+    }
+    return size;
+  };
+
   isInvalid = () => {
     let invalid = false;
     if (
@@ -527,10 +642,23 @@ export class NewIncidentComponent implements OnInit {
       !this.data._stateId ||
       !this.data._methodOfTravel_Id ||
       !this.data._mode ||
-      !this.data._mission ||
-      !this.data._departTimeMilitary
+      !this.data._mission
     ) {
       invalid = true;
+    }
+    if (this.data._mode === 'Proficiency / Training Jump') {
+      if (!this.data._hobbsTime) {
+        invalid = true;
+      }
+    }
+    if (this.data._mode === 'Fire Jump') {
+      if (
+        !this.data._hobbsTime ||
+        !this.data._latitude ||
+        !this.data._longitude
+      ) {
+        invalid = true;
+      }
     }
     return invalid;
   };
