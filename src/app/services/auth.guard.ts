@@ -26,6 +26,8 @@ export class AuthGuard implements CanActivate {
 
     // check session storage for a logged in user
     if (window.sessionStorage.getItem('userInfo')) {
+      let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
+      if (userInfo.status && (userInfo.role !== 'unregistered'))
       return true;
     }
 
@@ -77,10 +79,12 @@ export class AuthGuard implements CanActivate {
                     } else {
                       window.location.href = environment.HOME_URL + 'welcome';
                     }
+                  } else {
+                    if (userInfo.role !== 'unregistered') {
+                      window.location.href = environment.HOME_URL + 'dashboard';
+                      return true;
+                    }
                   }
-
-                  window.location.href = environment.HOME_URL + 'dashboard';
-                  return true;
                 })
 
               })
