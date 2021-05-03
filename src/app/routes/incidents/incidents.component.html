@@ -8,7 +8,7 @@
 <div class="random-actions">
   <span class="title">Incidents</span>
   <app-dropdown
-    *ngIf="true"
+    *ngIf="isAdmin"
     [(choice)]="selectedBase"
     label="Base"
     [options]="bases"

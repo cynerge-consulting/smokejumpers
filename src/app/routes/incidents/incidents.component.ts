@@ -88,6 +88,9 @@ export class IncidentsComponent implements OnInit {
     if (userInfo) {
       this.selectedBase.baseCode = userInfo.basecode;
       this.selectedBase.value = userInfo.basecode;
+      if (userInfo.role === 'admin' || userInfo.role === 'baseadmin' || userInfo.role === 'sysadmin') {
+        this.isAdmin = true
+      }
     }
   }
 
