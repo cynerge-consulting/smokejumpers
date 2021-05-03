@@ -126,6 +126,7 @@
         },
         {
           "input": true,
+          "required": true,
           "placeholder": "Dispatched Time",
           "key": "_departTimeMilitary"
         },

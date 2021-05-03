@@ -17,6 +17,7 @@ export class NewIncidentComponent implements OnInit {
   };
   mode = 'Create';
   data = {
+    _baseCode: '',
     id: '',
     _notes: '',
     _incidentDate: null,
@@ -75,6 +76,14 @@ export class NewIncidentComponent implements OnInit {
   constructor(private router: Router, private toast: ToastService) {}
 
   async ngOnInit() {
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    if (userInfo) {
+      this.selectedBase.baseCode = userInfo.basecode;
+      this.selectedBase.value = userInfo.basecode;
+      if (userInfo.role === 'admin' || userInfo.role === 'baseadmin' || userInfo.role === 'sysadmin') {
+        this.isAdmin = true
+      }
+    }
     this.loadFormData();
 
     // if we see an '/:id' instead of '/new' in the URL,
@@ -303,6 +312,7 @@ export class NewIncidentComponent implements OnInit {
     let userId = 111;
     if (userInfo) {
       userId = userInfo.id;
+      this.data._baseCode = userInfo.basecode
     }
 
     const options = {
