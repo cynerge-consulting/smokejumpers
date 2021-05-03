@@ -55,7 +55,10 @@ export class NewIncidentComponent implements OnInit {
   selectedReserveChute = {
     id: ''
   };
-  selectedBase;
+  selectedBase = {
+    baseCode: '',
+    value: ''
+  };
   selectedJumper;
   selectedPosition1 = {
     id: ''
@@ -76,11 +79,6 @@ export class NewIncidentComponent implements OnInit {
   constructor(private router: Router, private toast: ToastService) {}
 
   async ngOnInit() {
-    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    if (userInfo) {
-      this.selectedBase.baseCode = userInfo.basecode;
-      this.selectedBase.value = userInfo.basecode;
-    }
     this.loadFormData();
 
     // if we see an '/:id' instead of '/new' in the URL,
