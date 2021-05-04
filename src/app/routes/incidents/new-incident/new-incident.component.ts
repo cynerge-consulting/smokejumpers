@@ -632,6 +632,33 @@ export class NewIncidentComponent implements OnInit {
     return size;
   };
 
+  valueChanged = (value, datum) => {
+    if (datum.key === '_latitude' || datum.key === '_longitude') {
+      let regex = new RegExp(
+        '(\\d\\d\\s\\d\\d.\\d\\d\\d\\d|\\d\\d\\d\\s\\d\\d.\\d\\d\\d\\d$)'
+      );
+      datum.valid = regex.test(value);
+    }
+  };
+
+  isHelpValid = (datum) => {
+    if (this.data._mode === 'Fire Jump') {
+      if (datum.valid) {
+        return 'valid';
+      } else {
+        return 'invalid';
+      }
+    } else if (this.data[datum.key].length > 0) {
+      if (datum.valid) {
+        return 'valid';
+      } else {
+        return 'invalid';
+      }
+    } else {
+      return '';
+    }
+  };
+
   isInvalid = () => {
     let invalid = false;
     if (
@@ -652,11 +679,16 @@ export class NewIncidentComponent implements OnInit {
       }
     }
     if (this.data._mode === 'Fire Jump') {
+      let regex = new RegExp(
+        '(\\d\\d\\s\\d\\d.\\d\\d\\d\\d|\\d\\d\\d\\s\\d\\d.\\d\\d\\d\\d$)'
+      );
       if (
-        !this.data._hobbsTime ||
-        !this.data._latitude ||
-        !this.data._longitude
+        regex.test(this.data._latitude) &&
+        regex.test(this.data._longitude) &&
+        this.data._hobbsTime
       ) {
+        invalid = false;
+      } else {
         invalid = true;
       }
     }

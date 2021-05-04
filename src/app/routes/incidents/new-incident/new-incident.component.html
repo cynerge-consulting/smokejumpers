@@ -24,10 +24,17 @@
             <input
               type="text"
               [name]="datum.key"
+              (ngModelChange)="valueChanged($event, datum)"
+              [maxlength]="datum.maxlength"
               [placeholder]="datum.placeholder"
               [(ngModel)]="data[datum.key]"
             />
-            <span class="help" *ngIf="datum.help">{{ datum.help }}</span>
+            <span
+              class="help"
+              [ngClass]="isHelpValid(datum)"
+              *ngIf="datum.help"
+              >{{ datum.help }}</span
+            >
           </div>
           <!-- size class -->
           <div *ngIf="datum.sizeClass">

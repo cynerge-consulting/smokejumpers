@@ -94,6 +94,12 @@
       .help {
         color: lightgray;
         font-size: 12px;
+        &.valid {
+          color: lightgreen;
+        }
+        &.invalid {
+          color: red;
+        }
       }
     }
 
