@@ -85,6 +85,18 @@
     flex-direction: row;
     align-items: center;
 
+    .help-container {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      top: 6px;
+      height: 32px;
+      .help {
+        color: lightgray;
+        font-size: 12px;
+      }
+    }
+
     .input-label {
       color: #090909;
       white-space: nowrap;

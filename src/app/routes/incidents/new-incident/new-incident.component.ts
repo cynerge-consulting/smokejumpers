@@ -660,6 +660,7 @@ export class NewIncidentComponent implements OnInit {
         invalid = true;
       }
     }
+
     return invalid;
   };
 }

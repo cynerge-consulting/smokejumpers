@@ -17,13 +17,18 @@
             >{{ datum.placeholder }}:
           </span>
           <!-- text input -->
-          <input
-            type="text"
-            [name]="datum.key"
+          <div
+            class="help-container"
             *ngIf="datum.input && datum.type !== 'date'"
-            [placeholder]="datum.placeholder"
-            [(ngModel)]="data[datum.key]"
-          />
+          >
+            <input
+              type="text"
+              [name]="datum.key"
+              [placeholder]="datum.placeholder"
+              [(ngModel)]="data[datum.key]"
+            />
+            <span class="help" *ngIf="datum.help">{{ datum.help }}</span>
+          </div>
           <!-- size class -->
           <div *ngIf="datum.sizeClass">
             <span class="input-label">Size Class: </span>

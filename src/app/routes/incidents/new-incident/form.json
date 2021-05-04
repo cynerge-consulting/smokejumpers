@@ -373,12 +373,20 @@
         {
           "input": true,
           "placeholder": "Latitude",
-          "key": "_latitude"
+          "key": "_latitude",
+          "mask": "99 99.9999",
+          "pattern": "(ddsdd.dddd|dddsdd.dddd|Dddsdd.dddd|Ddddsdd.dddd$)",
+          "maxlength": 10,
+          "help": "Needs to be in Degree Decimal Minutes i.e. DD MM.MMMM"
         },
         {
           "input": true,
           "placeholder": "Longitude",
-          "key": "_longitude"
+          "key": "_longitude",
+          "mask": "99 99.9999",
+          "pattern": "(ddsdd.dddd|dddsdd.dddd|Dddsdd.dddd|Ddddsdd.dddd$)",
+          "maxlength": 10,
+          "help": "Needs to be in Degree Decimal Minutes i.e. DD MM.MMMM"
         },
         {
           "dropdown": true,
