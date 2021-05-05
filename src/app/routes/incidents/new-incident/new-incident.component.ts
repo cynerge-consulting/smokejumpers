@@ -318,6 +318,9 @@ export class NewIncidentComponent implements OnInit {
   };
 
   submitForm = (data) => {
+    if (!this.data._hobbsTime) {
+      delete this.data._hobbsTime;
+    }
     let token = window.sessionStorage.getItem('token');
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
     let userId = 111;
@@ -336,9 +339,18 @@ export class NewIncidentComponent implements OnInit {
         .post(url, this.data, options)
         .then((response) => {
           this.toast.show('Created incident', 'success');
-          this.router.navigate(['/incidents']);
+          this.router.navigate(['/incidents/' + response.data]);
+          // workaround for ngIf element not in DOM on initial page load
+          let scrollInterval = setInterval(() => {
+            let el = document.getElementById('incident-jumpers');
+            if (el) {
+              el.scrollIntoView();
+              clearInterval(scrollInterval);
+            }
+          }, 1000);
         })
         .catch((error) => {
+          console.dir(error);
           this.toast.show('Error creating incident', 'error');
         });
     } else if (this.mode === 'Update') {
@@ -636,6 +648,7 @@ export class NewIncidentComponent implements OnInit {
     return size;
   };
 
+  // validate lat long values
   valueChanged = (value, datum) => {
     if (datum.key === '_latitude' || datum.key === '_longitude') {
       let regex = new RegExp(
@@ -645,6 +658,7 @@ export class NewIncidentComponent implements OnInit {
     }
   };
 
+  // determines the css class for help text
   isHelpValid = (datum) => {
     if (this.data._mode === 'Fire Jump') {
       if (datum.valid) {
@@ -663,6 +677,7 @@ export class NewIncidentComponent implements OnInit {
     }
   };
 
+  // form validation for disabling / enabling the submit button
   isInvalid = () => {
     let invalid = false;
     if (
@@ -673,6 +688,7 @@ export class NewIncidentComponent implements OnInit {
       !this.data._stateId ||
       !this.data._methodOfTravel_Id ||
       !this.data._mode ||
+      !this.data._departTimeMilitary ||
       !this.data._mission
     ) {
       invalid = true;
