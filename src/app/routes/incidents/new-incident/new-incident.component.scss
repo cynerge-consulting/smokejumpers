@@ -51,13 +51,21 @@
     .incident-jumper {
       display: flex;
       flex-direction: column;
-      width: 40%;
+      width: 100%;
       flex-wrap: wrap;
       margin-bottom: 25px;
       box-shadow: 0 0 3px 4px lightgrey inset;
       padding: 0 20px 20px;
       border: 1px solid gray;
       border-radius: 3px;
+
+      .label {
+        color: gray;
+      }
+      .value {
+        font-weight: bold;
+        margin-left: 8px;
+      }
 
       .remove-jumper-button {
         text-align: right;

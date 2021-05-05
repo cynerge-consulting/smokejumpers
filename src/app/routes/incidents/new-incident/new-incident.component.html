@@ -75,7 +75,68 @@
         <div class="remove-jumper-button">
           <span (click)="confirmDeleteJumper(jumper, i)">X</span>
         </div>
-        <div>{{ jumper.jumperName }} | {{ jumper.Base }}</div>
+        <div class="jumper-info">
+          <div style="margin-top: 10px">
+            <span class="label">Jumper: </span>
+            <span class="value">{{ jumper.jumperName }}</span>
+          </div>
+          <div style="margin-bottom: 20px">
+            <span class="label">Base: </span>
+            <span class="value">{{ jumper.Base }}</span>
+          </div>
+          <div>
+            <span class="label">Main: </span>
+            <span class="value">{{ jumper.main }}</span>
+          </div>
+          <div>
+            <span class="label">Drogue: </span>
+            <span class="value">{{ jumper.drogue }}</span>
+          </div>
+          <div style="margin-bottom: 20px">
+            <span class="label">Reserve: </span>
+            <span class="value">{{ jumper.reserve }}</span>
+          </div>
+          <div>
+            <span class="label">Position One:</span>
+            <span class="value"> {{ jumper.position1 }}</span>
+          </div>
+          <div>
+            <span class="label">Position Two:</span>
+            <span class="value"> {{ jumper.position2 }}</span>
+          </div>
+          <div style="margin-bottom: 20px">
+            <span class="label">Position Three:</span>
+            <span class="value"> {{ jumper.position3 }}</span>
+          </div>
+          <div>
+            <span class="label">Trainee One:</span>
+            <span class="value"> {{ jumper.T1 }}</span>
+          </div>
+          <div>
+            <span class="label">Trainee Two: </span>
+            <span class="value">{{ jumper.T2 }}</span>
+          </div>
+          <div style="margin-bottom: 20px">
+            <span class="label">Trainee Three: </span>
+            <span class="value">{{ jumper.T3 }}</span>
+          </div>
+          <div>
+            <span class="label">Date Arrived: </span>
+            <span class="value">{{ jumper.arrivalDate }}</span>
+          </div>
+          <div>
+            <span class="label">Date Returned: </span>
+            <span class="value">{{ jumper.returnDate }}</span>
+          </div>
+          <div style="margin-bottom: 20px">
+            <span class="label">Days (Shifts): </span>
+            <span class="value">{{ jumper.totalDays }}</span>
+          </div>
+          <div>
+            <span class="label">Jumper Rating: </span>
+            <span class="value">{{ jumper.jumpRating }}</span>
+          </div>
+        </div>
       </div>
     </div>
     <!-- add incident jumper subform -->
@@ -84,9 +145,10 @@
         <app-dropdown
           label="Base"
           [options]="bases"
-          key="text"
+          key="value"
           (selectedDropdownItem)="selectBase($event)"
         ></app-dropdown>
+        <span class="required-asterisk">*</span>
       </div>
       <div class="datum">
         <app-dropdown
@@ -95,6 +157,7 @@
           key="friendly"
           (selectedDropdownItem)="selectJumper($event)"
         ></app-dropdown>
+        <span class="required-asterisk">*</span>
       </div>
       <div class="datum">
         <app-combobox
@@ -149,12 +212,20 @@
         ></app-dropdown>
       </div>
       <div class="datum">
+        <input type="checkbox" [(ngModel)]="T1" />
+        <span class="input-label">Trainee?</span>
+      </div>
+      <div class="datum">
         <app-dropdown
           label="Position 2"
           [options]="qualifications"
           key="name"
           (selectedDropdownItem)="selectJumperPosition($event, 2)"
         ></app-dropdown>
+      </div>
+      <div class="datum">
+        <input type="checkbox" [(ngModel)]="T2" />
+        <span class="input-label">Trainee?</span>
       </div>
       <div class="datum">
         <app-dropdown
@@ -165,8 +236,72 @@
         ></app-dropdown>
       </div>
       <div class="datum">
+        <input type="checkbox" [(ngModel)]="T3" />
+        <span class="input-label">Trainee?</span>
+      </div>
+      <div class="datum">
+        <div class="input-container">
+          <span class="input-label">Shifts Worked: </span>
+          <input placeholder="Shifts Worked" [(ngModel)]="totalDays" />
+        </div>
+      </div>
+      <div class="datum">
+        <app-dropdown
+          label="Jumper Rating"
+          [options]="[
+            {
+              name: '10',
+              value: 10
+            },
+            {
+              name: '9',
+              value: 9
+            },
+            {
+              name: '8',
+              value: 8
+            },
+            {
+              name: '7',
+              value: 7
+            },
+            {
+              name: '6',
+              value: 6
+            },
+            {
+              name: '5',
+              value: 5
+            },
+            {
+              name: '4',
+              value: 4
+            },
+            {
+              name: '3',
+              value: 3
+            },
+            {
+              name: '2',
+              value: 2
+            },
+            {
+              name: '1',
+              value: 1
+            },
+            {
+              name: '0',
+              value: 0
+            }
+          ]"
+          key="name"
+          (selectedDropdownItem)="selectJumpRating($event)"
+        ></app-dropdown>
+      </div>
+      <div class="datum">
         <app-button
           text="Add Jumper"
+          [disabled]="isAddJumperInvalid()"
           (clicked)="selectedJumper ? addJumper() : ''"
           class="add-jumper-button"
         ></app-button>
