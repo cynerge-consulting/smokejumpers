@@ -375,11 +375,12 @@ export class NewIncidentComponent implements OnInit {
             'input[placeholder="Hobbs Time"]'
           );
           let parent = hobbsTimeElement.parentElement;
+          let grandpa = parent.parentElement;
           let requiredAsterisk = document.createElement('span');
           requiredAsterisk.setAttribute('class', 'required-asterisk');
           requiredAsterisk.setAttribute('id', 'hobbs-asterisk');
           requiredAsterisk.innerHTML = '*';
-          parent.appendChild(requiredAsterisk);
+          grandpa.appendChild(requiredAsterisk);
         }
         let latitudeAsterisk = document.getElementById('latitude-asterisk');
         if (latitudeAsterisk !== null) {
@@ -396,11 +397,12 @@ export class NewIncidentComponent implements OnInit {
             'input[placeholder="Hobbs Time"]'
           );
           let parent = hobbsTimeElement.parentElement;
+          let grandpa = parent.parentElement;
           let requiredAsterisk = document.createElement('span');
           requiredAsterisk.setAttribute('class', 'required-asterisk');
           requiredAsterisk.setAttribute('id', 'hobbs-asterisk');
           requiredAsterisk.innerHTML = '*';
-          parent.appendChild(requiredAsterisk);
+          grandpa.appendChild(requiredAsterisk);
         }
         let longitudeAsterisk = document.getElementById('longitude-asterisk');
         if (longitudeAsterisk === null) {
@@ -408,11 +410,12 @@ export class NewIncidentComponent implements OnInit {
             'input[placeholder="Longitude"]'
           );
           let parent = longitudeElement.parentElement;
+          let grandpa = parent.parentElement;
           let requiredAsterisk = document.createElement('span');
           requiredAsterisk.setAttribute('class', 'required-asterisk');
           requiredAsterisk.setAttribute('id', 'longitude-asterisk');
           requiredAsterisk.innerHTML = '*';
-          parent.appendChild(requiredAsterisk);
+          grandpa.appendChild(requiredAsterisk);
         }
         let latitudeAsterisk = document.getElementById('latitude-asterisk');
         if (latitudeAsterisk === null) {
@@ -420,11 +423,12 @@ export class NewIncidentComponent implements OnInit {
             'input[placeholder="Latitude"]'
           );
           let parent = latitudeElement.parentElement;
+          let grandpa = parent.parentElement;
           let requiredAsterisk = document.createElement('span');
           requiredAsterisk.setAttribute('class', 'required-asterisk');
           requiredAsterisk.setAttribute('id', 'latitude-asterisk');
           requiredAsterisk.innerHTML = '*';
-          parent.appendChild(requiredAsterisk);
+          grandpa.appendChild(requiredAsterisk);
         }
       } else {
         let hobbsAsterisk = document.getElementById('hobbs-asterisk');
