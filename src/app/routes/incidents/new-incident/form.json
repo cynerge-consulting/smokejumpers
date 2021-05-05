@@ -121,6 +121,7 @@
         },
         {
           "input": true,
+          "maxlength": 6,
           "placeholder": "Hobbs Time",
           "key": "_hobbsTime"
         },
