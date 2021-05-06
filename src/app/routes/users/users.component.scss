@@ -30,3 +30,7 @@
   left: 200px;
   top: 38px;
 }
+.user-table {
+  height: calc(100% - 99px);
+  overflow: auto;
+}
