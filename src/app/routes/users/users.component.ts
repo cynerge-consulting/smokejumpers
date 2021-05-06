@@ -19,135 +19,7 @@ export class UsersComponent implements OnInit {
   usersWithRoleChange = [];
   usersWithBaseChange = [];
   usersWithActiveChange = [];
-  // users = [];
-  users = [
-    {
-      name: 'Bobby Billy',
-      baseChoice: {
-        name: 'BOI',
-        value: 'BOI'
-      }
-    },
-    {
-      name: 'Bobby Billy',
-      baseChoice: {
-        name: 'BOI',
-        value: 'BOI'
-      }
-    },
-    {
-      name: 'Bobby Billy',
-      baseChoice: {
-        name: 'BOI',
-        value: 'BOI'
-      }
-    },
-    {
-      name: 'Bobby Billy',
-      baseChoice: {
-        name: 'BOI',
-        value: 'BOI'
-      }
-    },
-    {
-      name: 'Bobby Billy',
-      baseChoice: {
-        name: 'BOI',
-        value: 'BOI'
-      }
-    },
-    {
-      name: 'Bobby Billy',
-      baseChoice: {
-        name: 'BOI',
-        value: 'BOI'
-      }
-    },
-    {
-      name: 'Bobby Billy',
-      baseChoice: {
-        name: 'BOI',
-        value: 'BOI'
-      }
-    },
-    {
-      name: 'Bobby Billy',
-      baseChoice: {
-        name: 'BOI',
-        value: 'BOI'
-      }
-    },
-    {
-      name: 'Bobby Billy',
-      baseChoice: {
-        name: 'BOI',
-        value: 'BOI'
-      }
-    },
-    {
-      name: 'Bobby Billy',
-      baseChoice: {
-        name: 'BOI',
-        value: 'BOI'
-      }
-    },
-    {
-      name: 'Bobby Billy',
-      baseChoice: {
-        name: 'BOI',
-        value: 'BOI'
-      }
-    },
-    {
-      name: 'Bobby Billy',
-      baseChoice: {
-        name: 'BOI',
-        value: 'BOI'
-      }
-    },
-    {
-      name: 'Bobby Billy',
-      baseChoice: {
-        name: 'BOI',
-        value: 'BOI'
-      }
-    },
-    {
-      name: 'Bobby Billy',
-      baseChoice: {
-        name: 'BOI',
-        value: 'BOI'
-      }
-    },
-    {
-      name: 'Bobby Billy',
-      baseChoice: {
-        name: 'BOI',
-        value: 'BOI'
-      }
-    },
-    {
-      name: 'Bobby Billy',
-      baseChoice: {
-        name: 'BOI',
-        value: 'BOI'
-      }
-    },
-    {
-      name: 'Bobby Billy',
-      baseChoice: {
-        name: 'BOI',
-        value: 'BOI'
-      }
-    },
-    {
-      name: 'Billy Bobbies',
-      baseChoice: {
-        name: 'BOI',
-        value: 'BOI'
-      }
-    }
-  ];
+  users = [];
   headings = [
     {
       label: 'Name',
@@ -185,7 +57,7 @@ export class UsersComponent implements OnInit {
       base.name = base.baseCode;
       base.value = base.baseId;
     });
-    // this.refreshUsers();
+    this.refreshUsers();
   }
 
   delete = async (user) => {
@@ -248,33 +120,33 @@ export class UsersComponent implements OnInit {
 
   refreshUsers = () => {
     // check session storage for a token
-    // let token = window.sessionStorage.getItem('token');
-    // let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    // let baseCode = 'BOI';
-    // if (userInfo) {
-    //   baseCode = userInfo.basecode;
-    // }
-    // axios
-    //   .get(environment.AUTH_URL + '/getUserList', {
-    //     headers: { Authorization: 'Bearer ' + token }
-    //   })
-    //   .then((response) => {
-    //     this.users = response.data;
-    //     this.users.forEach((user) => {
-    //       user.name = user.firstname + ' ' + user.lastname;
-    //       user.baseChoice = {
-    //         name: user.basecode,
-    //         value: user.baseId
-    //       };
-    //       user.roleChoice = {
-    //         name: user.role,
-    //         value: user.role
-    //       };
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     this.toast.show('Unable to retreive users list.', 'error');
-    //   });
+    let token = window.sessionStorage.getItem('token');
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    let baseCode = 'BOI';
+    if (userInfo) {
+      baseCode = userInfo.basecode;
+    }
+    axios
+      .get(environment.AUTH_URL + '/getUserList', {
+        headers: { Authorization: 'Bearer ' + token }
+      })
+      .then((response) => {
+        this.users = response.data;
+        this.users.forEach((user) => {
+          user.name = user.firstname + ' ' + user.lastname;
+          user.baseChoice = {
+            name: user.basecode,
+            value: user.baseId
+          };
+          user.roleChoice = {
+            name: user.role,
+            value: user.role
+          };
+        });
+      })
+      .catch((error) => {
+        this.toast.show('Unable to retreive users list.', 'error');
+      });
   };
 
   selectActive = (user) => {

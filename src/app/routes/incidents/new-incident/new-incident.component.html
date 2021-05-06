@@ -76,7 +76,7 @@
           <span (click)="confirmDeleteJumper(jumper, i)">X</span>
         </div>
         <div class="jumper-info">
-          <div style="margin-top: 10px">
+          <div>
             <span class="label">Jumper: </span>
             <span class="value">{{ jumper.jumperName }}</span>
           </div>
@@ -89,20 +89,20 @@
             <span class="value">{{ jumper.main }}</span>
           </div>
           <div>
-            <span class="label">Drogue: </span>
-            <span class="value">{{ jumper.drogue }}</span>
-          </div>
-          <div style="margin-bottom: 20px">
-            <span class="label">Reserve: </span>
-            <span class="value">{{ jumper.reserve }}</span>
-          </div>
-          <div>
             <span class="label">Position One:</span>
             <span class="value"> {{ jumper.position1 }}</span>
           </div>
           <div>
+            <span class="label">Drogue: </span>
+            <span class="value">{{ jumper.drogue }}</span>
+          </div>
+          <div>
             <span class="label">Position Two:</span>
             <span class="value"> {{ jumper.position2 }}</span>
+          </div>
+          <div style="margin-bottom: 20px">
+            <span class="label">Reserve: </span>
+            <span class="value">{{ jumper.reserve }}</span>
           </div>
           <div style="margin-bottom: 20px">
             <span class="label">Position Three:</span>
@@ -113,20 +113,20 @@
             <span class="value"> {{ jumper.T1 }}</span>
           </div>
           <div>
-            <span class="label">Trainee Two: </span>
-            <span class="value">{{ jumper.T2 }}</span>
-          </div>
-          <div style="margin-bottom: 20px">
-            <span class="label">Trainee Three: </span>
-            <span class="value">{{ jumper.T3 }}</span>
-          </div>
-          <div>
             <span class="label">Date Arrived: </span>
             <span class="value">{{ jumper.arrivalDate }}</span>
           </div>
           <div>
+            <span class="label">Trainee Two: </span>
+            <span class="value">{{ jumper.T2 }}</span>
+          </div>
+          <div>
             <span class="label">Date Returned: </span>
             <span class="value">{{ jumper.returnDate }}</span>
+          </div>
+          <div style="margin-bottom: 20px">
+            <span class="label">Trainee Three: </span>
+            <span class="value">{{ jumper.T3 }}</span>
           </div>
           <div style="margin-bottom: 20px">
             <span class="label">Days (Shifts): </span>
@@ -313,7 +313,7 @@
       <span>Notes</span>
     </div>
     <div class="content">
-      <div class="datum">
+      <div class="datum" style="width: 100%">
         <textarea
           [(ngModel)]="data._notes"
           placeholder="Enter notes here"
