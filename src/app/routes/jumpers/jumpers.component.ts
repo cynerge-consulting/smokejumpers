@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./jumpers.component.scss']
 })
 export class JumpersComponent implements OnInit {
+  userBase;
   jumpers = [];
   headings = [
     {
@@ -35,6 +36,10 @@ export class JumpersComponent implements OnInit {
   constructor(private toast: ToastService, private router: Router) {}
 
   ngOnInit() {
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    if (userInfo) {
+      this.userBase = userInfo.basecode;
+    }
     this.refreshJumpers();
   }
 

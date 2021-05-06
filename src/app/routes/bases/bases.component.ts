@@ -9,6 +9,7 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./bases.component.scss']
 })
 export class BasesComponent implements OnInit {
+  userBase;
   bases = [];
   headings = [
     {
@@ -38,6 +39,7 @@ export class BasesComponent implements OnInit {
     let baseCode = 'BOI';
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
     if (userInfo) {
+      this.userBase = userInfo.basecode;
       baseCode = userInfo.basecode;
     }
     let bases = await axios.get(

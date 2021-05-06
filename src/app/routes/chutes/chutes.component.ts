@@ -9,6 +9,7 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./chutes.component.scss']
 })
 export class ChutesComponent implements OnInit {
+  userBase;
   type = {
     name: 'All',
     value: 'All'
@@ -56,6 +57,7 @@ export class ChutesComponent implements OnInit {
     let baseCode = 'BOI';
     if (userInfo) {
       baseCode = userInfo.basecode;
+      this.userBase = userInfo.basecode;
     }
     let mainChutes = await axios.get(
       environment.API_URL + '/chutemain?baseCode=' + baseCode,

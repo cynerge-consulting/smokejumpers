@@ -9,6 +9,7 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./pilots.component.scss']
 })
 export class PilotsComponent implements OnInit {
+  userBase;
   pilots = [];
   headings = [
     {
@@ -34,6 +35,10 @@ export class PilotsComponent implements OnInit {
   constructor(private toast: ToastService) {}
 
   ngOnInit() {
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    if (userInfo) {
+      this.userBase = userInfo.basecode;
+    }
     this.refreshPilots();
   }
 

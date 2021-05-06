@@ -9,6 +9,7 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./qualifications.component.scss']
 })
 export class QualificationsComponent implements OnInit {
+  userBase;
   qualifications = [];
   headings = [
     {
@@ -38,6 +39,10 @@ export class QualificationsComponent implements OnInit {
   constructor(private toast: ToastService) {}
 
   async ngOnInit() {
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    if (userInfo) {
+      this.userBase = userInfo.basecode;
+    }
     this.refreshQualifications();
   }
 

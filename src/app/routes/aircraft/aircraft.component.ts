@@ -9,6 +9,7 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./aircraft.component.scss']
 })
 export class AircraftComponent implements OnInit {
+  userBase;
   aircraft = [];
   headings = [
     {
@@ -43,6 +44,10 @@ export class AircraftComponent implements OnInit {
 
   async ngOnInit() {
     let token = window.sessionStorage.getItem('token');
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    if (userInfo) {
+      this.userBase = userInfo.basecode;
+    }
     this.refreshAircraft();
   }
 
@@ -52,6 +57,7 @@ export class AircraftComponent implements OnInit {
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
     if (userInfo) {
       userId = userInfo.id;
+      this.userBase = userInfo.basecode;
     }
     let id = '';
     if (aircraft.id) {
