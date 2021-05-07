@@ -52,13 +52,16 @@ export class NewIncidentComponent implements OnInit {
   // incident jumper vars
   selectedMainChute = {
     id: '',
-    name: ''
+    name: '',
+    value: ''
   };
   selectedDrogueChute = {
-    id: ''
+    id: '',
+    value: ''
   };
   selectedReserveChute = {
-    id: ''
+    id: '',
+    value: ''
   };
   selectedBase = {
     baseCode: '',
@@ -512,6 +515,78 @@ export class NewIncidentComponent implements OnInit {
     }
   };
 
+  updateJumper = () => {
+    let token = window.sessionStorage.getItem('token');
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    let userId = 112;
+    if (userInfo) {
+      userId = userInfo.id;
+    }
+    let incidentJumperData = this.incidentJumpers.filter((jumper) => {
+      return jumper.JumperId === this.selectedJumper.id;
+    });
+    let incidentJumper = incidentJumperData[0];
+    let id = incidentJumper.href.slice(
+      incidentJumper.href.lastIndexOf('/') + 1,
+      incidentJumper.href.length
+    );
+    const options = {
+      headers: { Authorization: 'Bearer ' + token }
+    };
+    let jumper = {
+      incidentId: Number(this.data.id),
+      Base: this.selectedBase.value,
+      JumperId: this.selectedJumper.id,
+      Jumper: this.selectedJumper.friendly,
+      T1: this.T1,
+      T2: this.T2,
+      T3: this.T3,
+      chuteType: '',
+      arrivalDate: this.jumperArrivalDate,
+      arrivalTime: null,
+      drogue: null,
+      drogueId: this.selectedDrogueChute.value,
+      homeBaseId: this.selectedJumper.base.id,
+      hideEdit: false,
+      jumpOrder: 10,
+      sortOrder: 10,
+      jumpRating: this.jumpRating.value.toString(),
+      jumperName:
+        this.selectedJumper.lastName + ', ' + this.selectedJumper.firstName,
+      main: null,
+      mainId: this.selectedMainChute.value,
+      position1Id: this.selectedPosition1.id,
+      position2Id: this.selectedPosition2.id,
+      position3Id: this.selectedPosition3.id,
+      Pos1: this.selectedPosition1.id,
+      Pos2: this.selectedPosition2.id,
+      Pos3: this.selectedPosition3.id,
+      reserve: null,
+      reserveId: this.selectedReserveChute.value,
+      returnDate: this.jumperReturnDate,
+      returnTime: null,
+      totalDays: this.totalDays
+    };
+    // update incident jumper
+    let url =
+      environment.API_URL +
+      '/incidentjumper/' +
+      id +
+      '/update?userId=' +
+      userId;
+    axios
+      .post(url, jumper, options)
+      .then((response) => {
+        this.toast.show('Updated Jumper', 'success');
+        this.refreshIncidentJumpers();
+        this.cancelJumperEdit();
+      })
+      .catch((error) => {
+        this.toast.show('Error Updating Jumper', 'error');
+        console.dir(error);
+      });
+  };
+
   confirmDeleteJumper = (jumper, index) => {
     this.modal = {
       data: {
@@ -607,6 +682,10 @@ export class NewIncidentComponent implements OnInit {
       .then((response) => {
         this.incidentJumpers = response.data.value;
         this.incidentJumpers.forEach((jumper) => {
+          let id = jumper.href.slice(
+            jumper.href.lastIndexOf('/') + 1,
+            jumper.href.length
+          );
           if (jumper.position1Id) {
             let position = this.qualifications.filter((qualification) => {
               return qualification.id === jumper.position1Id;
@@ -794,6 +873,9 @@ export class NewIncidentComponent implements OnInit {
   };
 
   editJumper = (jumper, index) => {
+    // clear the form of any prior data
+    this.cancelJumperEdit();
+
     // get the full jumper data for the incident jumper display
     let splitName = jumper.jumperName.split(',');
     let friendlyName = splitName[1] + ' ' + splitName[0];
@@ -803,16 +885,28 @@ export class NewIncidentComponent implements OnInit {
     });
     jumperData = jumperData[0];
 
-    this.selectedMainChute = {
-      id: '',
-      name: ''
-    };
-    this.selectedDrogueChute = {
-      id: ''
-    };
-    this.selectedReserveChute = {
-      id: ''
-    };
+    let mainChute = this.mainChutes.filter((chute) => {
+      return chute.id === jumper.mainId;
+    });
+    mainChute = mainChute[0];
+    if (mainChute) {
+      this.selectedMainChute = mainChute;
+    }
+    let drogueChute = this.drogueChutes.filter((chute) => {
+      return chute.id === jumper.drogueId;
+    });
+    drogueChute = drogueChute[0];
+    if (drogueChute) {
+      this.selectedDrogueChute = drogueChute;
+    }
+    let reserveChute = this.reserveChutes.filter((chute) => {
+      return chute.id === jumper.reserveId;
+    });
+    reserveChute = reserveChute[0];
+    if (reserveChute) {
+      this.selectedReserveChute = reserveChute;
+    }
+
     this.selectedBase = {
       baseCode: jumper.Base,
       value: jumper.Base
@@ -845,8 +939,12 @@ export class NewIncidentComponent implements OnInit {
       name: jumper.jumpRating,
       value: jumper.jumpRating
     };
-    this.jumperReturnDate = jumper.returnDate.slice(0, 10);
-    this.jumperArrivalDate = jumper.arrivalDate.slice(0, 10);
+    if (jumper.returnDate) {
+      this.jumperReturnDate = jumper.returnDate.slice(0, 10);
+    }
+    if (jumper.arrivalDate) {
+      this.jumperArrivalDate = jumper.arrivalDate.slice(0, 10);
+    }
 
     this.editingJumper = true;
     let jumperForm = document.getElementById('jumperForm');
@@ -857,13 +955,16 @@ export class NewIncidentComponent implements OnInit {
     this.editingJumper = false;
     this.selectedMainChute = {
       id: '',
-      name: ''
+      name: '',
+      value: ''
     };
     this.selectedDrogueChute = {
-      id: ''
+      id: '',
+      value: ''
     };
     this.selectedReserveChute = {
-      id: ''
+      id: '',
+      value: ''
     };
     this.selectedBase = {
       baseCode: '',

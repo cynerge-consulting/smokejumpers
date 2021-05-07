@@ -23,7 +23,7 @@ export class ComboboxComponent implements OnInit {
   hasBeenFiltered = false;
   originalOptions;
   selected;
-  @Input() choice = '';
+  @Input() choice = {};
   @Input() key: any;
   @Input() label: any;
   @Input() options;
@@ -48,7 +48,7 @@ export class ComboboxComponent implements OnInit {
     if (!this.hasBeenFiltered) {
       this.originalOptions = this.options;
     }
-    this.choice = option.name;
+    this.choice = option;
     this.showingMenu = false;
     this.searching = false;
     this.query = '';

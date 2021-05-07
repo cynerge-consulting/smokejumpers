@@ -154,10 +154,10 @@
         ></app-dropdown>
         <span class="required-asterisk">*</span>
       </div>
-      <div *ngIf="!editingJumper" class="datum">
+      <div class="datum">
         <app-dropdown
           [choice]="selectedJumper"
-          label="Jumpers"
+          label="Jumper"
           [options]="jumpers"
           key="friendly"
           (selectedDropdownItem)="selectJumper($event)"
@@ -166,6 +166,7 @@
       </div>
       <div class="datum">
         <app-combobox
+          [choice]="selectedMainChute"
           label="Main Chute"
           [options]="mainChutes"
           key="name"
@@ -174,6 +175,7 @@
       </div>
       <div class="datum">
         <app-combobox
+          [choice]="selectedDrogueChute"
           label="Drogue Chute"
           [options]="drogueChutes"
           key="name"
@@ -182,6 +184,7 @@
       </div>
       <div class="datum">
         <app-combobox
+          [choice]="selectedReserveChute"
           label="Reserve Chute"
           [options]="reserveChutes"
           key="name"
