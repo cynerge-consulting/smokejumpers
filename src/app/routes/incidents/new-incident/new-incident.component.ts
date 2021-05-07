@@ -64,7 +64,17 @@ export class NewIncidentComponent implements OnInit {
     baseCode: '',
     value: ''
   };
-  selectedJumper;
+  selectedJumper = {
+    friendly: '',
+    id: '',
+    base: {
+      id: ''
+    },
+    lastName: '',
+    firstName: '',
+    name: '',
+    value: ''
+  };
   selectedPosition1 = {
     id: ''
   };
@@ -79,11 +89,13 @@ export class NewIncidentComponent implements OnInit {
   T3;
   totalDays;
   jumpRating = {
+    name: '',
     value: ''
   };
   jumperReturnDate;
   jumperArrivalDate;
   incidentJumpers = [];
+  editingJumper = false;
 
   // form sections imported from json file
   sections = formData.sections;
@@ -131,20 +143,6 @@ export class NewIncidentComponent implements OnInit {
 
     // get any jumpers associated with the incident
     this.refreshIncidentJumpers();
-    // try {
-    //   let incJumpers = await axios.get(
-    //     environment.API_URL +
-    //       '/incidentjumper?incidentId=' +
-    //       id +
-    //       '&archived=true',
-    //     {
-    //       headers: { Authorization: 'Bearer ' + token }
-    //     }
-    //   );
-    //   this.incidentJumpers = incJumpers.data.value;
-    // } catch (error) {
-    //   console.dir(error);
-    // }
   };
 
   loadFormData = async () => {
@@ -584,6 +582,7 @@ export class NewIncidentComponent implements OnInit {
           this.toast.show('Added Jumper', 'success');
           this.refreshIncidentJumpers();
           this.modal.active = false;
+          this.cancelJumperEdit();
         })
         .catch((error) => {
           this.toast.show('Error adding Jumper', 'error');
@@ -655,6 +654,16 @@ export class NewIncidentComponent implements OnInit {
               return jumper.reserveId.toString() === id.toString();
             });
             jumper.reserve = reserve[0].reserve;
+          }
+          if (jumper.arrivalDate) {
+            let date = jumper.arrivalDate.split('-');
+            jumper.friendlyArrivalDate =
+              Number(date[1]) + '/' + date[2].slice(0, 2) + '/' + date[0];
+          }
+          if (jumper.returnDate) {
+            let date = jumper.returnDate.split('-');
+            jumper.friendlyReturnDate =
+              Number(date[1]) + '/' + date[2].slice(0, 2) + '/' + date[0];
           }
         });
       })
@@ -782,5 +791,113 @@ export class NewIncidentComponent implements OnInit {
     }
 
     return invalid;
+  };
+
+  editJumper = (jumper, index) => {
+    // get the full jumper data for the incident jumper display
+    let splitName = jumper.jumperName.split(',');
+    let friendlyName = splitName[1] + ' ' + splitName[0];
+    friendlyName = friendlyName.slice(1, friendlyName.length);
+    let jumperData = this.jumpers.filter((j) => {
+      return j.friendly === friendlyName;
+    });
+    jumperData = jumperData[0];
+
+    this.selectedMainChute = {
+      id: '',
+      name: ''
+    };
+    this.selectedDrogueChute = {
+      id: ''
+    };
+    this.selectedReserveChute = {
+      id: ''
+    };
+    this.selectedBase = {
+      baseCode: jumper.Base,
+      value: jumper.Base
+    };
+
+    this.selectedJumper = jumperData;
+    if (jumper.position1Id) {
+      let pos1 = this.qualifications.filter((qualification) => {
+        return qualification.id === jumper.position1Id;
+      });
+      this.selectedPosition1 = pos1[0];
+    }
+    if (jumper.position2Id) {
+      let pos2 = this.qualifications.filter((qualification) => {
+        return qualification.id === jumper.position2Id;
+      });
+      this.selectedPosition2 = pos2[0];
+    }
+    if (jumper.position3Id) {
+      let pos3 = this.qualifications.filter((qualification) => {
+        return qualification.id === jumper.position3Id;
+      });
+      this.selectedPosition3 = pos3[0];
+    }
+    this.T1 = jumper.T1;
+    this.T2 = jumper.T2;
+    this.T3 = jumper.T3;
+    this.totalDays = jumper.totalDays;
+    this.jumpRating = {
+      name: jumper.jumpRating,
+      value: jumper.jumpRating
+    };
+    this.jumperReturnDate = jumper.returnDate.slice(0, 10);
+    this.jumperArrivalDate = jumper.arrivalDate.slice(0, 10);
+
+    this.editingJumper = true;
+    let jumperForm = document.getElementById('jumperForm');
+    jumperForm.scrollIntoView({ block: 'nearest' });
+  };
+
+  cancelJumperEdit = () => {
+    this.editingJumper = false;
+    this.selectedMainChute = {
+      id: '',
+      name: ''
+    };
+    this.selectedDrogueChute = {
+      id: ''
+    };
+    this.selectedReserveChute = {
+      id: ''
+    };
+    this.selectedBase = {
+      baseCode: '',
+      value: ''
+    };
+    this.selectedJumper = {
+      friendly: '',
+      id: '',
+      base: {
+        id: ''
+      },
+      lastName: '',
+      firstName: '',
+      name: '',
+      value: ''
+    };
+    this.selectedPosition1 = {
+      id: ''
+    };
+    this.selectedPosition2 = {
+      id: ''
+    };
+    this.selectedPosition3 = {
+      id: ''
+    };
+    this.T1 = null;
+    this.T2 = null;
+    this.T3 = null;
+    this.totalDays = null;
+    this.jumpRating = {
+      name: '',
+      value: ''
+    };
+    this.jumperReturnDate = null;
+    this.jumperArrivalDate = null;
   };
 }

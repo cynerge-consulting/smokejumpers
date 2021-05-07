@@ -89,6 +89,13 @@
     }
   }
 
+  .jumper-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0px 40px;
+  }
+
   .datum {
     min-height: 25px;
     margin: 20px 20px;
@@ -155,8 +162,4 @@ app-dropdown {
 .submit-button-container {
   display: flex;
   justify-content: center;
-}
-
-.add-jumper-button {
-  position: absolute;
 }

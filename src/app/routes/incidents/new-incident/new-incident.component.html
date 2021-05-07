@@ -73,6 +73,9 @@
         *ngFor="let jumper of incidentJumpers; index as i"
       >
         <div class="remove-jumper-button">
+          <span style="margin-right: 10px" (click)="editJumper(jumper, i)"
+            >✎</span
+          >
           <span (click)="confirmDeleteJumper(jumper, i)">X</span>
         </div>
         <div class="jumper-info">
@@ -114,7 +117,7 @@
           </div>
           <div>
             <span class="label">Date Arrived: </span>
-            <span class="value">{{ jumper.arrivalDate }}</span>
+            <span class="value">{{ jumper.friendlyArrivalDate }}</span>
           </div>
           <div>
             <span class="label">Trainee Two: </span>
@@ -122,7 +125,7 @@
           </div>
           <div>
             <span class="label">Date Returned: </span>
-            <span class="value">{{ jumper.returnDate }}</span>
+            <span class="value">{{ jumper.friendlyReturnDate }}</span>
           </div>
           <div style="margin-bottom: 20px">
             <span class="label">Trainee Three: </span>
@@ -140,9 +143,10 @@
       </div>
     </div>
     <!-- add incident jumper subform -->
-    <div class="content incident-jumper-subform">
+    <div id="jumperForm" class="content incident-jumper-subform">
       <div class="datum">
         <app-dropdown
+          [choice]="selectedBase"
           label="Base"
           [options]="bases"
           key="value"
@@ -150,8 +154,9 @@
         ></app-dropdown>
         <span class="required-asterisk">*</span>
       </div>
-      <div class="datum">
+      <div *ngIf="!editingJumper" class="datum">
         <app-dropdown
+          [choice]="selectedJumper"
           label="Jumpers"
           [options]="jumpers"
           key="friendly"
@@ -205,6 +210,7 @@
       </div>
       <div class="datum">
         <app-dropdown
+          [choice]="selectedPosition1"
           label="Position 1"
           [options]="qualifications"
           key="name"
@@ -217,6 +223,7 @@
       </div>
       <div class="datum">
         <app-dropdown
+          [choice]="selectedPosition2"
           label="Position 2"
           [options]="qualifications"
           key="name"
@@ -229,6 +236,7 @@
       </div>
       <div class="datum">
         <app-dropdown
+          [choice]="selectedPosition3"
           label="Position 3"
           [options]="qualifications"
           key="name"
@@ -247,6 +255,7 @@
       </div>
       <div class="datum">
         <app-dropdown
+          [choice]="jumpRating"
           label="Jumper Rating"
           [options]="[
             {
@@ -298,11 +307,18 @@
           (selectedDropdownItem)="selectJumpRating($event)"
         ></app-dropdown>
       </div>
-      <div class="datum">
+      <div class="jumper-buttons">
         <app-button
-          text="Add Jumper"
+          [text]="editingJumper ? 'Update Jumper' : 'Add Jumper'"
           [disabled]="isAddJumperInvalid()"
-          (clicked)="selectedJumper ? addJumper() : ''"
+          (clicked)="editingJumper ? updateJumper() : addJumper()"
+          class="add-jumper-button"
+        ></app-button>
+        <app-button
+          style="margin-left: 20px"
+          *ngIf="editingJumper"
+          text="Cancel"
+          (clicked)="cancelJumperEdit()"
           class="add-jumper-button"
         ></app-button>
       </div>
