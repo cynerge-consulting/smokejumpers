@@ -1,5 +1,10 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import {
+  Router,
+  ActivatedRoute,
+  ParamMap,
+  NavigationEnd
+} from '@angular/router';
 import * as reportsData from '../../routes/reports/reports.json';
 
 @Component({
@@ -11,10 +16,32 @@ export class SidenavComponent implements OnInit {
   @Input() expanded: boolean;
   @Output() selectedNavItem = new EventEmitter<Object>();
 
-  selected: '';
+  selected;
   menuItems = [];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        let urlParts = event.url.split('/');
+        if (urlParts[2]) {
+          if (urlParts[1] === 'incidents') {
+            this.selected = 'incidents/new';
+          }
+          if (urlParts[1] === 'jumpers') {
+            this.selected = 'jumpers';
+            if (urlParts[2] === 'transfer') {
+              this.selected = 'jumpers/transfer';
+            }
+            if (urlParts[2] === 'ldo') {
+              this.selected = 'jumpers/ldo';
+            }
+          }
+        } else {
+          this.selected = urlParts[1];
+        }
+      }
+    });
+  }
 
   ngOnInit(): void {
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
@@ -32,7 +59,6 @@ export class SidenavComponent implements OnInit {
       {
         name: 'Incidents',
         banner: 'assets/images/incBanner.png',
-        route: 'incidents',
         items: [
           {
             name: 'New Incident',
@@ -47,7 +73,6 @@ export class SidenavComponent implements OnInit {
       {
         name: 'Jumpers',
         banner: 'assets/images/MarsBanner.jpg',
-        route: 'jumpers',
         items: [
           {
             name: 'View Jumpers',
@@ -108,8 +133,8 @@ export class SidenavComponent implements OnInit {
     if (item.items) {
       item.expanded = !item.expanded;
     } else {
-      this.selected = item.name;
       if (item.route) {
+        this.selected = item.route;
         if (item.params) {
           this.router.navigate([item.route, item.params]);
         } else {

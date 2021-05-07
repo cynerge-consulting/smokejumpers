@@ -821,13 +821,13 @@ export class NewIncidentComponent implements OnInit {
 
   // determines the css class for help text
   isHelpValid = (datum) => {
-    if (this.data._mode === 'Fire Jump') {
-      if (datum.valid) {
-        return 'valid';
-      } else {
-        return 'invalid';
-      }
-    } else if (this.data[datum.key] && this.data[datum.key].length > 0) {
+    if (datum.key === '_latitude' || datum.key === '_longitude') {
+      let regex = new RegExp(
+        '(\\w\\w\\s\\w\\w.\\w\\w\\w\\w|\\w\\w\\w\\s\\w\\w.\\w\\w\\w\\w$)'
+      );
+      datum.valid = regex.test(this.data[datum.key]);
+    }
+    if (this.data[datum.key] && this.data[datum.key].length > 0) {
       if (datum.valid) {
         return 'valid';
       } else {

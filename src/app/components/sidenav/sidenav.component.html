@@ -1,6 +1,6 @@
 <div class="sidenav" [ngClass]="expanded ? 'expanded' : ''">
   <div
-    [ngClass]="selected === item.name ? 'selected' : ''"
+    [ngClass]="selected === item.route ? 'selected' : ''"
     class="item"
     *ngFor="let item of menuItems"
   >
@@ -27,7 +27,7 @@
         (click)="select(subitem)"
         *ngFor="let subitem of item.items"
         class="subitem"
-        [ngClass]="selected === subitem.name ? 'selected' : ''"
+        [ngClass]="selected === subitem.route ? 'selected' : ''"
       >
         {{ subitem.name }}
       </div>
