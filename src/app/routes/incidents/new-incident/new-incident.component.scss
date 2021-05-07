@@ -163,3 +163,9 @@ app-dropdown {
   display: flex;
   justify-content: center;
 }
+
+input[type='checkbox'] {
+  width: 15px;
+  height: 15px;
+  margin-right: 10px;
+}

@@ -18,7 +18,7 @@ export class NewIncidentComponent implements OnInit {
   mode = 'Create';
   data = {
     _acres: null,
-    _latitude: '',
+    _latitude: null,
     _longitude: '',
     _hobbsTime: '',
     _baseCode: '',
@@ -578,8 +578,13 @@ export class NewIncidentComponent implements OnInit {
       .post(url, jumper, options)
       .then((response) => {
         this.toast.show('Updated Jumper', 'success');
+        // refresh the IJ display to show the updated data
         this.refreshIncidentJumpers();
+        // clear the IJ form after updating the IJ
         this.cancelJumperEdit();
+        // scroll to the updated IJ
+        let updatedJumperDOMElement = document.getElementById(jumper.JumperId);
+        updatedJumperDOMElement.scrollIntoView();
       })
       .catch((error) => {
         this.toast.show('Error Updating Jumper', 'error');
@@ -808,7 +813,7 @@ export class NewIncidentComponent implements OnInit {
   valueChanged = (value, datum) => {
     if (datum.key === '_latitude' || datum.key === '_longitude') {
       let regex = new RegExp(
-        '(\\d\\d\\s\\d\\d.\\d\\d\\d\\d|\\d\\d\\d\\s\\d\\d.\\d\\d\\d\\d$)'
+        '(\\w\\w\\s\\w\\w.\\w\\w\\w\\w|\\w\\w\\w\\s\\w\\w.\\w\\w\\w\\w$)'
       );
       datum.valid = regex.test(value);
     }
@@ -822,7 +827,7 @@ export class NewIncidentComponent implements OnInit {
       } else {
         return 'invalid';
       }
-    } else if (this.data[datum.key].length > 0) {
+    } else if (this.data[datum.key] && this.data[datum.key].length > 0) {
       if (datum.valid) {
         return 'valid';
       } else {
@@ -948,7 +953,7 @@ export class NewIncidentComponent implements OnInit {
 
     this.editingJumper = true;
     let jumperForm = document.getElementById('jumperForm');
-    jumperForm.scrollIntoView({ block: 'nearest' });
+    jumperForm.scrollIntoView();
   };
 
   cancelJumperEdit = () => {

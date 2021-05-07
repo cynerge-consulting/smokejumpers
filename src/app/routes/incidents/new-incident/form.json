@@ -194,6 +194,10 @@
           "key": "_mode",
           "options": [
             {
+              "name": "Proficiency Jump",
+              "value": "Proficiency Jump"
+            },
+            {
               "name": "Proficiency / Training Jump",
               "value": "Proficiency / Training Jump"
             },
@@ -376,14 +380,14 @@
           "input": true,
           "placeholder": "Latitude",
           "key": "_latitude",
-          "maxlength": 10,
+          "maxlength": 11,
           "help": "Needs to be in Degree Decimal Minutes i.e. DD MM.MMMM"
         },
         {
           "input": true,
           "placeholder": "Longitude",
           "key": "_longitude",
-          "maxlength": 10,
+          "maxlength": 11,
           "help": "Needs to be in Degree Decimal Minutes i.e. DD MM.MMMM"
         },
         {

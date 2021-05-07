@@ -69,6 +69,7 @@
     </div>
     <div *ngIf="incidentJumpers.length > 0" class="incident-jumpers">
       <div
+        [id]="jumper.JumperId"
         class="incident-jumper"
         *ngFor="let jumper of incidentJumpers; index as i"
       >
@@ -155,6 +156,15 @@
         <span class="required-asterisk">*</span>
       </div>
       <div class="datum">
+        <app-combobox
+          [choice]="selectedMainChute"
+          label="Main Chute"
+          [options]="mainChutes"
+          key="name"
+          (selectedComboboxItem)="selectMainChute($event)"
+        ></app-combobox>
+      </div>
+      <div class="datum">
         <app-dropdown
           [choice]="selectedJumper"
           label="Jumper"
@@ -166,29 +176,11 @@
       </div>
       <div class="datum">
         <app-combobox
-          [choice]="selectedMainChute"
-          label="Main Chute"
-          [options]="mainChutes"
-          key="name"
-          (selectedComboboxItem)="selectMainChute($event)"
-        ></app-combobox>
-      </div>
-      <div class="datum">
-        <app-combobox
           [choice]="selectedDrogueChute"
           label="Drogue Chute"
           [options]="drogueChutes"
           key="name"
           (selectedComboboxItem)="selectDrogueChute($event)"
-        ></app-combobox>
-      </div>
-      <div class="datum">
-        <app-combobox
-          [choice]="selectedReserveChute"
-          label="Reserve Chute"
-          [options]="reserveChutes"
-          key="name"
-          (selectedComboboxItem)="selectReserveChute($event)"
         ></app-combobox>
       </div>
       <div class="datum">
@@ -202,6 +194,15 @@
         </div>
       </div>
       <div class="datum">
+        <app-combobox
+          [choice]="selectedReserveChute"
+          label="Reserve Chute"
+          [options]="reserveChutes"
+          key="name"
+          (selectedComboboxItem)="selectReserveChute($event)"
+        ></app-combobox>
+      </div>
+      <div class="datum">
         <div class="input-container">
           <span class="input-label">Return Date: </span>
           <input
@@ -209,6 +210,12 @@
             [(ngModel)]="jumperReturnDate"
             placeholder="Return Date"
           />
+        </div>
+      </div>
+      <div class="datum">
+        <div class="input-container">
+          <span class="input-label">Shifts Worked: </span>
+          <input placeholder="Shifts Worked" [(ngModel)]="totalDays" />
         </div>
       </div>
       <div class="datum">
@@ -249,12 +256,6 @@
       <div class="datum">
         <input type="checkbox" [(ngModel)]="T3" />
         <span class="input-label">Trainee?</span>
-      </div>
-      <div class="datum">
-        <div class="input-container">
-          <span class="input-label">Shifts Worked: </span>
-          <input placeholder="Shifts Worked" [(ngModel)]="totalDays" />
-        </div>
       </div>
       <div class="datum">
         <app-dropdown
