@@ -40,6 +40,10 @@
         width: calc(50% - 130px);
         padding: 0 40px;
       }
+      .keep-date {
+        width: 100%;
+        margin: 30px 55px;
+      }
     }
   }
 
@@ -168,4 +172,16 @@ input[type='checkbox'] {
   width: 15px;
   height: 15px;
   margin-right: 10px;
+}
+.modal {
+  &.qual-modal {
+    background: transparent;
+    width: 535px;
+    height: 280px;
+    .cancel-qual-button {
+      bottom: 3px;
+      position: absolute;
+      right: 0px;
+    }
+  }
 }

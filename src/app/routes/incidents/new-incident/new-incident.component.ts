@@ -8,7 +8,10 @@ import * as formData from './form.json';
 @Component({
   selector: 'app-new-incident',
   templateUrl: './new-incident.component.html',
-  styleUrls: ['./new-incident.component.scss']
+  styleUrls: [
+    './new-incident.component.scss',
+    '../../../components/modal/modal.component.scss'
+  ]
 })
 export class NewIncidentComponent implements OnInit {
   modal = {
@@ -49,7 +52,36 @@ export class NewIncidentComponent implements OnInit {
   qualifications;
   jumpers;
 
+  // add qualification
+  addingPosition = false;
+  qualification = {
+    id: '',
+    edit: false,
+    functionArea: '',
+    show: false
+  };
+  qualificationSections = [
+    {
+      title: 'Qualification Information',
+      data: [
+        {
+          required: true,
+          input: true,
+          placeholder: 'Title',
+          key: 'title'
+        },
+        {
+          required: true,
+          input: true,
+          maxlength: 4,
+          placeholder: 'Acronym',
+          key: 'Acronym'
+        }
+      ]
+    }
+  ];
   // incident jumper vars
+  keepDate = true;
   selectedMainChute = {
     id: '',
     name: '',
@@ -467,6 +499,45 @@ export class NewIncidentComponent implements OnInit {
         }
       }
     }
+  };
+
+  submittedPosition = (data) => {
+    let token = window.sessionStorage.getItem('token');
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    let userId = 111;
+    if (userInfo) {
+      userId = userInfo.id;
+    }
+    const options = {
+      headers: { Authorization: 'Bearer ' + token }
+    };
+    let url = environment.API_URL + '/Quals/add';
+    delete this.qualification.id;
+    this.qualification.edit = false;
+    axios
+      .post(url, this.qualification, options)
+      .then((response) => {
+        // pop success toast and close modal
+        this.toast.show('Created Qualification', 'success');
+        this.addingPosition = false;
+        axios
+          .get(environment.API_URL + '/Quals', {
+            headers: { Authorization: 'Bearer ' + token }
+          })
+          .then((qualifications) => {
+            this.qualifications = qualifications.data.value;
+            this.qualifications.forEach((qualification) => {
+              qualification.name =
+                qualification.title + ' | ' + qualification.Acronym;
+              qualification.value = qualification.id;
+            });
+          });
+      })
+      .catch((error) => {
+        this.toast.show('Unable to Create Qualification', 'error');
+        this.addingPosition = false;
+        console.dir(error);
+      });
   };
 
   // incident jumper methods
@@ -944,10 +1015,10 @@ export class NewIncidentComponent implements OnInit {
       name: jumper.jumpRating,
       value: jumper.jumpRating
     };
-    if (jumper.returnDate) {
+    if (jumper.returnDate && !this.keepDate) {
       this.jumperReturnDate = jumper.returnDate.slice(0, 10);
     }
-    if (jumper.arrivalDate) {
+    if (jumper.arrivalDate && !this.keepDate) {
       this.jumperArrivalDate = jumper.arrivalDate.slice(0, 10);
     }
 
@@ -1003,7 +1074,9 @@ export class NewIncidentComponent implements OnInit {
       name: '',
       value: ''
     };
-    this.jumperReturnDate = null;
-    this.jumperArrivalDate = null;
+    if (!this.keepDate) {
+      this.jumperReturnDate = null;
+      this.jumperArrivalDate = null;
+    }
   };
 }

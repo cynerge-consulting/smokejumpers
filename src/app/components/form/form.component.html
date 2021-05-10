@@ -13,6 +13,7 @@
           <input
             type="text"
             [name]="datum.key"
+            [maxlength]="datum.maxlength"
             *ngIf="datum.input && datum.type !== 'date'"
             [placeholder]="datum.placeholder"
             [(ngModel)]="data[datum.key]"

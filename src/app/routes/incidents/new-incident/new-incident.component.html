@@ -5,6 +5,25 @@
   (denied)="modalDenied($event)"
 >
 </app-modal>
+<div [ngClass]="addingPosition ? 'active' : ''" class="modal-background"></div>
+<div [ngClass]="addingPosition ? 'active' : ''" class="modal qual-modal">
+  <div class="content">
+    <app-form
+      class="new-qualification-form"
+      [sections]="qualificationSections"
+      [data]="qualification"
+      mode="Create"
+      (submitted)="submittedPosition($event)"
+    ></app-form>
+  </div>
+  <div class="buttons">
+    <app-button
+      (clicked)="addingPosition = false"
+      text="Cancel"
+      class="cancel-qual-button"
+    ></app-button>
+  </div>
+</div>
 <div class="form">
   <div class="section-container" *ngFor="let section of sections">
     <div class="title">
@@ -145,6 +164,10 @@
     </div>
     <!-- add incident jumper subform -->
     <div id="jumperForm" class="content incident-jumper-subform">
+      <div class="keep-date">
+        <input type="checkbox" [(ngModel)]="keepDate" />
+        <span class="input-label">Keep Date/Time</span>
+      </div>
       <div class="datum">
         <app-dropdown
           [choice]="selectedBase"
@@ -256,6 +279,13 @@
       <div class="datum">
         <input type="checkbox" [(ngModel)]="T3" />
         <span class="input-label">Trainee?</span>
+      </div>
+      <div class="datum add-position-container">
+        <app-button
+          text="Add Position"
+          (clicked)="addingPosition = true"
+          class="add-position-button"
+        ></app-button>
       </div>
       <div class="datum">
         <app-dropdown
