@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { environment } from '../../../../environments/environment';
@@ -14,6 +14,18 @@ import * as formData from './form.json';
   ]
 })
 export class NewIncidentComponent implements OnInit {
+  @HostListener('ngModelChange', ['$event'])
+  onTimeChange(event, type) {
+    if (event.length === 2) {
+      event = event + ':';
+    }
+    if (type === 'arrival') {
+      this.jumperArrivalTime = event;
+    }
+    if (type === 'return') {
+      this.jumperReturnTime = event;
+    }
+  }
   modal = {
     active: false,
     data: {}
@@ -128,7 +140,9 @@ export class NewIncidentComponent implements OnInit {
     value: ''
   };
   jumperReturnDate;
+  jumperReturnTime;
   jumperArrivalDate;
+  jumperArrivalTime;
   incidentJumpers = [];
   editingJumper = false;
 
@@ -549,7 +563,7 @@ export class NewIncidentComponent implements OnInit {
       T2: this.T2,
       T3: this.T3,
       arrivalDate: this.jumperArrivalDate,
-      arrivalTime: null,
+      arrivalTime: this.jumperArrivalTime,
       drogueId: this.selectedDrogueChute.id,
       homeBaseId: this.selectedJumper.base.id,
       sortOrder: 1,
@@ -563,7 +577,7 @@ export class NewIncidentComponent implements OnInit {
       position3Id: this.selectedPosition3.id,
       reserveId: this.selectedReserveChute.id,
       returnDate: this.jumperReturnDate,
-      returnTime: null,
+      returnTime: this.jumperReturnTime,
       totalDays: this.totalDays
     };
     this.modal = {
@@ -614,7 +628,7 @@ export class NewIncidentComponent implements OnInit {
       T3: this.T3,
       chuteType: '',
       arrivalDate: this.jumperArrivalDate,
-      arrivalTime: null,
+      arrivalTime: this.jumperArrivalTime,
       drogue: null,
       drogueId: this.selectedDrogueChute.value,
       homeBaseId: this.selectedJumper.base.id,
@@ -635,7 +649,7 @@ export class NewIncidentComponent implements OnInit {
       reserve: null,
       reserveId: this.selectedReserveChute.value,
       returnDate: this.jumperReturnDate,
-      returnTime: null,
+      returnTime: this.jumperReturnTime,
       totalDays: this.totalDays
     };
     // update incident jumper
@@ -814,6 +828,30 @@ export class NewIncidentComponent implements OnInit {
             let date = jumper.arrivalDate.split('-');
             jumper.friendlyArrivalDate =
               Number(date[1]) + '/' + date[2].slice(0, 2) + '/' + date[0];
+          }
+          if (jumper.arrivalTime) {
+            if (jumper.arrivalTime.includes(':')) {
+              jumper.friendlyArrivalTime = jumper.arrivalTime;
+            } else {
+              jumper.friendlyArrivalTime =
+                jumper.arrivalTime[0] +
+                jumper.arrivalTime[1] +
+                ':' +
+                jumper.arrivalTime[2] +
+                jumper.arrivalTime[3];
+            }
+          }
+          if (jumper.returnTime) {
+            if (jumper.returnTime.includes(':')) {
+              jumper.friendlyReturnTimeTime = jumper.returnTime;
+            } else {
+              jumper.friendlyReturnTime =
+                jumper.returnTime[0] +
+                jumper.returnTime[1] +
+                ':' +
+                jumper.returnTime[2] +
+                jumper.returnTime[3];
+            }
           }
           if (jumper.returnDate) {
             let date = jumper.returnDate.split('-');
@@ -1018,8 +1056,14 @@ export class NewIncidentComponent implements OnInit {
     if (jumper.returnDate && !this.keepDate) {
       this.jumperReturnDate = jumper.returnDate.slice(0, 10);
     }
+    if (jumper.returnTime && !this.keepDate) {
+      this.jumperReturnTime = jumper.returnTime;
+    }
     if (jumper.arrivalDate && !this.keepDate) {
       this.jumperArrivalDate = jumper.arrivalDate.slice(0, 10);
+    }
+    if (jumper.arrivalTime && !this.keepDate) {
+      this.jumperArrivalTime = jumper.arrivalTime;
     }
 
     this.editingJumper = true;
@@ -1077,6 +1121,8 @@ export class NewIncidentComponent implements OnInit {
     if (!this.keepDate) {
       this.jumperReturnDate = null;
       this.jumperArrivalDate = null;
+      this.jumperReturnTime = null;
+      this.jumperArrivalTime = null;
     }
   };
 }

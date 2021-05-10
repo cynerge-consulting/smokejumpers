@@ -132,32 +132,40 @@
             <span class="value"> {{ jumper.position3 }}</span>
           </div>
           <div>
-            <span class="label">Trainee One:</span>
-            <span class="value"> {{ jumper.T1 }}</span>
-          </div>
-          <div>
             <span class="label">Date Arrived: </span>
             <span class="value">{{ jumper.friendlyArrivalDate }}</span>
-          </div>
-          <div>
-            <span class="label">Trainee Two: </span>
-            <span class="value">{{ jumper.T2 }}</span>
           </div>
           <div>
             <span class="label">Date Returned: </span>
             <span class="value">{{ jumper.friendlyReturnDate }}</span>
           </div>
           <div style="margin-bottom: 20px">
-            <span class="label">Trainee Three: </span>
-            <span class="value">{{ jumper.T3 }}</span>
+            <span class="label">Time Arrived: </span>
+            <span class="value">{{ jumper.friendlyArrivalTime }}</span>
           </div>
-          <div style="margin-bottom: 20px">
+          <div>
+            <span class="label">Time Returned: </span>
+            <span class="value">{{ jumper.friendlyReturnTime }}</span>
+          </div>
+          <div>
+            <span class="label">Trainee One:</span>
+            <span class="value"> {{ jumper.T1 }}</span>
+          </div>
+          <div>
             <span class="label">Days (Shifts): </span>
             <span class="value">{{ jumper.totalDays }}</span>
           </div>
           <div>
+            <span class="label">Trainee Two: </span>
+            <span class="value">{{ jumper.T2 }}</span>
+          </div>
+          <div>
             <span class="label">Jumper Rating: </span>
             <span class="value">{{ jumper.jumpRating }}</span>
+          </div>
+          <div style="margin-bottom: 20px">
+            <span class="label">Trainee Three: </span>
+            <span class="value">{{ jumper.T3 }}</span>
           </div>
         </div>
       </div>
@@ -208,12 +216,8 @@
       </div>
       <div class="datum">
         <div class="input-container">
-          <span class="input-label">Arrival Date: </span>
-          <input
-            type="date"
-            [(ngModel)]="jumperArrivalDate"
-            placeholder="Arrival Date"
-          />
+          <span class="input-label">Shifts Worked: </span>
+          <input placeholder="Shifts Worked" [(ngModel)]="totalDays" />
         </div>
       </div>
       <div class="datum">
@@ -227,6 +231,27 @@
       </div>
       <div class="datum">
         <div class="input-container">
+          <span class="input-label">Arrival Date: </span>
+          <input
+            type="date"
+            [(ngModel)]="jumperArrivalDate"
+            placeholder="Arrival Date"
+          />
+        </div>
+      </div>
+      <div class="datum">
+        <div class="input-container">
+          <span class="input-label">Arrival Time: </span>
+          <input
+            maxlength="5"
+            (ngModelChange)="onTimeChange($event, 'arrival')"
+            [ngModel]="jumperArrivalTime"
+            placeholder="Arrival Time"
+          />
+        </div>
+      </div>
+      <div class="datum">
+        <div class="input-container">
           <span class="input-label">Return Date: </span>
           <input
             type="date"
@@ -237,8 +262,13 @@
       </div>
       <div class="datum">
         <div class="input-container">
-          <span class="input-label">Shifts Worked: </span>
-          <input placeholder="Shifts Worked" [(ngModel)]="totalDays" />
+          <span class="input-label">Return Time: </span>
+          <input
+            maxlength="5"
+            (ngModelChange)="onTimeChange($event, 'return')"
+            [ngModel]="jumperReturnTime"
+            placeholder="Return Time"
+          />
         </div>
       </div>
       <div class="datum">
