@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
 import { ToastService } from '../../services/toast.service';
@@ -23,7 +22,7 @@ export class UsersComponent implements OnInit {
   headings = [
     {
       label: 'Name',
-      key: 'fullName'
+      key: 'firstname'
     },
     {
       label: 'Base',
@@ -56,6 +55,7 @@ export class UsersComponent implements OnInit {
     this.bases.forEach((base) => {
       base.name = base.baseCode;
       base.value = base.baseId;
+      base.userBaseCode = base.baseCode;
     });
     this.refreshUsers();
   }
@@ -107,7 +107,7 @@ export class UsersComponent implements OnInit {
     // find users that match query
     let filteredUsers = [];
     this.users.forEach((user) => {
-      let name = user.name.toString().toLowerCase();
+      let name = user.firstname.toString().toLowerCase() + ' ' + user.lastname.toString().toLowerCase();
       if (name.includes(this.query.toLowerCase())) {
         filteredUsers.push(user);
       }
@@ -132,17 +132,6 @@ export class UsersComponent implements OnInit {
       })
       .then((response) => {
         this.users = response.data;
-        this.users.forEach((user) => {
-          user.name = user.firstname + ' ' + user.lastname;
-          user.baseChoice = {
-            name: user.basecode,
-            value: user.baseId
-          };
-          user.roleChoice = {
-            name: user.role,
-            value: user.role
-          };
-        });
       })
       .catch((error) => {
         this.toast.show('Unable to retreive users list.', 'error');
@@ -159,6 +148,7 @@ export class UsersComponent implements OnInit {
   };
 
   selectBase = (base, user) => {
+    user.userBaseCode = base.userBaseCode
     user.basecode = base.name;
     user.baseId = base.value;
     this.usersWithBaseChange.push(user);

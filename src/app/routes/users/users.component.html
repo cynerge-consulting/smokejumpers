@@ -27,13 +27,13 @@
   <div class="rows">
     <div class="row" *ngFor="let user of users">
       <div class="cell">
-        <span>{{ user.name }}</span>
+        <span>{{ user.firstname + ' ' + user.lastname }}</span>
       </div>
       <div class="cell">
         <app-dropdown
-          [choice]="user.baseChoice"
+          [choice]="user"
           [options]="bases"
-          key="name"
+          key="userBaseCode"
           label="Base"
           (selectedDropdownItem)="selectBase($event, user)"
         ></app-dropdown>
@@ -47,14 +47,14 @@
       </div>
       <div class="cell" *ngIf="role === 'sysadmin'">
         <app-dropdown
-          [choice]="user.roleChoice"
+          [choice]="user"
           [options]="[
-            { name: 'user', value: 'user' },
-            { name: 'admin', value: 'admin' },
-            { name: 'sysadmin', value: 'sysadmin' }
+            { role: 'user', value: 'user' },
+            { role: 'baseadmin', value: 'baseadmin' },
+            { role: 'sysadmin', value: 'sysadmin' }
           ]"
-          key="name"
-          label="Base"
+          key="role"
+          label="Role"
           (selectedDropdownItem)="selectRole($event, user)"
         ></app-dropdown>
       </div>
