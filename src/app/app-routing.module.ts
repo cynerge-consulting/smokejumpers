@@ -99,11 +99,6 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'admin/users',
-    component: UsersComponent,
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'bases',
     component: BasesComponent,
     canActivate: [AuthGuard]

@@ -21,7 +21,10 @@ export class TransferJumperComponent implements OnInit {
     id: ''
   };
   bases;
-  selectedBase;
+  selectedBase = {
+    value: '',
+    baseId: ''
+  };
   buttonText = 'Transfer Jumper';
 
   constructor(private toast: ToastService) {}
@@ -69,7 +72,7 @@ export class TransferJumperComponent implements OnInit {
     this.selectedJumper = jumper;
     this.bases.forEach((base) => {
       if (jumper.baseId === base.baseId) {
-        this.selectBase(base);
+        this.selectedBase = base;
       }
     });
   };
