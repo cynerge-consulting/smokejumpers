@@ -9,7 +9,8 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  role = 'sysadmin';
+  userBase = '';
+  role = 'unregistered';
   query;
   searching = true;
   updating = false;
@@ -41,12 +42,18 @@ export class UsersComponent implements OnInit {
     route: 'users'
   };
 
+  // update display vars
+  step = 0;
+  percent = 0;
+  total = 0;
+
   constructor(private toast: ToastService) {}
 
   async ngOnInit() {
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
     if (userInfo) {
       this.role = userInfo.role;
+      this.userBase = userInfo.baseCode;
     }
     let token = window.sessionStorage.getItem('token');
     let bases = await axios.get(environment.API_URL + '/base/dropdown/main', {
@@ -143,135 +150,136 @@ export class UsersComponent implements OnInit {
   };
 
   selectActive = (user) => {
-    this.usersWithActiveChange.push(user);
+    // if this user is already queued for changes, remove it from the array and add the fresh version
+    let activeUser = this.usersWithActiveChange.filter((activeUser, index) => {
+      if (user.id === activeUser.id) {
+        this.usersWithActiveChange.splice(index, 1);
+      }
+      return user.id === activeUser.id;
+    });
+    if (activeUser[0]) {
+      this.usersWithActiveChange.push(activeUser[0]);
+    } else {
+      // if this user isn't already queued for changes, add them to the queue
+      this.usersWithActiveChange.push(user);
+    }
   };
 
   selectRole = (role, user) => {
     user.role = role.value;
-    this.usersWithRoleChange.push(user);
+    // if this user is already queued for changes, remove it from the array and add the fresh version
+    let roleUser = this.usersWithRoleChange.filter((roleUser, index) => {
+      if (user.id === roleUser.id) {
+        this.usersWithRoleChange.splice(index, 1);
+      }
+      return user.id === roleUser.id;
+    });
+    if (roleUser[0]) {
+      this.usersWithRoleChange.push(roleUser[0]);
+    } else {
+      // if this user isn't already queued for changes, add them to the queue
+      this.usersWithRoleChange.push(user);
+    }
   };
 
   selectBase = (base, user) => {
     user.userBaseCode = base.userBaseCode;
     user.basecode = base.name;
     user.baseId = base.value;
-    this.usersWithBaseChange.push(user);
+    // if this user is already queued for changes, remove it from the array and add the fresh version
+    let baseUser = this.usersWithBaseChange.filter((baseUser, index) => {
+      if (user.id === baseUser.id) {
+        this.usersWithBaseChange.splice(index, 1);
+      }
+      return user.id === baseUser.id;
+    });
+    if (baseUser[0]) {
+      this.usersWithBaseChange.push(baseUser[0]);
+    } else {
+      // if this user isn't already queued for changes, add them to the queue
+      this.usersWithBaseChange.push(user);
+    }
   };
 
   updateUsers = async () => {
     this.updating = true;
     let token = window.sessionStorage.getItem('token');
     try {
-      let baseChanges = await Promise.all(
-        this.usersWithBaseChange.map(async (user) => {
-          let url =
-            environment.AUTH_URL +
-            '/setUserBase?baseCode=' +
-            user.basecode +
-            '&id=' +
-            user.id.toString() +
-            '&baseId=' +
-            user.baseId;
-          let updatedUser = await axios.get(url, {
-            headers: { Authorization: 'Bearer ' + token }
-          });
-          return updatedUser.data;
-        })
-      );
-      let activeChanges = await Promise.all(
-        this.usersWithActiveChange.map(async (user) => {
-          let url =
-            environment.AUTH_URL +
-            (user.active ? '/' : '/de') +
-            'activateUser?' +
-            'id=' +
-            user.id.toString();
+      let baseChanges = [];
+      for (let index = 0; index < this.usersWithBaseChange.length; index++) {
+        const user = this.usersWithBaseChange[index];
+        let url =
+          environment.AUTH_URL +
+          '/setUserBase?baseCode=' +
+          user.basecode +
+          '&id=' +
+          user.id.toString() +
+          '&baseId=' +
+          user.baseId;
 
-          let updatedUser = await axios.get(url, {
-            headers: { Authorization: 'Bearer ' + token }
-          });
-          return updatedUser.data;
-        })
-      );
-      let roleChanges = await Promise.all(
-        this.usersWithRoleChange.map(async (user) => {
-          let url =
-            environment.AUTH_URL +
-            '/setAdminRole?role=' +
-            user.role +
-            '&id=' +
-            user.id.toString();
+        let updatedUser = await axios.get(url, {
+          headers: { Authorization: 'Bearer ' + token }
+        });
+        baseChanges.push(updatedUser.data);
+        this.step++;
+      }
 
-          let updatedUser = await axios.get(url, {
-            headers: { Authorization: 'Bearer ' + token }
-          });
-          return updatedUser.data;
-        })
-      );
-      this.toast.show('Updated Users', 'success');
+      let roleChanges = [];
+      for (let index = 0; index < this.usersWithRoleChange.length; index++) {
+        const user = this.usersWithRoleChange[index];
+        let url =
+          environment.AUTH_URL +
+          '/setAdminRole?role=' +
+          user.role +
+          '&id=' +
+          user.id.toString();
+
+        let updatedUser = await axios.get(url, {
+          headers: { Authorization: 'Bearer ' + token }
+        });
+        roleChanges.push(updatedUser.data);
+        this.step++;
+      }
+
+      let activeChanges = [];
+      for (let index = 0; index < this.usersWithActiveChange.length; index++) {
+        const user = this.usersWithActiveChange[index];
+        let url =
+          environment.AUTH_URL +
+          (user.active ? '/' : '/de') +
+          'activateUser?' +
+          'id=' +
+          user.id.toString();
+
+        let updatedUser = await axios.get(url, {
+          headers: { Authorization: 'Bearer ' + token }
+        });
+        activeChanges.push(updatedUser.data);
+        this.step++;
+      }
+      this.toast.show('Update Complete', 'success');
     } catch (error) {
-      this.toast.show('Unable to Update User Active Status', 'error');
+      this.toast.show('Unable to perform Update', 'error');
     }
     this.updating = false;
+    this.clearUpdateQueue();
     this.refreshUsers();
   };
 
-  changeUserBase = async (user) => {
-    let token = window.sessionStorage.getItem('token');
-    let url =
-      environment.AUTH_URL +
-      '/setUserBase?baseCode=' +
-      user.basecode +
-      '&id=' +
-      user.id.toString() +
-      '&baseId=' +
-      user.baseId;
-
-    try {
-      let updatedUser = await axios.get(url, {
-        headers: { Authorization: 'Bearer ' + token }
-      });
-      this.toast.show('Updated User Base', 'success');
-    } catch (error) {
-      this.toast.show('Unable to Update User Base', 'error');
-    }
+  clearUpdateQueue = () => {
+    this.usersWithBaseChange = [];
+    this.usersWithRoleChange = [];
+    this.usersWithActiveChange = [];
+    this.step = 0;
   };
 
-  changeUserActive = async (user) => {
-    let token = window.sessionStorage.getItem('token');
-    let url =
-      environment.AUTH_URL +
-      (user.active ? '/' : '/de') +
-      'activateUser?' +
-      'id=' +
-      user.id.toString();
-
-    try {
-      let updatedUser = await axios.get(url, {
-        headers: { Authorization: 'Bearer ' + token }
-      });
-      this.toast.show('Updated User Active Status', 'success');
-    } catch (error) {
-      this.toast.show('Unable to Update User Active Status', 'error');
-    }
-  };
-
-  changeUserRole = async (user) => {
-    let token = window.sessionStorage.getItem('token');
-    let url =
-      environment.AUTH_URL +
-      '/setAdminRole?role=' +
-      user.role +
-      '&id=' +
-      user.id.toString();
-
-    try {
-      let updatedUser = await axios.get(url, {
-        headers: { Authorization: 'Bearer ' + token }
-      });
-      this.toast.show('Updated User Role', 'success');
-    } catch (error) {
-      this.toast.show('Unable to Update User Role', 'error');
-    }
+  getUpdateText = () => {
+    let total =
+      this.usersWithBaseChange.length +
+      this.usersWithRoleChange.length +
+      this.usersWithActiveChange.length;
+    let percent = (this.step / total) * 100;
+    this.percent = percent;
+    return 'Updating... ' + percent.toFixed(0) + '%';
   };
 }

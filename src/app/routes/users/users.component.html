@@ -1,4 +1,4 @@
-<div class="filter-container">
+<div *ngIf="!updating" class="filter-container">
   <input
     *ngIf="searching"
     (keyup)="onKey($event)"
@@ -6,8 +6,19 @@
     placeholder="Filter by Name"
     [(ngModel)]="query"
   />
-  <span class="base">Base: MSO</span>
-  <app-button (clicked)="updateUsers()" text="Update Users"></app-button>
+  <span class="base">Base: {{ userBase }}</span>
+  <app-button
+    [disabled]="
+      usersWithBaseChange.length +
+        usersWithRoleChange.length +
+        usersWithActiveChange.length >
+      0
+        ? false
+        : true
+    "
+    (clicked)="updateUsers()"
+    text="Update"
+  ></app-button>
 </div>
 <div class="user-table" *ngIf="!updating">
   <div class="headers row">
@@ -62,5 +73,8 @@
   </div>
 </div>
 <div class="updating" *ngIf="updating">
-  <p class="update-text">Please wait, updating users...</p>
+  <p class="update-text">{{ getUpdateText() }}</p>
+  <div class="progress-bar">
+    <div class="progress" [ngStyle]="{ width: percent + '%' }"></div>
+  </div>
 </div>
