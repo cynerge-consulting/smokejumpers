@@ -9,7 +9,7 @@
   <span class="base">Base: MSO</span>
   <app-button (clicked)="updateUsers()" text="Update Users"></app-button>
 </div>
-<div class="user-table">
+<div class="user-table" *ngIf="!updating">
   <div class="headers row">
     <div class="header">
       <span>Name</span>
@@ -60,4 +60,7 @@
       </div>
     </div>
   </div>
+</div>
+<div class="updating" *ngIf="updating">
+  <p class="update-text">Please wait, updating users...</p>
 </div>

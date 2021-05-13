@@ -12,6 +12,7 @@ export class UsersComponent implements OnInit {
   role = 'sysadmin';
   query;
   searching = true;
+  updating = false;
   hasBeenFiltered = false;
   originalUsers = [];
   bases = [];
@@ -107,7 +108,10 @@ export class UsersComponent implements OnInit {
     // find users that match query
     let filteredUsers = [];
     this.users.forEach((user) => {
-      let name = user.firstname.toString().toLowerCase() + ' ' + user.lastname.toString().toLowerCase();
+      let name =
+        user.firstname.toString().toLowerCase() +
+        ' ' +
+        user.lastname.toString().toLowerCase();
       if (name.includes(this.query.toLowerCase())) {
         filteredUsers.push(user);
       }
@@ -148,22 +152,67 @@ export class UsersComponent implements OnInit {
   };
 
   selectBase = (base, user) => {
-    user.userBaseCode = base.userBaseCode
+    user.userBaseCode = base.userBaseCode;
     user.basecode = base.name;
     user.baseId = base.value;
     this.usersWithBaseChange.push(user);
   };
 
-  updateUsers = () => {
-    this.usersWithBaseChange.forEach(async (user) => {
-      await this.changeUserBase(user);
-    });
-    this.usersWithActiveChange.forEach(async (user) => {
-      await this.changeUserActive(user);
-    });
-    this.usersWithRoleChange.forEach(async (user) => {
-      await this.changeUserRole(user);
-    });
+  updateUsers = async () => {
+    this.updating = true;
+    let token = window.sessionStorage.getItem('token');
+    try {
+      let baseChanges = await Promise.all(
+        this.usersWithBaseChange.map(async (user) => {
+          let url =
+            environment.AUTH_URL +
+            '/setUserBase?baseCode=' +
+            user.basecode +
+            '&id=' +
+            user.id.toString() +
+            '&baseId=' +
+            user.baseId;
+          let updatedUser = await axios.get(url, {
+            headers: { Authorization: 'Bearer ' + token }
+          });
+          return updatedUser.data;
+        })
+      );
+      let activeChanges = await Promise.all(
+        this.usersWithActiveChange.map(async (user) => {
+          let url =
+            environment.AUTH_URL +
+            (user.active ? '/' : '/de') +
+            'activateUser?' +
+            'id=' +
+            user.id.toString();
+
+          let updatedUser = await axios.get(url, {
+            headers: { Authorization: 'Bearer ' + token }
+          });
+          return updatedUser.data;
+        })
+      );
+      let roleChanges = await Promise.all(
+        this.usersWithRoleChange.map(async (user) => {
+          let url =
+            environment.AUTH_URL +
+            '/setAdminRole?role=' +
+            user.role +
+            '&id=' +
+            user.id.toString();
+
+          let updatedUser = await axios.get(url, {
+            headers: { Authorization: 'Bearer ' + token }
+          });
+          return updatedUser.data;
+        })
+      );
+      this.toast.show('Updated Users', 'success');
+    } catch (error) {
+      this.toast.show('Unable to Update User Active Status', 'error');
+    }
+    this.updating = false;
     this.refreshUsers();
   };
 
