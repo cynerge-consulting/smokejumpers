@@ -926,6 +926,10 @@ export class NewIncidentComponent implements OnInit {
       );
       datum.valid = regex.test(value);
     }
+    if (datum.key === '_hobbsTime') {
+      let regex = new RegExp('^\\d+(\\.\\d+)*$');
+      datum.valid = regex.test(value);
+    }
   };
 
   // determines the css class for help text
@@ -934,6 +938,10 @@ export class NewIncidentComponent implements OnInit {
       let regex = new RegExp(
         '(\\w\\w\\s\\w\\w.\\w\\w\\w\\w|\\w\\w\\w\\s\\w\\w.\\w\\w\\w\\w$)'
       );
+      datum.valid = regex.test(this.data[datum.key]);
+    }
+    if (datum.key === '_hobbsTime') {
+      let regex = new RegExp('^\\d+(\\.\\d+)*$');
       datum.valid = regex.test(this.data[datum.key]);
     }
     if (this.data[datum.key] && this.data[datum.key].length > 0) {
@@ -972,10 +980,11 @@ export class NewIncidentComponent implements OnInit {
       let regex = new RegExp(
         '(\\d\\d\\s\\d\\d.\\d\\d\\d\\d|\\d\\d\\d\\s\\d\\d.\\d\\d\\d\\d$)'
       );
+      let hobbsregex = new RegExp('^\\d+(\\.\\d+)*$');
       if (
         regex.test(this.data._latitude) &&
         regex.test(this.data._longitude) &&
-        this.data._hobbsTime
+        hobbsregex.test(this.data._hobbsTime)
       ) {
         invalid = false;
       } else {

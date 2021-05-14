@@ -123,6 +123,7 @@
           "input": true,
           "maxlength": 6,
           "placeholder": "Hobbs Time",
+          "help": "Needs to be in valid format (ex: 12.8)",
           "key": "_hobbsTime"
         },
         {
