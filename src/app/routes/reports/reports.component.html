@@ -9,7 +9,13 @@
       >
         {{ report.name }}
       </div>
-      <div *ngIf="isAdmin" (click)="showingDownloadData = true; showingDashboard = false" class="report card">Download Data</div>
+      <div
+        *ngIf="isAdmin"
+        (click)="showingDownloadData = true; showingDashboard = false"
+        class="report card"
+      >
+        Download Data
+      </div>
     </div>
   </div>
   <div class="annual-reports">
@@ -25,7 +31,10 @@
     </div>
   </div>
 </div>
-<div *ngIf="!showingDashboard && !showingDownloadData " class="request-report-form">
+<div
+  *ngIf="!showingDashboard && !showingDownloadData"
+  class="request-report-form"
+>
   <app-dropdown
     *ngIf="showingYear"
     label="Year"
@@ -38,15 +47,68 @@
     label="Base"
     [options]="bases"
     key="value"
-    (selectedDropdownItem)="selectedBase = $event"
+    (selectedDropdownItem)="selectBase($event)"
   ></app-dropdown>
   <app-dropdown
     *ngIf="showingChutes"
-    label="Parachute"
-    [options]="jumpers"
-    key="fullName"
-    (selectedDropdownItem)="selectedChute = $event"
+    [(choice)]="selectedChuteStyle"
+    label="Parachute Type"
+    [options]="[
+      {
+        name: 'Main',
+        value: 'Main',
+        chutetype: 1
+      },
+      {
+        name: 'Drogue',
+        value: 'Drogue',
+        chutetype: 3
+      },
+      {
+        name: 'Reserve',
+        value: 'Reserve',
+        chutetype: 2
+      }
+    ]"
+    key="name"
+    (selectedDropdownItem)="selectedChuteStyle = $event"
   ></app-dropdown>
+  <app-combobox
+    [choice]="{ name: 'ALL Parachutes', value: 'ALL' }"
+    *ngIf="showingChutes && selectedChuteStyle.value === 'Main'"
+    label="Parachute Name"
+    [options]="mainChutes"
+    key="name"
+    (selectedComboboxItem)="selectedChute = $event"
+  ></app-combobox>
+  <app-combobox
+    [choice]="{ name: 'ALL Parachutes', value: 'ALL' }"
+    *ngIf="showingChutes && selectedChuteStyle.value === 'Drogue'"
+    label="Parachute Name"
+    [options]="drogueChutes"
+    key="name"
+    (selectedComboboxItem)="selectedChute = $event"
+  ></app-combobox>
+  <app-combobox
+    [choice]="{ name: 'ALL Parachutes', value: 'ALL' }"
+    *ngIf="showingChutes && selectedChuteStyle.value === 'Reserve'"
+    label="Parachute Name"
+    [options]="reserveChutes"
+    key="name"
+    (selectedComboboxItem)="selectedChute = $event"
+  ></app-combobox>
+  <div *ngIf="showingAllJumpers" class="jumpers-container">
+    <div class="jumper datum" *ngFor="let jumper of jumpers; index as i">
+      <div class="checkbox-container">
+        <input
+          type="checkbox"
+          [(ngModel)]="jumper.checked"
+          [name]="jumper.name"
+        />
+        <span class="ldo-jumper-name">{{ jumper.friendly }}</span>
+      </div>
+    </div>
+  </div>
   <app-dropdown
     *ngIf="showingJumpers"
     label="Jumper"
@@ -59,23 +121,24 @@
     label="Spotter"
     [options]="jumpers"
     key="fullName"
-    (selectedDropdownItem)="selectedSpotter = $event"
+    (selectedDropdownItem)="selectedJumper = $event"
   ></app-dropdown>
   <app-dropdown
     *ngIf="showingQualifications"
     label="Qualifications"
     [options]="qualifications"
-    key="name"
+    key="Acronym"
     (selectedDropdownItem)="selectedQualification = $event"
   ></app-dropdown>
   <app-dropdown
     label="File Type"
     [options]="fileTypes"
     key="name"
-    (selectedDropdownItem)="selectedFileType = $event.value"
+    (selectedDropdownItem)="selectedFileType = $event"
   ></app-dropdown>
   <div class="buttons">
     <app-button
+      [disabled]="loading"
       class="generate-report-button"
       text="Generate Report"
       (clicked)="generateReport()"
@@ -90,73 +153,22 @@
 <div *ngIf="showingDownloadData && !loading" class="request-report-form">
   <app-dropdown
     label="Calendar Year"
-    [options]="[{
-      name: '2004',
-      value: '2004'
-    }, {
-      name: '2005',
-      value: '2005'
-    }, {
-      name: '2006',
-      value: '2006'
-    }, {
-      name: '2007',
-      value: '2007'
-    }, {
-      name: '2008',
-      value: '2008'
-    }, {
-      name: '2009',
-      value: '2009'
-    }, {
-      name: '2010',
-      value: '2010'
-    }, {
-      name: '2011',
-      value: '2011'
-    }, {
-      name: '2012',
-      value: '2012'
-    }, {
-      name: '2013',
-      value: '2013'
-    }, {
-      name: '2014',
-      value: '2014'
-    }, {
-      name: '2015',
-      value: '2015'
-    }, {
-      name: '2016',
-      value: '2016'
-    }, {
-      name: '2017',
-      value: '2017'
-    }, {
-      name: '2018',
-      value: '2018'
-    }, {
-      name: '2019',
-      value: '2019'
-    }, {
-      name: '2020',
-      value: '2020'
-    }, {
-      name: '2021',
-      value: '2021'
-    }]"
+    [options]="years"
     key="value"
     (selectedDropdownItem)="selectedYear = $event"
   ></app-dropdown>
   <app-dropdown
     label="Type of Data"
-    [options]="[{
-      name: 'Incident Info',
-      value: 'Incident Info'
-    }, {
-      name: 'Incident Jumper',
-      value: 'Incident Jumper'
-    }]"
+    [options]="[
+      {
+        name: 'Incident Info',
+        value: 'Incident Info'
+      },
+      {
+        name: 'Incident Jumper',
+        value: 'Incident Jumper'
+      }
+    ]"
     key="value"
     (selectedDropdownItem)="selectedFileType = $event"
   ></app-dropdown>

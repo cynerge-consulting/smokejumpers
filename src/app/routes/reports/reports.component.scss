@@ -37,9 +37,6 @@
 .return-to-dashboard-button {
   margin: 10px;
 }
-app-dropdown {
-  height: 50px;
-}
 
 .reports-dashboard {
   display: flex;
@@ -85,4 +82,31 @@ app-dropdown {
       margin-bottom: 50px;
     }
   }
+}
+.jumpers-container {
+  height: 300px;
+  overflow: auto;
+  border: 1px solid darkgreen;
+  border-radius: 2px;
+  margin-bottom: 20px;
+  .jumper {
+    padding: 10px;
+    cursor: pointer;
+    &:hover {
+      background: lightgray;
+    }
+  }
+  input[type='checkbox'] {
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
+  }
+}
+app-dropdown {
+  height: 50px;
+  position: relative;
+}
+app-combobox {
+  height: 50px;
+  position: relative;
 }
