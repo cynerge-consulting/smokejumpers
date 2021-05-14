@@ -163,8 +163,6 @@ export class NewIncidentComponent implements OnInit {
     }
     if (id !== 'new') {
       this.beginUpdateMode(id);
-    } else {
-      this.clearForm();
     }
   }
 
@@ -195,6 +193,7 @@ export class NewIncidentComponent implements OnInit {
   };
 
   loadFormData = async () => {
+    this.clearForm();
     let token = window.sessionStorage.getItem('token');
     let jumpers = await axios.get(environment.API_URL + '/jumpers', {
       headers: { Authorization: 'Bearer ' + token }
@@ -221,7 +220,7 @@ export class NewIncidentComponent implements OnInit {
       disp.value = disp.value;
     });
 
-    let pilots = await axios.get(environment.API_URL + '/pilots', {
+    let pilots = await axios.get(environment.API_URL + '/jumpers', {
       headers: { Authorization: 'Bearer ' + token }
     });
     this.pilots = pilots.data.value;
@@ -231,9 +230,10 @@ export class NewIncidentComponent implements OnInit {
         pilot.href.length
       );
       pilot.name =
-        pilot.firstName + ' ' + pilot.lastName + ' | ' + pilot.baseCode;
+        pilot.firstName + ' ' + pilot.lastName + ' | ' + pilot.base.code;
       pilot.value = id;
     });
+    this.pilots.unshift({ name: '', value: '' });
 
     let travelmodes = await axios.get(environment.API_URL + '/travelmodes', {
       headers: { Authorization: 'Bearer ' + token }
