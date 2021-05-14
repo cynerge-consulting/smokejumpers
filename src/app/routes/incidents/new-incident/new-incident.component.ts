@@ -26,6 +26,7 @@ export class NewIncidentComponent implements OnInit {
       this.jumperReturnTime = event;
     }
   }
+
   modal = {
     active: false,
     data: {}
@@ -45,6 +46,8 @@ export class NewIncidentComponent implements OnInit {
     _areaId: null,
     _stateId: null,
     _methodOfTravel_Id: null,
+    _identifierId: null,
+    _agencyId: null,
     _mode: null,
     _mission: null,
     _departTimeMilitary: null
@@ -63,6 +66,8 @@ export class NewIncidentComponent implements OnInit {
   area;
   qualifications;
   jumpers;
+  identifiers;
+  originalIdentifiers;
 
   // add qualification
   addingPosition = false;
@@ -94,6 +99,11 @@ export class NewIncidentComponent implements OnInit {
   ];
   // incident jumper vars
   keepDate = true;
+  selectedIdentifier = {
+    id: '',
+    value: '',
+    name: ''
+  };
   selectedMainChute = {
     id: '',
     name: '',
@@ -152,8 +162,6 @@ export class NewIncidentComponent implements OnInit {
   constructor(private router: Router, private toast: ToastService) {}
 
   async ngOnInit() {
-    this.loadFormData();
-
     // if we see an '/:id' instead of '/new' in the URL,
     // we are in "update" mode instead of "create" mode
     let url = window.location.href;
@@ -162,14 +170,17 @@ export class NewIncidentComponent implements OnInit {
       id = url.slice(url.lastIndexOf('/') + 1, url.indexOf(';'));
     }
     if (id !== 'new') {
+      this.mode = 'Update';
       this.beginUpdateMode(id);
     }
+
+    this.loadFormData();
   }
 
   clearForm = () => {
     this.sections.forEach((section) => {
       section.data.forEach((datum) => {
-        if (datum.dropdown) {
+        if (datum.dropdown || datum.identifiers) {
           datum.choice = {};
         }
       });
@@ -177,7 +188,6 @@ export class NewIncidentComponent implements OnInit {
   };
 
   beginUpdateMode = async (id) => {
-    this.mode = 'Update';
     let token = window.sessionStorage.getItem('token');
     let incident = await axios.get(environment.API_URL + '/incidents/' + id, {
       headers: { Authorization: 'Bearer ' + token }
@@ -195,6 +205,17 @@ export class NewIncidentComponent implements OnInit {
   loadFormData = async () => {
     this.clearForm();
     let token = window.sessionStorage.getItem('token');
+
+    let identifiers = await axios.get(environment.API_URL + '/identifier', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    this.identifiers = identifiers.data;
+    this.identifiers.forEach((identifier) => {
+      identifier.name = identifier.text;
+      identifier.value = identifier.id;
+    });
+    this.originalIdentifiers = this.identifiers;
+
     let jumpers = await axios.get(environment.API_URL + '/jumpers', {
       headers: { Authorization: 'Bearer ' + token }
     });
@@ -357,7 +378,7 @@ export class NewIncidentComponent implements OnInit {
         if (datum.endpoint) {
           datum.options = this[datum.endpoint];
         }
-        if (datum.dropdown) {
+        if (datum.dropdown || datum.identifiers) {
           if (this.data[datum.key]) {
             let choice = datum.options.filter((option) => {
               let optString = option.value;
@@ -371,6 +392,8 @@ export class NewIncidentComponent implements OnInit {
         }
       });
     });
+    this.identifiers = [{ name: '', value: '' }];
+    this.filterIdentifiers();
   };
 
   submitForm = (data) => {
@@ -430,9 +453,37 @@ export class NewIncidentComponent implements OnInit {
     }
   };
 
+  filterIdentifiers = () => {
+    this.identifiers = this.originalIdentifiers;
+
+    let filteredIdentifiers = [];
+    this.identifiers.forEach((identifier) => {
+      if (
+        identifier.areaid === this.data._areaId &&
+        identifier.stateid === this.data._stateId &&
+        identifier.agencyid === this.data._agencyId
+      ) {
+        filteredIdentifiers.push(identifier);
+      }
+    });
+
+    // dedupe identifiers
+    let uniqueIdentifiers = [...new Set(filteredIdentifiers)];
+    this.identifiers = uniqueIdentifiers;
+    this.identifiers.unshift({ name: '', value: '' });
+  };
+
   // dropdown handler
   onSelectedDropdownItem = (event, datum) => {
     this.data[datum.key] = event.value;
+
+    if (
+      datum.key === '_areaId' ||
+      datum.key === '_stateId' ||
+      datum.key === '_agencyId'
+    ) {
+      this.filterIdentifiers();
+    }
 
     // show or hide required asterisks based on selection
     if (datum.key === '_mode') {

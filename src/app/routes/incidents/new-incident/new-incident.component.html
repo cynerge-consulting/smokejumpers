@@ -76,6 +76,14 @@
             key="name"
             (selectedDropdownItem)="onSelectedDropdownItem($event, datum)"
           ></app-dropdown>
+          <app-dropdown
+            [(choice)]="datum.choice"
+            *ngIf="datum.identifiers"
+            [label]="datum.label"
+            [options]="identifiers"
+            key="name"
+            (selectedDropdownItem)="onSelectedDropdownItem($event, datum)"
+          ></app-dropdown>
         </div>
         <span class="required-asterisk" *ngIf="datum.required">*</span>
       </div>

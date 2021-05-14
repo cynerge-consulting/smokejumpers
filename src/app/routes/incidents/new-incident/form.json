@@ -76,17 +76,14 @@
         },
         {
           "choice": {},
-          "dropdown": true,
+          "identifiers": true,
           "label": "Unit Identifier",
-          "key": "UnitName",
+          "key": "_identifierId",
+          "endpoint": "identifiers",
           "options": [
             {
-              "name": "unit 1",
-              "value": "1"
-            },
-            {
-              "name": "unit 2",
-              "value": "2"
+              "name": "",
+              "value": ""
             }
           ]
         },
