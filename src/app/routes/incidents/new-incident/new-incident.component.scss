@@ -106,10 +106,15 @@
     width: calc(50% - 40px);
     display: flex;
     align-items: center;
+    &.width-25 {
+      width: calc(25% - 40px);
+    }
+    &.width-50 {
+      width: calc(50% - 40px);
+    }
   }
 
   .input-container {
-    display: flex;
     flex-direction: row;
     align-items: center;
 
@@ -176,7 +181,7 @@ input[type='checkbox'] {
 .modal {
   &.qual-modal {
     background: transparent;
-    width: 535px;
+    // width: 535px;
     height: 280px;
     .cancel-qual-button {
       bottom: 3px;

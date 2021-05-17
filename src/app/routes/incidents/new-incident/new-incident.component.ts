@@ -16,22 +16,28 @@ import * as formData from './form.json';
 export class NewIncidentComponent implements OnInit {
   @HostListener('ngModelChange', ['$event'])
   onTimeChange(event, type) {
-    if (event.length === 2) {
-      event = event + ':';
-    }
+    // force xx:xx format on incident jumper time fields
     if (type === 'arrival') {
+      if (event.length === 2) {
+        event = event + ':';
+      }
       this.jumperArrivalTime = event;
     }
     if (type === 'return') {
+      if (event.length === 2) {
+        event = event + ':';
+      }
       this.jumperReturnTime = event;
     }
   }
 
-  modal = {
-    active: false,
-    data: {}
-  };
+  // default mode is 'Create' for /new
   mode = 'Create';
+
+  // import generic form sections from ./form.json
+  sections = formData.sections;
+
+  // new incident object
   data = {
     _acres: null,
     _latitude: null,
@@ -53,6 +59,12 @@ export class NewIncidentComponent implements OnInit {
     _departTimeMilitary: null
   };
 
+  // modal vars
+  modal = {
+    active: false,
+    data: {}
+  };
+
   // endpoint data vars
   mainChutes;
   drogueChutes;
@@ -69,7 +81,7 @@ export class NewIncidentComponent implements OnInit {
   identifiers;
   originalIdentifiers;
 
-  // add qualification
+  // "Add Position" vars
   addingPosition = false;
   qualification = {
     id: '',
@@ -97,6 +109,7 @@ export class NewIncidentComponent implements OnInit {
       ]
     }
   ];
+
   // incident jumper vars
   keepDate = true;
   selectedIdentifier = {
@@ -156,9 +169,6 @@ export class NewIncidentComponent implements OnInit {
   incidentJumpers = [];
   editingJumper = false;
 
-  // form sections imported from json file
-  sections = formData.sections;
-
   constructor(private router: Router, private toast: ToastService) {}
 
   async ngOnInit() {
@@ -177,16 +187,7 @@ export class NewIncidentComponent implements OnInit {
     this.loadFormData();
   }
 
-  clearForm = () => {
-    this.sections.forEach((section) => {
-      section.data.forEach((datum) => {
-        if (datum.dropdown || datum.identifiers) {
-          datum.choice = {};
-        }
-      });
-    });
-  };
-
+  // get incident info
   beginUpdateMode = async (id) => {
     let token = window.sessionStorage.getItem('token');
     let incident = await axios.get(environment.API_URL + '/incidents/' + id, {
@@ -202,6 +203,7 @@ export class NewIncidentComponent implements OnInit {
     this.refreshIncidentJumpers();
   };
 
+  // get all the data from the backend that is used to populate the form fields
   loadFormData = async () => {
     this.clearForm();
     let token = window.sessionStorage.getItem('token');
@@ -392,27 +394,39 @@ export class NewIncidentComponent implements OnInit {
         }
       });
     });
+
+    // after the data is loaded in all the dropdowns
+    // we can start filtering any datasets that need it
+    // i.e. identifiers
     this.identifiers = [{ name: '', value: '' }];
     this.filterIdentifiers();
   };
 
+  clearForm = () => {
+    this.sections.forEach((section) => {
+      section.data.forEach((datum) => {
+        if (datum.dropdown || datum.identifiers) {
+          datum.choice = {};
+        }
+      });
+    });
+  };
+
   submitForm = (data) => {
-    if (!this.data._hobbsTime) {
-      delete this.data._hobbsTime;
-    }
     let token = window.sessionStorage.getItem('token');
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    let userId = 111;
-    if (userInfo) {
-      userId = userInfo.id;
-      this.data._baseCode = userInfo.basecode;
-    }
-
-    const options = {
+    let userId = userInfo.id;
+    let options = {
       headers: { Authorization: 'Bearer ' + token }
     };
     let url = environment.API_URL + '/incidents/add?userId=' + userId;
+    this.data._baseCode = userInfo.basecode;
 
+    if (!this.data._hobbsTime) {
+      delete this.data._hobbsTime;
+    }
+
+    // submit a new incident
     if (this.mode === 'Create') {
       axios
         .post(url, this.data, options)
@@ -432,6 +446,8 @@ export class NewIncidentComponent implements OnInit {
           console.dir(error);
           this.toast.show('Error creating incident', 'error');
         });
+
+      // submit an updated incident
     } else if (this.mode === 'Update') {
       url =
         environment.API_URL +
@@ -473,7 +489,7 @@ export class NewIncidentComponent implements OnInit {
     this.identifiers.unshift({ name: '', value: '' });
   };
 
-  // dropdown handler
+  // generic dropdown handler
   onSelectedDropdownItem = (event, datum) => {
     this.data[datum.key] = event.value;
 
@@ -566,6 +582,7 @@ export class NewIncidentComponent implements OnInit {
     }
   };
 
+  // handle the "Add Position" form being submitted
   submittedPosition = (data) => {
     let token = window.sessionStorage.getItem('token');
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
@@ -605,7 +622,7 @@ export class NewIncidentComponent implements OnInit {
       });
   };
 
-  // incident jumper methods
+  // hitting the "Add Jumper" button will bring up a confirm / cancel modal
   addJumper = () => {
     let jumper = {
       Base: this.selectedBase.value,
@@ -643,6 +660,7 @@ export class NewIncidentComponent implements OnInit {
     };
   };
 
+  // validation for the add jumper button
   isAddJumperInvalid = () => {
     if (this.selectedJumper && this.selectedBase.value) {
       return false;
@@ -651,6 +669,7 @@ export class NewIncidentComponent implements OnInit {
     }
   };
 
+  // send request to backend to update an incident jumper
   updateJumper = () => {
     let token = window.sessionStorage.getItem('token');
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
@@ -703,7 +722,7 @@ export class NewIncidentComponent implements OnInit {
       returnTime: this.jumperReturnTime,
       totalDays: this.totalDays
     };
-    // update incident jumper
+
     let url =
       environment.API_URL +
       '/incidentjumper/' +
@@ -969,7 +988,7 @@ export class NewIncidentComponent implements OnInit {
     return size;
   };
 
-  // validate lat long values
+  // generic model change validation (redundant with isHelpValid() ?)
   valueChanged = (value, datum) => {
     if (datum.key === '_latitude' || datum.key === '_longitude') {
       let regex = new RegExp(
@@ -979,6 +998,10 @@ export class NewIncidentComponent implements OnInit {
     }
     if (datum.key === '_hobbsTime') {
       let regex = new RegExp('^\\d+(\\.\\d+)*$');
+      datum.valid = regex.test(value);
+    }
+    if (datum.key === '_departTimeMilitary') {
+      let regex = new RegExp('^\\d\\d+\\:\\d+$');
       datum.valid = regex.test(value);
     }
   };
@@ -995,6 +1018,10 @@ export class NewIncidentComponent implements OnInit {
       let regex = new RegExp('^\\d+(\\.\\d+)*$');
       datum.valid = regex.test(this.data[datum.key]);
     }
+    if (datum.key === '_departTimeMilitary') {
+      let regex = new RegExp('^\\d\\d+\\:\\d+$|\\d\\:\\d\\d$');
+      datum.valid = regex.test(this.data[datum.key]);
+    }
     if (this.data[datum.key] && this.data[datum.key].length > 0) {
       if (datum.valid) {
         return 'valid';
@@ -1006,7 +1033,7 @@ export class NewIncidentComponent implements OnInit {
     }
   };
 
-  // form validation for disabling / enabling the submit button
+  // incident form validation, disables / enables the submit button
   isInvalid = () => {
     let invalid = false;
     if (
@@ -1022,6 +1049,13 @@ export class NewIncidentComponent implements OnInit {
     ) {
       invalid = true;
     }
+    let departedRegex = new RegExp('^\\d\\d+\\:\\d+$|\\d\\:\\d\\d$');
+    if (departedRegex.test(this.data._departTimeMilitary)) {
+      invalid = false;
+    } else {
+      invalid = true;
+    }
+
     if (this.data._mode === 'Proficiency / Training Jump') {
       if (!this.data._hobbsTime) {
         invalid = true;
@@ -1046,6 +1080,7 @@ export class NewIncidentComponent implements OnInit {
     return invalid;
   };
 
+  // load an incident jumper into the IJ form
   editJumper = (jumper, index) => {
     // clear the form of any prior data
     this.cancelJumperEdit();
@@ -1131,6 +1166,7 @@ export class NewIncidentComponent implements OnInit {
     jumperForm.scrollIntoView();
   };
 
+  // clear the IJ form
   cancelJumperEdit = () => {
     this.editingJumper = false;
     this.selectedMainChute = {

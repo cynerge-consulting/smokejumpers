@@ -4,50 +4,22 @@
       "title": "General Information",
       "data": [
         {
+          "width": 50,
           "input": true,
           "required": true,
           "placeholder": "Incident Name",
           "key": "_nameofIncident"
         },
         {
+          "width": 25,
           "input": true,
           "required": true,
           "type": "date",
-          "placeholder": "Incident Date",
+          "placeholder": "Date",
           "key": "_incidentDate"
         },
         {
-          "dropdown": true,
-          "required": true,
-          "label": "Dispatched From",
-          "endpoint": "dispandreturn",
-          "key": "_dispatchedFrom_Code",
-          "choice": {},
-          "options": [{}]
-        },
-        {
-          "dropdown": true,
-          "endpoint": "dispandreturn",
-          "choice": {},
-          "label": "Returned To",
-          "key": "_returnedTo_Code",
-          "options": [{}]
-        },
-        {
-          "dropdown": true,
-          "required": true,
-          "label": "To Area",
-          "endpoint": "area",
-          "key": "_areaId",
-          "choice": {},
-          "options": [
-            {
-              "name": "",
-              "value": ""
-            }
-          ]
-        },
-        {
+          "width": 25,
           "dropdown": true,
           "required": true,
           "endpoint": "states",
@@ -62,6 +34,41 @@
           ]
         },
         {
+          "width": 50,
+          "dropdown": true,
+          "required": true,
+          "label": "Dispatched From",
+          "endpoint": "dispandreturn",
+          "key": "_dispatchedFrom_Code",
+          "choice": {},
+          "options": [{}]
+        },
+        {
+          "width": 50,
+          "dropdown": true,
+          "required": true,
+          "label": "To Area",
+          "endpoint": "area",
+          "key": "_areaId",
+          "choice": {},
+          "options": [
+            {
+              "name": "",
+              "value": ""
+            }
+          ]
+        },
+        {
+          "width": 50,
+          "dropdown": true,
+          "endpoint": "dispandreturn",
+          "choice": {},
+          "label": "Returned To",
+          "key": "_returnedTo_Code",
+          "options": [{}]
+        },
+        {
+          "width": 50,
           "choice": {},
           "dropdown": true,
           "endpoint": "agency",
@@ -75,6 +82,19 @@
           ]
         },
         {
+          "width": 25,
+          "input": true,
+          "placeholder": "USFS Job Codes",
+          "key": "_usfsNum"
+        },
+        {
+          "width": 25,
+          "input": true,
+          "placeholder": "BLM Job Codes",
+          "key": "_blmNum"
+        },
+        {
+          "width": 50,
           "choice": {},
           "identifiers": true,
           "label": "Unit Identifier",
@@ -86,16 +106,6 @@
               "value": ""
             }
           ]
-        },
-        {
-          "input": true,
-          "placeholder": "USFS Job Codes",
-          "key": "_usfsNum"
-        },
-        {
-          "input": true,
-          "placeholder": "BLM Job Codes",
-          "key": "_blmNum"
         }
       ]
     },
@@ -124,8 +134,10 @@
           "key": "_hobbsTime"
         },
         {
+          "help": "Needs to be in HH:MM format (ex: 12:15)",
           "input": true,
           "required": true,
+          "maxlength": 5,
           "placeholder": "Dispatched Time",
           "key": "_departTimeMilitary"
         },
@@ -151,16 +163,16 @@
           "choice": {},
           "endpoint": "pilots",
           "dropdown": true,
-          "label": "CoPilot",
-          "key": "_copilotId",
+          "label": "Spotter 1",
+          "key": "_spotterId",
           "options": [{}]
         },
         {
           "choice": {},
           "endpoint": "pilots",
           "dropdown": true,
-          "label": "Spotter 1",
-          "key": "_spotterId",
+          "label": "CoPilot",
+          "key": "_copilotId",
           "options": [{}]
         },
         {
@@ -171,6 +183,7 @@
           "key": "_asstSpotterId",
           "options": [{}]
         },
+        {},
         {
           "choice": {},
           "dropdown": true,
@@ -185,6 +198,7 @@
       "title": "Incident Details",
       "data": [
         {
+          "width": 50,
           "choice": {},
           "dropdown": true,
           "required": true,
@@ -274,6 +288,52 @@
           ]
         },
         {
+          "width": 25,
+          "dropdown": true,
+          "choice": {},
+          "label": "Initial Attack",
+          "key": "_initialAttack",
+          "options": [
+            {
+              "name": "Yes",
+              "value": "yes"
+            },
+            {
+              "name": "No",
+              "value": "no"
+            }
+          ]
+        },
+        {
+          "width": 25,
+          "dropdown": true,
+          "label": "Type",
+          "key": "_type",
+          "choice": {},
+          "options": [
+            {
+              "name": "1",
+              "value": "1"
+            },
+            {
+              "name": "2",
+              "value": "2"
+            },
+            {
+              "name": "3",
+              "value": "3"
+            },
+            {
+              "name": "4",
+              "value": "4"
+            },
+            {
+              "name": "5",
+              "value": "5"
+            }
+          ]
+        },
+        {
           "choice": {},
           "dropdown": true,
           "label": "Mission",
@@ -312,11 +372,27 @@
         },
         {
           "input": true,
+          "placeholder": "Latitude",
+          "key": "_latitude",
+          "maxlength": 11,
+          "help": "Needs to be in Degree Decimal Minutes i.e. DD MM.MMMM"
+        },
+        {
+          "width": 25,
+          "input": true,
           "placeholder": "Acres",
           "key": "_acres"
         },
         {
+          "width": 25,
           "sizeClass": true
+        },
+        {
+          "input": true,
+          "placeholder": "Longitude",
+          "key": "_longitude",
+          "maxlength": 11,
+          "help": "Needs to be in Degree Decimal Minutes i.e. DD MM.MMMM"
         },
         {
           "dropdown": true,
@@ -341,52 +417,6 @@
               "value": "tinder"
             }
           ]
-        },
-        {
-          "dropdown": true,
-          "choice": {},
-          "label": "Initial Attack",
-          "key": "_initialAttack",
-          "options": [
-            {
-              "name": "Yes",
-              "value": "yes"
-            },
-            {
-              "name": "No",
-              "value": "no"
-            }
-          ]
-        },
-        {
-          "dropdown": true,
-          "label": "Type",
-          "key": "_type",
-          "choice": {},
-          "options": [
-            {
-              "name": "1",
-              "value": "1"
-            },
-            {
-              "name": "2",
-              "value": "2"
-            }
-          ]
-        },
-        {
-          "input": true,
-          "placeholder": "Latitude",
-          "key": "_latitude",
-          "maxlength": 11,
-          "help": "Needs to be in Degree Decimal Minutes i.e. DD MM.MMMM"
-        },
-        {
-          "input": true,
-          "placeholder": "Longitude",
-          "key": "_longitude",
-          "maxlength": 11,
-          "help": "Needs to be in Degree Decimal Minutes i.e. DD MM.MMMM"
         },
         {
           "dropdown": true,
@@ -418,16 +448,13 @@
       "title": "Paracargo Details",
       "data": [
         {
+          "width": 25,
           "input": true,
           "placeholder": "# of Bundles",
           "key": "_pcNumberBundles"
         },
         {
-          "input": true,
-          "placeholder": "Total Weight",
-          "key": "_pcTotalWeight"
-        },
-        {
+          "width": 25,
           "dropdown": true,
           "choice": {},
           "label": "Malfunction",
@@ -442,6 +469,11 @@
               "value": false
             }
           ]
+        },
+        {
+          "input": true,
+          "placeholder": "Total Weight",
+          "key": "_pcTotalWeight"
         }
       ]
     }

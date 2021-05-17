@@ -30,7 +30,11 @@
       <span>{{ section.title }}</span>
     </div>
     <div class="content">
-      <div class="datum" *ngFor="let datum of section.data">
+      <div
+        class="datum"
+        [ngClass]="'width-' + datum.width"
+        *ngFor="let datum of section.data"
+      >
         <div class="input-container">
           <span *ngIf="datum.input" class="input-label"
             >{{ datum.placeholder }}:
