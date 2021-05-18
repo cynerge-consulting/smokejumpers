@@ -45,10 +45,7 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    let role = 'admin';
-    if (userInfo) {
-      role = userInfo.role;
-    }
+    let role = userInfo.role;
 
     this.menuItems = [
       {

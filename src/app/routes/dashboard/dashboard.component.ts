@@ -52,9 +52,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(private router: Router) {
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    if (userInfo) {
-      this.base = userInfo.basecode;
-    }
+    this.base = userInfo.basecode;
   }
 
   ngOnInit(): void {

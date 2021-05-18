@@ -58,13 +58,8 @@ export class TransferJumperComponent implements OnInit {
       });
 
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    if (userInfo) {
-      this.baseCode = userInfo.basecode;
-      this.baseId = userInfo.baseId;
-    } else {
-      this.baseCode = 'BOI';
-      this.baseId = 11;
-    }
+    this.baseCode = userInfo.basecode;
+    this.baseId = userInfo.baseId;
     this.buttonText = 'Transfer Jumper to ' + this.baseCode;
   }
 

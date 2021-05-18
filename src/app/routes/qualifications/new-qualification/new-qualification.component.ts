@@ -71,10 +71,7 @@ export class NewQualificationComponent implements OnInit {
   submitForm = (data) => {
     let token = window.sessionStorage.getItem('token');
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    let userId = 111;
-    if (userInfo) {
-      userId = userInfo.id;
-    }
+    let userId = userInfo.id;
     const options = {
       headers: { Authorization: 'Bearer ' + token }
     };

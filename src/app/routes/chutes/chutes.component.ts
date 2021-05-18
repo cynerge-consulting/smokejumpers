@@ -54,11 +54,8 @@ export class ChutesComponent implements OnInit {
   refreshChutes = async () => {
     let token = window.sessionStorage.getItem('token');
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    let baseCode = 'BOI';
-    if (userInfo) {
-      baseCode = userInfo.basecode;
-      this.userBase = userInfo.basecode;
-    }
+    let baseCode = userInfo.basecode;
+    this.userBase = userInfo.basecode;
     let mainChutes = await axios.get(
       environment.API_URL + '/chutemain?baseCode=' + baseCode,
       {

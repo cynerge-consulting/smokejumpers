@@ -36,12 +36,9 @@ export class BasesComponent implements OnInit {
 
   async ngOnInit() {
     let token = window.sessionStorage.getItem('token');
-    let baseCode = 'BOI';
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    if (userInfo) {
-      this.userBase = userInfo.basecode;
-      baseCode = userInfo.basecode;
-    }
+    this.userBase = userInfo.basecode;
+    let baseCode = userInfo.basecode;
     let bases = await axios.get(
       environment.API_URL + '/base/?type=spike&baseCode=' + baseCode,
       {

@@ -36,19 +36,14 @@ export class PilotsComponent implements OnInit {
 
   ngOnInit() {
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    if (userInfo) {
-      this.userBase = userInfo.basecode;
-    }
+    this.userBase = userInfo.basecode;
     this.refreshPilots();
   }
 
   delete = async (pilot) => {
     let token = window.sessionStorage.getItem('token');
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    let userId = 111;
-    if (userInfo) {
-      userId = userInfo.id;
-    }
+    let userId = userInfo.id;
     let id = '';
     if (pilot.id) {
       id = pilot.id;
@@ -78,10 +73,7 @@ export class PilotsComponent implements OnInit {
     // check session storage for a token
     let token = window.sessionStorage.getItem('token');
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    let baseCode = 'BOI';
-    if (userInfo) {
-      baseCode = userInfo.basecode;
-    }
+    let baseCode = userInfo.basecode;
     axios
       .get(environment.API_URL + '/pilots?baseCode=' + baseCode, {
         headers: { Authorization: 'Bearer ' + token }

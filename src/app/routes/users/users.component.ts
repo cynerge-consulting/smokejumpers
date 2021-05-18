@@ -47,14 +47,18 @@ export class UsersComponent implements OnInit {
   percent = 0;
   total = 0;
 
+  // modal vars
+  modal = {
+    active: false,
+    data: {}
+  };
+
   constructor(private toast: ToastService) {}
 
   async ngOnInit() {
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    if (userInfo) {
-      this.role = userInfo.role;
-      this.userBase = userInfo.baseCode;
-    }
+    this.role = userInfo.role;
+    this.userBase = userInfo.baseCode;
     let token = window.sessionStorage.getItem('token');
     let bases = await axios.get(environment.API_URL + '/base/dropdown/main', {
       headers: { Authorization: 'Bearer ' + token }
@@ -68,36 +72,35 @@ export class UsersComponent implements OnInit {
     this.refreshUsers();
   }
 
-  delete = async (user) => {
+  delete = (event) => {
+    let user = event.user;
     let token = window.sessionStorage.getItem('token');
-    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    let userId = 111;
-    if (userInfo) {
-      userId = userInfo.id;
-    }
-    let id = '';
-    if (user.id) {
-      id = user.id;
-    } else if (user.href) {
-      id = user.href.slice(
-        user.href.indexOf('/users/') + '/users/'.length,
-        user.href.length
-      );
-    }
-    let deleted = await axios
-      .delete(
-        environment.API_URL + '/users/' + id + '/delete?userId=' + userId,
-        {
-          headers: { Authorization: 'Bearer ' + token }
-        }
-      )
+    axios
+      .delete(environment.AUTH_URL + '/users?id=' + user.id, {
+        headers: { Authorization: 'Bearer ' + token }
+      })
       .then((response) => {
+        this.modal.active = false;
         this.toast.show('Deleted User', 'success');
         this.refreshUsers();
       })
       .catch((error) => {
+        this.modal.active = false;
         this.toast.show('Unable to Delete User', 'error');
       });
+  };
+
+  showDeleteModal = (user) => {
+    this.modal = {
+      data: {
+        content: 'Are you sure you want to delete this user?',
+        deny: 'Cancel',
+        confirm: 'Delete',
+        action: 'delete',
+        user: user
+      },
+      active: true
+    };
   };
 
   onKey = (event) => {
@@ -133,10 +136,8 @@ export class UsersComponent implements OnInit {
     // check session storage for a token
     let token = window.sessionStorage.getItem('token');
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    let baseCode = 'BOI';
-    if (userInfo) {
-      baseCode = userInfo.basecode;
-    }
+    let baseCode = userInfo.basecode;
+
     axios
       .get(environment.AUTH_URL + '/getUserList', {
         headers: { Authorization: 'Bearer ' + token }

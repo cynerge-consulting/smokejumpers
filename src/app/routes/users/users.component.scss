@@ -13,6 +13,23 @@
   align-items: center;
   background: white;
   padding-left: 20px;
+  .cell {
+    width: 25%;
+    min-width: 150px;
+    text-align: left;
+    &.trash {
+      width: 50px;
+      opacity: 0;
+      cursor: pointer;
+    }
+  }
+  &:hover {
+    .cell {
+      &.trash {
+        opacity: 1;
+      }
+    }
+  }
 }
 
 .headers {
@@ -25,12 +42,6 @@
   min-width: 150px;
   text-align: left;
   color: gray;
-}
-
-.cell {
-  width: 25%;
-  min-width: 150px;
-  text-align: left;
 }
 
 .base {

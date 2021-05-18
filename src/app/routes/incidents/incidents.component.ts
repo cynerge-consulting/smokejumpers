@@ -79,18 +79,20 @@ export class IncidentsComponent implements OnInit {
   ) {
     this.route.params.subscribe((params) => {
       this.archived = params.archived;
-      this.getBases()
+      this.getBases();
     });
   }
 
   ngOnInit() {
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    if (userInfo) {
-      this.selectedBase.baseCode = userInfo.basecode;
-      this.selectedBase.value = userInfo.basecode;
-      if (userInfo.role === 'admin' || userInfo.role === 'baseadmin' || userInfo.role === 'sysadmin') {
-        this.isAdmin = true
-      }
+    this.selectedBase.baseCode = userInfo.basecode;
+    this.selectedBase.value = userInfo.basecode;
+    if (
+      userInfo.role === 'admin' ||
+      userInfo.role === 'baseadmin' ||
+      userInfo.role === 'sysadmin'
+    ) {
+      this.isAdmin = true;
     }
   }
 
@@ -122,12 +124,7 @@ export class IncidentsComponent implements OnInit {
   deleteIncident = async (incident) => {
     let token = window.sessionStorage.getItem('token');
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    let userId;
-    if (userInfo) {
-      userId = userInfo.id;
-    } else {
-      userId = 111;
-    }
+    let userId = userInfo.id;
     let id = '';
     if (incident.id) {
       id = incident.id;

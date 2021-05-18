@@ -89,11 +89,8 @@ export class NewBaseComponent implements OnInit {
 
   submitForm = (data) => {
     let token = window.sessionStorage.getItem('token');
-    let baseCode = 'BOI';
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    if (userInfo) {
-      baseCode = userInfo.basecode;
-    }
+    let baseCode = userInfo.basecode;
     const options = {
       headers: { Authorization: 'Bearer ' + token }
     };

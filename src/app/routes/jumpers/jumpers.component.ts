@@ -37,9 +37,7 @@ export class JumpersComponent implements OnInit {
 
   ngOnInit() {
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    if (userInfo) {
-      this.userBase = userInfo.basecode;
-    }
+    this.userBase = userInfo.basecode;
     this.refreshJumpers();
   }
 
@@ -68,10 +66,7 @@ export class JumpersComponent implements OnInit {
     // check session storage for a token
     let token = window.sessionStorage.getItem('token');
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    let baseId = 11;
-    if (userInfo) {
-      baseId = userInfo.baseId;
-    }
+    let baseId = userInfo.baseId;
     axios
       .get(environment.API_URL + '/jumpers?baseId=' + baseId, {
         headers: { Authorization: 'Bearer ' + token }

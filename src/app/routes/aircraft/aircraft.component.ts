@@ -45,20 +45,15 @@ export class AircraftComponent implements OnInit {
   async ngOnInit() {
     let token = window.sessionStorage.getItem('token');
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    if (userInfo) {
-      this.userBase = userInfo.basecode;
-    }
+    this.userBase = userInfo.basecode;
     this.refreshAircraft();
   }
 
   delete = async (aircraft) => {
     let token = window.sessionStorage.getItem('token');
-    let userId = 111;
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    if (userInfo) {
-      userId = userInfo.id;
-      this.userBase = userInfo.basecode;
-    }
+    let userId = userInfo.id;
+    this.userBase = userInfo.basecode;
     let id = '';
     if (aircraft.id) {
       id = aircraft.id;
@@ -88,10 +83,8 @@ export class AircraftComponent implements OnInit {
     // check session storage for a token
     let token = window.sessionStorage.getItem('token');
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    let baseCode = 'BOI';
-    if (userInfo) {
-      baseCode = userInfo.basecode;
-    }
+    let baseCode = userInfo.basecode;
+
     axios
       .get(environment.API_URL + '/travelmodes?baseCode=' + baseCode, {
         headers: { Authorization: 'Bearer ' + token }

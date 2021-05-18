@@ -40,9 +40,7 @@ export class QualificationsComponent implements OnInit {
 
   async ngOnInit() {
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    if (userInfo) {
-      this.userBase = userInfo.basecode;
-    }
+    this.userBase = userInfo.basecode;
     this.refreshQualifications();
   }
 
@@ -60,10 +58,7 @@ export class QualificationsComponent implements OnInit {
   delete = async (qualification) => {
     let token = window.sessionStorage.getItem('token');
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    let userId = 111;
-    if (userInfo) {
-      userId = userInfo.id;
-    }
+    let userId = userInfo.id;
     let id = '';
     if (qualification.id) {
       id = qualification.id;

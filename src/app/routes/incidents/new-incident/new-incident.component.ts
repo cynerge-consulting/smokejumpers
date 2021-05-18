@@ -586,10 +586,7 @@ export class NewIncidentComponent implements OnInit {
   submittedPosition = (data) => {
     let token = window.sessionStorage.getItem('token');
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    let userId = 111;
-    if (userInfo) {
-      userId = userInfo.id;
-    }
+    let userId = userInfo.id;
     const options = {
       headers: { Authorization: 'Bearer ' + token }
     };
@@ -771,8 +768,8 @@ export class NewIncidentComponent implements OnInit {
     jumper.jumpOrder = jumpOrder;
     jumpOrder = this.incidentJumpers.findIndex((ij) => target.href === ij.href);
     target.jumpOrder = jumpOrder;
-    this.updateJumper(jumper, Number(jumper.id));
     this.updateJumper(target, Number(target.id));
+    this.updateJumper(jumper, Number(jumper.id));
   };
 
   confirmDeleteJumper = (jumper, index) => {
@@ -796,10 +793,7 @@ export class NewIncidentComponent implements OnInit {
   modalConfirmed = async (data) => {
     let token = window.sessionStorage.getItem('token');
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    let userId = 111;
-    if (userInfo) {
-      userId = userInfo.id;
-    }
+    let userId = userInfo.id;
 
     const options = {
       headers: { Authorization: 'Bearer ' + token }
