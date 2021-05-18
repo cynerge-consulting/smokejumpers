@@ -195,6 +195,11 @@
       <div class="keep-date">
         <input type="checkbox" [(ngModel)]="keepDate" />
         <span class="input-label">Keep Date/Time</span>
+        <app-button
+          class="copy-to-all"
+          (clicked)="confirmCopyToAll()"
+          text="Copy to All"
+        ></app-button>
       </div>
       <div class="datum">
         <app-dropdown

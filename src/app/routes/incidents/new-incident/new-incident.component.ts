@@ -786,6 +786,18 @@ export class NewIncidentComponent implements OnInit {
     };
   };
 
+  confirmCopyToAll = () => {
+    this.modal = {
+      active: true,
+      data: {
+        content: 'Are you sure you want to Copy to All?',
+        deny: 'No',
+        confirm: 'Yes',
+        action: 'copy'
+      }
+    };
+  };
+
   modalDenied = (data) => {
     this.modal.active = false;
   };
@@ -823,6 +835,31 @@ export class NewIncidentComponent implements OnInit {
           this.toast.show('Error removing Jumper', 'error');
           console.dir(error);
         });
+    }
+
+    // copy to all
+    if (data.action === 'copy') {
+      for (let index = 0; index < this.incidentJumpers.length; index++) {
+        const jumper = this.incidentJumpers[index];
+
+        jumper.T1 = this.T1;
+        jumper.T2 = this.T2;
+        jumper.T3 = this.T3;
+        jumper.position1Id = this.selectedPosition1.id;
+        jumper.position2Id = this.selectedPosition2.id;
+        jumper.position3Id = this.selectedPosition3.id;
+        jumper.Pos1 = this.selectedPosition1.id;
+        jumper.Pos2 = this.selectedPosition2.id;
+        jumper.Pos3 = this.selectedPosition3.id;
+        jumper.arrivalTime = this.jumperArrivalTime;
+        jumper.arrivalDate = this.jumperArrivalDate;
+        jumper.returnDate = this.jumperReturnDate;
+        jumper.returnTime = this.jumperReturnTime;
+        jumper.jumpRating = this.jumpRating.value.toString();
+        jumper.totalDays = this.totalDays;
+        this.updateJumper(jumper, jumper.id);
+      }
+      this.modal.active = false;
     }
 
     // add incident jumper
