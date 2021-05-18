@@ -9,12 +9,20 @@
           <span *ngIf="datum.input" class="input-label"
             >{{ datum.placeholder }}:
           </span>
+          <!-- checkbox -->
+          <input
+            type="checkbox"
+            *ngIf="datum.type === 'checkbox'"
+            [(ngModel)]="data[datum.key]"
+          />
           <!-- text input -->
           <input
             type="text"
             [name]="datum.key"
             [maxlength]="datum.maxlength"
-            *ngIf="datum.input && datum.type !== 'date'"
+            *ngIf="
+              datum.input && datum.type !== 'date' && datum.type !== 'checkbox'
+            "
             [placeholder]="datum.placeholder"
             [(ngModel)]="data[datum.key]"
           />

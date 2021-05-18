@@ -1,7 +1,56 @@
-<app-form
-  class="new-aircraft-form"
-  [sections]="sections"
-  [data]="aircraft"
-  [mode]="mode"
-  (submitted)="submitForm($event)"
-></app-form>
+<div class="form">
+  <div class="section-container">
+    <div class="title">
+      <span>Aircraft</span>
+    </div>
+    <div class="content">
+      <div class="datum">
+        <div class="input-container">
+          <span class="input-label">Call Sign: </span>
+          <input
+            type="text"
+            [(ngModel)]="aircraft.callsign"
+            placeholder="Call Sign"
+          />
+        </div>
+      </div>
+      <div class="datum">
+        <div class="input-container">
+          <span class="input-label">Make/Model: </span>
+          <input
+            type="text"
+            [(ngModel)]="aircraft.Aircraft_Name"
+            placeholder="Make/Model"
+          />
+        </div>
+      </div>
+      <div class="datum">
+        <div class="input-container">
+          <span class="input-label">Tail Number: </span>
+          <input
+            type="text"
+            [(ngModel)]="aircraft.Aircraft_Tail_Number"
+            placeholder="Tail Number"
+          />
+        </div>
+      </div>
+      <div class="datum">
+        <div class="input-container">
+          <span class="input-label">Owner: </span>
+          <input
+            type="text"
+            [(ngModel)]="aircraft.Aircraft_Owner"
+            placeholder="Owner"
+          />
+        </div>
+      </div>
+      <div class="datum" *ngIf="mode === 'Update'">
+        <div class="input-container">
+          <span class="input-label">Active: </span>
+          <input type="checkbox" [(ngModel)]="aircraft.active" />
+        </div>
+      </div>
+    </div>
+    <app-button (clicked)="submitForm($event)" text="Submit"></app-button>
+  </div>
+</div>

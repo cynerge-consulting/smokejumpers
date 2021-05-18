@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import axios from 'axios';
 import { environment } from '../../../../environments/environment';
 import { ToastService } from '../../../services/toast.service';
@@ -7,52 +7,39 @@ import { ToastService } from '../../../services/toast.service';
 @Component({
   selector: 'app-new-aircraft',
   templateUrl: './new-aircraft.component.html',
-  styleUrls: ['./new-aircraft.component.scss']
+  styleUrls: [
+    './new-aircraft.component.scss',
+    '../../../components/form/form.component.scss'
+  ]
 })
 export class NewAircraftComponent implements OnInit {
   mode = 'Create';
   id;
+  callsign = '';
   // define aircraft object
   aircraft = {
-    homeBase: 'BOI',
-    homeBaseId: 11,
+    Aircraft_Name: '',
+    Aircraft_Owner: '',
+    Aircraft_Tail_Number: '',
+    callsign: '',
+    active: true,
+    homeBase: '',
+    homeBaseId: '',
     id: '',
     edit: false,
     deleted: false,
     show: false
   };
 
-  // define form sections
-  sections = [
-    {
-      title: 'Aircraft',
-      data: [
-        {
-          input: true,
-          placeholder: 'Call Sign',
-          key: 'callsign'
-        },
-        {
-          input: true,
-          required: true,
-          placeholder: 'Make/Model',
-          key: 'Aircraft_Name'
-        },
-        {
-          input: true,
-          placeholder: 'Tail Number',
-          key: 'Aircraft_Tail_Number'
-        },
-        {
-          input: true,
-          placeholder: 'Operator',
-          key: 'Aircraft_Owner'
-        }
-      ]
-    }
-  ];
-
-  constructor(private router: Router, private toast: ToastService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private toast: ToastService
+  ) {
+    this.route.params.subscribe((params) => {
+      this.callsign = params.callsign;
+    });
+  }
 
   ngOnInit(): void {
     // if we see an '/:id' instead of '/new' in the URL,
@@ -75,10 +62,13 @@ export class NewAircraftComponent implements OnInit {
       headers: { Authorization: 'Bearer ' + token }
     });
     this.aircraft = aircraft.data;
+    this.aircraft.callsign = this.callsign;
     this.aircraft.id = id;
+    this.aircraft.active = !this.aircraft.deleted;
   };
 
   submitForm = (data) => {
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
     let token = window.sessionStorage.getItem('token');
     const options = {
       headers: { Authorization: 'Bearer ' + token }
@@ -99,11 +89,11 @@ export class NewAircraftComponent implements OnInit {
           console.dir(error);
         });
     } else if (this.mode === 'Update') {
+      this.aircraft.deleted = !this.aircraft.active;
       this.aircraft.edit = true;
-      this.aircraft.deleted = false;
       this.aircraft.show = true;
-      this.aircraft.homeBase = 'BOI';
-      this.aircraft.homeBaseId = 11;
+      this.aircraft.homeBase = userInfo.basecode;
+      this.aircraft.homeBaseId = userInfo.baseId;
       url = environment.API_URL + '/travelmodes/' + this.id + '/update';
       axios
         .post(url, this.aircraft, options)
