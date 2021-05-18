@@ -634,7 +634,7 @@ export class NewIncidentComponent implements OnInit {
       arrivalTime: this.jumperArrivalTime,
       drogueId: this.selectedDrogueChute.id,
       homeBaseId: this.selectedJumper.base.id,
-      sortOrder: 1,
+      jumpOrder: this.incidentJumpers.length,
       jumpRating: this.jumpRating.value.toString(),
       jumperName:
         this.selectedJumper.lastName + ', ' + this.selectedJumper.firstName,
@@ -669,14 +669,8 @@ export class NewIncidentComponent implements OnInit {
     }
   };
 
-  // send request to backend to update an incident jumper
-  updateJumper = () => {
-    let token = window.sessionStorage.getItem('token');
-    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-    let userId = 112;
-    if (userInfo) {
-      userId = userInfo.id;
-    }
+  // get the incident jumper data from the form and then update it
+  updateFormJumper = () => {
     let incidentJumperData = this.incidentJumpers.filter((jumper) => {
       return jumper.JumperId === this.selectedJumper.id;
     });
@@ -685,9 +679,9 @@ export class NewIncidentComponent implements OnInit {
       incidentJumper.href.lastIndexOf('/') + 1,
       incidentJumper.href.length
     );
-    const options = {
-      headers: { Authorization: 'Bearer ' + token }
-    };
+    let jumpOrder = this.incidentJumpers.findIndex(
+      (jumper) => jumper.href === incidentJumper.href
+    );
     let jumper = {
       incidentId: Number(this.data.id),
       Base: this.selectedBase.value,
@@ -703,8 +697,7 @@ export class NewIncidentComponent implements OnInit {
       drogueId: this.selectedDrogueChute.value,
       homeBaseId: this.selectedJumper.base.id,
       hideEdit: false,
-      jumpOrder: 10,
-      sortOrder: 10,
+      jumpOrder: jumpOrder,
       jumpRating: this.jumpRating.value.toString(),
       jumperName:
         this.selectedJumper.lastName + ', ' + this.selectedJumper.firstName,
@@ -721,6 +714,17 @@ export class NewIncidentComponent implements OnInit {
       returnDate: this.jumperReturnDate,
       returnTime: this.jumperReturnTime,
       totalDays: this.totalDays
+    };
+    this.updateJumper(jumper, id);
+  };
+
+  // send request to backend to update an incident jumper
+  updateJumper = (jumper, id) => {
+    let token = window.sessionStorage.getItem('token');
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    let userId = userInfo.id;
+    const options = {
+      headers: { Authorization: 'Bearer ' + token }
     };
 
     let url =
@@ -745,6 +749,30 @@ export class NewIncidentComponent implements OnInit {
         this.toast.show('Error Updating Jumper', 'error');
         console.dir(error);
       });
+  };
+
+  moveJumper = (direction, jumper, index) => {
+    // can not move higher
+    if (direction === 'up' && index === 0) {
+      return;
+    }
+    // can not move lower
+    if (direction === 'down' && index === this.incidentJumpers.length - 1) {
+      return;
+    }
+
+    let targetIndex = index + (direction === 'up' ? -1 : 1);
+    let target = this.incidentJumpers[targetIndex];
+    this.incidentJumpers[targetIndex] = jumper;
+    this.incidentJumpers[index] = target;
+    let jumpOrder = this.incidentJumpers.findIndex(
+      (ij) => jumper.href === ij.href
+    );
+    jumper.jumpOrder = jumpOrder;
+    jumpOrder = this.incidentJumpers.findIndex((ij) => target.href === ij.href);
+    target.jumpOrder = jumpOrder;
+    this.updateJumper(jumper, Number(jumper.id));
+    this.updateJumper(target, Number(target.id));
   };
 
   confirmDeleteJumper = (jumper, index) => {
@@ -846,6 +874,7 @@ export class NewIncidentComponent implements OnInit {
             jumper.href.lastIndexOf('/') + 1,
             jumper.href.length
           );
+          jumper.id = id;
           if (jumper.position1Id) {
             let position = this.qualifications.filter((qualification) => {
               return qualification.id === jumper.position1Id;
@@ -929,7 +958,21 @@ export class NewIncidentComponent implements OnInit {
               Number(date[1]) + '/' + date[2].slice(0, 2) + '/' + date[0];
           }
         });
+
+        // sort jumpers by jump jumpOrder
+        this.incidentJumpers.sort((a, b) => {
+          var keyA = a['jumpOrder'];
+          var keyB = b['jumpOrder'];
+          if (keyA < keyB) {
+            return -1;
+          }
+          if (keyA > keyB) {
+            return 1;
+          }
+          return 0;
+        });
       })
+
       .catch((error) => {
         console.dir(error);
       });

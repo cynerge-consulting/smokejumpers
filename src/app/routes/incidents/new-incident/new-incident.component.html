@@ -105,6 +105,14 @@
         *ngFor="let jumper of incidentJumpers; index as i"
       >
         <div class="remove-jumper-button">
+          <span style="margin-right: 10px" (click)="moveJumper('up', jumper, i)"
+            >▲</span
+          >
+          <span
+            style="margin-right: 10px"
+            (click)="moveJumper('down', jumper, i)"
+            >▼</span
+          >
           <span style="margin-right: 10px" (click)="editJumper(jumper, i)"
             >✎</span
           >
@@ -112,7 +120,7 @@
         </div>
         <div class="jumper-info">
           <div>
-            <span class="label">Jumper: </span>
+            <span class="label">Jumper #{{ i + 1 }}: </span>
             <span class="value">{{ jumper.jumperName }}</span>
           </div>
           <div style="margin-bottom: 20px">
@@ -387,7 +395,7 @@
         <app-button
           [text]="editingJumper ? 'Update Jumper' : 'Add Jumper'"
           [disabled]="isAddJumperInvalid()"
-          (clicked)="editingJumper ? updateJumper() : addJumper()"
+          (clicked)="editingJumper ? updateFormJumper() : addJumper()"
           class="add-jumper-button"
         ></app-button>
         <app-button
