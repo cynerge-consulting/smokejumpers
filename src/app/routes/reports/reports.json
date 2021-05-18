@@ -118,7 +118,7 @@
       "params": {
         "year": true,
         "title": "Individual Jump Records",
-        "type": "individualjumps",
+        "type": "indjumpdif",
         "bases": true,
         "jumpers": true,
         "fields": ["JumperName", "jumperId", "year"]
@@ -133,7 +133,7 @@
       "params": {
         "year": true,
         "title": "Individual Spotter Assignment",
-        "type": "individualspotter",
+        "type": "indspotter",
         "bases": true,
         "spotters": true,
         "fields": ["JumperName", "jumperId", "year"]

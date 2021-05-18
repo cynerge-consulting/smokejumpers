@@ -136,7 +136,7 @@ export class ReportsComponent implements OnInit {
   selectedSpotter;
   selectedChute = {
     name: '',
-    chutename: 'ALL',
+    chutename: '',
     chutetype: '',
     value: ''
   };
@@ -185,7 +185,44 @@ export class ReportsComponent implements OnInit {
       this.showingChutes = params.chutes;
     });
     this.years.reverse();
+    this.clearForm();
   }
+
+  clearForm = () => {
+    this.selectedFileType = {
+      name: '',
+      value: ''
+    };
+    this.selectedBase = {
+      id: '',
+      value: '',
+      baseId: ''
+    };
+    this.selectedJumper = {
+      firstName: '',
+      lastName: '',
+      id: ''
+    };
+    this.selectedQualification = {
+      Acronym: ''
+    };
+    this.selectedYear = {
+      name: '',
+      value: ''
+    };
+    this.selectedSpotter;
+    this.selectedChute = {
+      name: '',
+      chutename: '',
+      chutetype: '',
+      value: ''
+    };
+    this.selectedChuteStyle = {
+      name: 'Main',
+      value: 'Main',
+      chutetype: 1
+    };
+  };
 
   async ngOnInit() {
     let token = window.sessionStorage.getItem('token');
@@ -293,12 +330,14 @@ export class ReportsComponent implements OnInit {
   }
 
   goToDash = () => {
+    this.clearForm();
     this.showingDownloadData = false;
     this.showingDashboard = true;
     this.router.navigate(['reports']);
   };
 
   selectReport = (report) => {
+    this.clearForm();
     this.showingDashboard = false;
     this.router.navigate([report.route, report.params]);
   };
@@ -443,6 +482,35 @@ export class ReportsComponent implements OnInit {
         data.data
       );
     }
+  };
+
+  isDisabled = () => {
+    let disabled = false;
+    if (
+      (this.showingSpotters || this.showingJumpers) &&
+      !this.selectedJumper.firstName.length
+    ) {
+      disabled = true;
+    }
+    if (this.showingYear && !this.selectedYear.value.length) {
+      disabled = true;
+    }
+    if (this.showingBases && !this.selectedBase.value.length) {
+      disabled = true;
+    }
+    if (
+      this.showingQualifications &&
+      !this.selectedQualification.Acronym.length
+    ) {
+      disabled = true;
+    }
+    if (!this.selectedFileType.value.length) {
+      disabled = true;
+    }
+    if (this.loading) {
+      disabled = true;
+    }
+    return disabled;
   };
 
   exportToCsv(filename, rows) {

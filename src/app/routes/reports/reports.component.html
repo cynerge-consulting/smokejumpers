@@ -138,7 +138,7 @@
   ></app-dropdown>
   <div class="buttons">
     <app-button
-      [disabled]="loading"
+      [disabled]="isDisabled()"
       class="generate-report-button"
       text="Generate Report"
       (clicked)="generateReport()"
