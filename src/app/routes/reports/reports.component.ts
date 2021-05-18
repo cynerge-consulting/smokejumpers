@@ -305,7 +305,6 @@ export class ReportsComponent implements OnInit {
 
   selectBase = (base) => {
     this.selectedBase = base;
-
     this.jumpers = this.originalJumpers;
 
     // filter jumpers by base
@@ -344,6 +343,7 @@ export class ReportsComponent implements OnInit {
           this.selectedJumper.lastName + ', ' + this.selectedJumper.firstName,
         jumperId: this.selectedJumper.id
       };
+      request = this.cleanRequest(request);
       let report = await axios.post(
         environment.API_URL + '/Reports/getReport',
         request,
@@ -355,6 +355,27 @@ export class ReportsComponent implements OnInit {
       this.loading = false;
       this.toast.show('Unable to generate report', 'error');
     }
+  };
+
+  // remove unnecessary keys from request object (dance around backend)
+  cleanRequest = (request) => {
+    let report = this.reports.filter((reportData) => {
+      return reportData.params.type === this.reportType;
+    });
+    for (const key in request) {
+      if (request.hasOwnProperty(key)) {
+        let fields = report[0].params.fields;
+        if (fields.includes(key)) {
+        } else if (
+          key !== 'report' &&
+          key !== 'reporttype' &&
+          key !== 'reportUrl'
+        ) {
+          delete request[key];
+        }
+      }
+    }
+    return request;
   };
 
   getJumperIds = () => {

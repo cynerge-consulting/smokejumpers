@@ -9,7 +9,8 @@
       "params": {
         "type": "baseroster",
         "title": "Base Roster",
-        "bases": true
+        "bases": true,
+        "fields": ["basename"]
       }
     },
     {
@@ -22,7 +23,8 @@
         "type": "boostersheet",
         "title": "Booster Sheet",
         "bases": true,
-        "alljumpers": true
+        "alljumpers": true,
+        "fields": ["JumperIdlist"]
       }
     },
     {
@@ -34,7 +36,8 @@
       "params": {
         "type": "daysoff",
         "title": "Days Off",
-        "bases": true
+        "bases": true,
+        "fields": ["basename", "baseId"]
       }
     },
     {
@@ -46,7 +49,8 @@
       "params": {
         "title": "Last Jumps",
         "type": "lastjump",
-        "bases": true
+        "bases": true,
+        "fields": ["basename"]
       }
     },
     {
@@ -58,7 +62,8 @@
       "params": {
         "title": "Last Spotter",
         "type": "lastspotter",
-        "bases": true
+        "bases": true,
+        "fields": ["basename"]
       }
     },
     {
@@ -71,7 +76,8 @@
         "title": "ICS Qualifications",
         "type": "ICSQualsALL",
         "bases": true,
-        "qualifications": true
+        "qualifications": true,
+        "fields": ["BaseName", "Qual"]
       }
     },
     {
@@ -84,7 +90,9 @@
         "title": "Parachute History",
         "type": "chutehistory",
         "bases": true,
-        "chutes": true
+        "chutes": true,
+        "year": true,
+        "fields": ["basename", "chutename", "chutetype", "year"]
       }
     },
     {
@@ -96,7 +104,9 @@
       "params": {
         "title": "Single Resources",
         "type": "srareport",
-        "bases": true
+        "bases": true,
+        "year": true,
+        "fields": ["basename", "year"]
       }
     },
     {
@@ -106,10 +116,12 @@
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
       "params": {
+        "year": true,
         "title": "Individual Jump Records",
         "type": "individualjumps",
         "bases": true,
-        "jumpers": true
+        "jumpers": true,
+        "fields": ["JumperName", "jumperId", "year"]
       }
     },
     {
@@ -119,10 +131,12 @@
       "banner": "assets/images/incBanner.png",
       "hasParams": true,
       "params": {
+        "year": true,
         "title": "Individual Spotter Assignment",
         "type": "individualspotter",
         "bases": true,
-        "spotters": true
+        "spotters": true,
+        "fields": ["JumperName", "jumperId", "year"]
       }
     },
     {
@@ -135,7 +149,8 @@
         "title": "Mission By Aircraft",
         "type": "missionByAircraft",
         "bases": true,
-        "year": true
+        "year": true,
+        "fields": ["year", "basename"]
       }
     },
     {
@@ -148,7 +163,8 @@
         "title": "Master Action",
         "type": "masterAction",
         "bases": true,
-        "year": true
+        "year": true,
+        "fields": ["year", "basename"]
       }
     },
     {
@@ -161,7 +177,8 @@
         "title": "Jumpers Nationwide",
         "type": "jumperhbendofyear",
         "year": true,
-        "bases": true
+        "bases": true,
+        "fields": ["year", "basename"]
       }
     },
     {
@@ -174,7 +191,8 @@
         "title": "Administered Actions",
         "type": "jumperendofyearadmin",
         "bases": true,
-        "year": true
+        "year": true,
+        "fields": ["year", "basename"]
       }
     },
     {
@@ -186,7 +204,8 @@
       "params": {
         "title": "National BLM",
         "type": "jumperendofyearblm",
-        "year": true
+        "year": true,
+        "fields": ["year"]
       }
     },
     {
@@ -198,7 +217,8 @@
       "params": {
         "title": "National USFS",
         "type": "jumperendofyearusfs",
-        "year": true
+        "year": true,
+        "fields": ["year"]
       }
     },
     {
@@ -210,7 +230,8 @@
       "params": {
         "title": "Nationwide by Base",
         "type": "jumperendofyearbybase",
-        "year": true
+        "year": true,
+        "fields": ["year"]
       }
     }
   ]
