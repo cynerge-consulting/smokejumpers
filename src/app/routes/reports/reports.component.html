@@ -35,6 +35,7 @@
   *ngIf="!showingDashboard && !showingDownloadData"
   class="request-report-form"
 >
+  <span class="report-title">{{ title }} Report</span>
   <app-dropdown
     *ngIf="showingYear"
     label="Year"
@@ -46,7 +47,7 @@
     *ngIf="showingBases"
     label="Base"
     [options]="bases"
-    key="value"
+    key="text"
     (selectedDropdownItem)="selectBase($event)"
   ></app-dropdown>
   <app-dropdown
@@ -119,15 +120,15 @@
   <app-dropdown
     *ngIf="showingSpotters"
     label="Spotter"
-    [options]="jumpers"
-    key="fullName"
+    [options]="spotters"
+    key="friendly"
     (selectedDropdownItem)="selectedJumper = $event"
   ></app-dropdown>
   <app-dropdown
     *ngIf="showingQualifications"
     label="Qualifications"
     [options]="qualifications"
-    key="Acronym"
+    key="title"
     (selectedDropdownItem)="selectedQualification = $event"
   ></app-dropdown>
   <app-dropdown

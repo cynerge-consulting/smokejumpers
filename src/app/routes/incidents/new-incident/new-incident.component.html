@@ -25,6 +25,9 @@
   </div>
 </div>
 <div class="form">
+  <div class="main-title">
+    {{ mode === 'Update' ? 'Update' : 'Create New' }} Incident
+  </div>
   <div class="section-container" *ngFor="let section of sections">
     <div class="title">
       <span>{{ section.title }}</span>

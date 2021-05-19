@@ -11,6 +11,7 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./reports.component.scss']
 })
 export class ReportsComponent implements OnInit {
+  title = '';
   isAdmin = false;
   loading = false;
   showingDownloadData = false;
@@ -127,13 +128,13 @@ export class ReportsComponent implements OnInit {
     id: ''
   };
   selectedQualification = {
-    Acronym: ''
+    Acronym: '',
+    value: ''
   };
   selectedYear = {
     name: '',
     value: ''
   };
-  selectedSpotter;
   selectedChute = {
     name: '',
     chutename: '',
@@ -183,6 +184,7 @@ export class ReportsComponent implements OnInit {
       this.showingYear = params.year;
       this.showingSpotters = params.spotters;
       this.showingChutes = params.chutes;
+      this.title = params.title;
     });
     this.years.reverse();
     this.clearForm();
@@ -204,13 +206,13 @@ export class ReportsComponent implements OnInit {
       id: ''
     };
     this.selectedQualification = {
-      Acronym: ''
+      Acronym: '',
+      value: ''
     };
     this.selectedYear = {
       name: '',
       value: ''
     };
-    this.selectedSpotter;
     this.selectedChute = {
       name: '',
       chutename: '',
@@ -244,9 +246,16 @@ export class ReportsComponent implements OnInit {
       options
     );
     this.bases = bases.data;
+    this.bases = this.sort(this.bases, 'text');
 
     let jumpers = await axios.get(environment.API_URL + '/jumpers', options);
     this.jumpers = jumpers.data.value;
+
+    // filter out inactive jumpers
+    this.jumpers = this.jumpers.filter((jumper) => {
+      return jumper.activeStatus === true;
+    });
+
     // parse jumper data for friendly display
     for (let x = 0; x < this.jumpers.length; x++) {
       this.jumpers[x].fullName =
@@ -254,14 +263,29 @@ export class ReportsComponent implements OnInit {
       this.jumpers[x].friendly =
         this.jumpers[x].fullName + ' | ' + this.jumpers[x].base.code;
     }
+
+    // sort jumpers by last name alphabetically
+    this.jumpers = this.sort(this.jumpers, 'lastName');
     this.originalJumpers = this.jumpers;
+
+    this.spotters = this.jumpers.filter((jumper) => {
+      return jumper.spotter === 'Spotter';
+    });
 
     let qualifications = await axios.get(
       environment.API_URL + '/Quals',
       options
     );
     this.qualifications = qualifications.data.value;
-
+    this.qualifications = this.qualifications.filter((qual) => {
+      return qual.active === true;
+    });
+    this.qualifications = this.sort(this.qualifications, 'title');
+    this.qualifications.unshift({
+      title: 'All Quals',
+      value: 'All Quals',
+      Acronym: 'ALLQ'
+    });
     let mainChutes = await axios.get(
       environment.API_URL + '/chutemain?baseCode=' + baseCode,
       {
@@ -269,11 +293,8 @@ export class ReportsComponent implements OnInit {
       }
     );
     this.mainChutes = mainChutes.data.value;
-    this.mainChutes.unshift({
-      name: 'ALL Parachutes',
-      value: 'ALL',
-      chutename: 'ALL',
-      chutetype: 1
+    this.mainChutes = this.mainChutes.filter((chute) => {
+      return chute.inService === true;
     });
     let drogueChutes = await axios.get(
       environment.API_URL + '/chutedrogue?baseCode=' + baseCode,
@@ -282,11 +303,8 @@ export class ReportsComponent implements OnInit {
       }
     );
     this.drogueChutes = drogueChutes.data.value;
-    this.drogueChutes.unshift({
-      name: 'ALL Parachutes',
-      value: 'ALL',
-      chutename: 'ALL',
-      chutetype: 3
+    this.drogueChutes = this.drogueChutes.filter((chute) => {
+      return chute.inService === true;
     });
     let reserveChutes = await axios.get(
       environment.API_URL + '/chutereserve?baseCode=' + baseCode,
@@ -295,11 +313,8 @@ export class ReportsComponent implements OnInit {
       }
     );
     this.reserveChutes = reserveChutes.data.value;
-    this.reserveChutes.unshift({
-      name: 'ALL Parachutes',
-      value: 'ALL',
-      chutename: 'ALL',
-      chutetype: 2
+    this.reserveChutes = this.reserveChutes.filter((chute) => {
+      return chute.inService === true;
     });
 
     let chutes = this.mainChutes.concat(
@@ -327,7 +342,44 @@ export class ReportsComponent implements OnInit {
       }
       chute.active = chute.inService ? 'Yes' : 'No';
     });
+
+    this.drogueChutes = this.sort(this.drogueChutes, 'name');
+    this.drogueChutes.unshift({
+      name: 'ALL Parachutes',
+      value: 'ALL',
+      chutename: 'ALL',
+      chutetype: 3
+    });
+    this.mainChutes = this.sort(this.mainChutes, 'name');
+    this.mainChutes.unshift({
+      name: 'ALL Parachutes',
+      value: 'ALL',
+      chutename: 'ALL',
+      chutetype: 1
+    });
+    this.reserveChutes = this.sort(this.reserveChutes, 'name');
+    this.reserveChutes.unshift({
+      name: 'ALL Parachutes',
+      value: 'ALL',
+      chutename: 'ALL',
+      chutetype: 2
+    });
   }
+
+  sort = (array, key) => {
+    array.sort((a, b) => {
+      var keyA = a[key];
+      var keyB = b[key];
+      if (keyA < keyB) {
+        return -1;
+      }
+      if (keyA > keyB) {
+        return 1;
+      }
+      return 0;
+    });
+    return array;
+  };
 
   goToDash = () => {
     this.clearForm();
@@ -357,6 +409,9 @@ export class ReportsComponent implements OnInit {
     // dedupe jumpers
     let uniqueJumpers = [...new Set(filteredJumpers)];
     this.jumpers = uniqueJumpers;
+    this.spotters = this.jumpers.filter((jumper) => {
+      return jumper.spotter === 'Spotter';
+    });
   };
 
   generateReport = async () => {
@@ -414,6 +469,16 @@ export class ReportsComponent implements OnInit {
         }
       }
     }
+    if (this.reportType === 'ICSQualsALL') {
+      if (this.selectedQualification.value !== 'All Quals') {
+        console.log('fix for limited search');
+        this.reportType = 'ICSQualsLimitedSearch';
+        request.report = 'ICSQualsLimitedSearch';
+      } else {
+        delete request.Qual;
+      }
+    }
+    console.dir(this.selectedQualification);
     return request;
   };
 
