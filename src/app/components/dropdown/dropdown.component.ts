@@ -15,6 +15,7 @@ import {
 })
 export class DropdownComponent implements OnInit {
   showingMenu = false;
+  @Input() required: any;
   @Input() choice = {};
   @Input() key: any;
   @Input() label: any;

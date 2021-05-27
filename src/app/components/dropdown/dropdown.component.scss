@@ -49,7 +49,9 @@
     position: relative;
     text-overflow: ellipsis;
     overflow: hidden;
-    padding: 20px;
+    padding: 15px 20px;
+    min-width: 225px;
+    min-height: 10px;
     &:hover {
       background: #006632;
       color: white;

@@ -35,6 +35,12 @@ export class NewQualificationComponent implements OnInit {
           input: true,
           placeholder: 'Acronym',
           key: 'Acronym'
+        },
+        {
+          input: true,
+          type: 'checkbox',
+          placeholder: 'Active',
+          key: 'active'
         }
       ]
     }

@@ -5,6 +5,13 @@
   background: white;
   height: 100%;
   width: 100%;
+  .main-title {
+    font-size: 28px;
+    color: #005d29;
+    font-weight: bold;
+    margin-left: 25px;
+    margin-top: 25px;
+  }
 
   .section-container {
     margin: 0 30px;
@@ -147,6 +154,7 @@
     }
 
     input {
+      font-family: Roboto;
       width: 66%;
       user-select: none;
       border: none;

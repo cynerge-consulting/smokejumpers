@@ -239,7 +239,7 @@ export class NewIncidentComponent implements OnInit {
     );
     this.dispandreturn = disps.data;
     this.dispandreturn.forEach((disp) => {
-      disp.name = disp.text;
+      disp.name = disp.text + ' | ' + disp.baseCode;
       disp.value = disp.value;
     });
 
@@ -253,7 +253,7 @@ export class NewIncidentComponent implements OnInit {
         pilot.href.length
       );
       pilot.name =
-        pilot.firstName + ' ' + pilot.lastName + ' | ' + pilot.base.code;
+        pilot.lastName + ', ' + pilot.firstName + ' | ' + pilot.base.code;
       pilot.value = id;
     });
     this.pilots.unshift({ name: '', value: '' });
@@ -269,8 +269,24 @@ export class NewIncidentComponent implements OnInit {
           travelmode.href.length
         )
       );
-      travelmode.name = travelmode.Aircraft_Name;
+      // travelmode.name = travelmode.Aircraft_Name;
       travelmode.value = id;
+      if (
+        travelmode.Aircraft_Name === 'Ground\t' ||
+        travelmode.Aircraft_Name === 'Other' ||
+        travelmode.Aircraft_Name === 'Helicopter' ||
+        travelmode.Aircraft_Name === 'Contract Air' ||
+        travelmode.Aircraft_Name === 'Commercial Air'
+      ) {
+        travelmode.name = travelmode.Aircraft_Name;
+      } else {
+        travelmode.name =
+          travelmode.Aircraft_Name +
+          ' | ' +
+          travelmode.Aircraft_Tail_Number +
+          ' | ' +
+          travelmode.homeBase;
+      }
     });
 
     let states = await axios.get(environment.API_URL + '/states', {

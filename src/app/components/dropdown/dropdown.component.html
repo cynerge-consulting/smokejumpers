@@ -1,6 +1,9 @@
 <div class="dropdown-container">
   <div class="dropdown">
-    <span class="label">{{ label.length ? label + ':' : '' }}</span>
+    <span class="label"
+      >{{ label.length ? label : ''
+      }}<span class="required-asterisk" *ngIf="required"> *</span></span
+    >
     <span (click)="showMenu()" class="value">{{ choice[key] }}</span>
     <svg
       class="value"

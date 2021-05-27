@@ -40,7 +40,8 @@
       >
         <div class="input-container">
           <span *ngIf="datum.input" class="input-label"
-            >{{ datum.placeholder }}:
+            >{{ datum.placeholder }}
+            <span class="required-asterisk" *ngIf="datum.required">*</span>
           </span>
           <!-- text input -->
           <div
@@ -77,6 +78,7 @@
           <!-- dropdown -->
           <app-dropdown
             [(choice)]="datum.choice"
+            [required]="datum.required"
             *ngIf="datum.dropdown"
             [label]="datum.label"
             [options]="datum.options"
@@ -92,7 +94,6 @@
             (selectedDropdownItem)="onSelectedDropdownItem($event, datum)"
           ></app-dropdown>
         </div>
-        <span class="required-asterisk" *ngIf="datum.required">*</span>
       </div>
     </div>
   </div>
@@ -206,13 +207,13 @@
       </div>
       <div class="datum">
         <app-dropdown
+          required="true"
           [choice]="selectedBase"
           label="Base"
           [options]="bases"
           key="value"
           (selectedDropdownItem)="selectBase($event)"
         ></app-dropdown>
-        <span class="required-asterisk">*</span>
       </div>
       <div class="datum">
         <app-combobox
@@ -225,13 +226,13 @@
       </div>
       <div class="datum">
         <app-dropdown
+          required="true"
           [choice]="selectedJumper"
           label="Jumper"
           [options]="jumpers"
           key="friendly"
           (selectedDropdownItem)="selectJumper($event)"
         ></app-dropdown>
-        <span class="required-asterisk">*</span>
       </div>
       <div class="datum">
         <app-combobox
