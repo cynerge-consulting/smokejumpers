@@ -442,6 +442,8 @@ export class NewIncidentComponent implements OnInit {
       delete this.data._hobbsTime;
     }
 
+    console.log(this.data._departTimeMilitary);
+
     // submit a new incident
     if (this.mode === 'Create') {
       axios
@@ -465,6 +467,7 @@ export class NewIncidentComponent implements OnInit {
 
       // submit an updated incident
     } else if (this.mode === 'Update') {
+      console.dir(this.data);
       url =
         environment.API_URL +
         '/incidents' +
@@ -503,6 +506,11 @@ export class NewIncidentComponent implements OnInit {
     let uniqueIdentifiers = [...new Set(filteredIdentifiers)];
     this.identifiers = uniqueIdentifiers;
     this.identifiers.unshift({ name: '', value: '' });
+  };
+
+  // generic combobox handler
+  onSelectedComboboxItem = (event, datum) => {
+    this.data[datum.key] = event.value;
   };
 
   // generic dropdown handler
@@ -1094,6 +1102,7 @@ export class NewIncidentComponent implements OnInit {
       let regex = new RegExp('^\\d\\d+\\:\\d+$');
       datum.valid = regex.test(value);
     }
+    this.data[datum.key] = value;
   };
 
   // determines the css class for help text

@@ -75,6 +75,16 @@
             *ngIf="datum.type === 'date'"
             [(ngModel)]="data[datum.key]"
           />
+          <!-- combobox -->
+          <app-combobox
+            *ngIf="datum.combobox"
+            [(choice)]="datum.choice"
+            [label]="datum.label"
+            [options]="datum.options"
+            key="name"
+            (selectedComboboxItem)="onSelectedComboboxItem($event, datum)"
+          >
+          </app-combobox>
           <!-- dropdown -->
           <app-dropdown
             [(choice)]="datum.choice"

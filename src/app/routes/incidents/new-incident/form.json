@@ -154,7 +154,7 @@
         {
           "choice": {},
           "endpoint": "pilots",
-          "dropdown": true,
+          "combobox": true,
           "label": "Pilot",
           "key": "_pilotId",
           "options": [{}]
@@ -162,7 +162,7 @@
         {
           "choice": {},
           "endpoint": "pilots",
-          "dropdown": true,
+          "combobox": true,
           "label": "Spotter 1",
           "key": "_spotterId",
           "options": [{}]
@@ -170,14 +170,14 @@
         {
           "choice": {},
           "endpoint": "pilots",
-          "dropdown": true,
+          "combobox": true,
           "label": "CoPilot",
           "key": "_copilotId",
           "options": [{}]
         },
         {
           "choice": {},
-          "dropdown": true,
+          "combobox": true,
           "label": "Spotter 2",
           "endpoint": "pilots",
           "key": "_asstSpotterId",
@@ -186,7 +186,7 @@
         {},
         {
           "choice": {},
-          "dropdown": true,
+          "combobox": true,
           "label": "Spotter Trainee",
           "endpoint": "pilots",
           "key": "_spotterTraineeId",
