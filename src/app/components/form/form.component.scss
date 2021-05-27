@@ -51,11 +51,15 @@
       outline: none;
     }
   }
+  .buttons {
+    display: flex;
+  }
 }
 app-button {
   position: relative;
   padding-bottom: 30px;
   display: flex;
+  margin-right: 10px;
 }
 app-dropdown {
   position: relative;

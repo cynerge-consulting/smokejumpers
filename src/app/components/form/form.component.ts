@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form',
@@ -6,12 +7,13 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit {
+  @Input() cancel: any;
   @Input() sections: any;
   @Input() data: any;
   @Input() mode: any;
   @Output() submitted = new EventEmitter<Object>();
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     // set default values in this.data for necessary form fields
@@ -30,5 +32,8 @@ export class FormComponent implements OnInit {
   };
   onSelectedDropdownItem = (event, datum) => {
     this.data[datum.key] = event.value;
+  };
+  onCancel = () => {
+    this.router.navigate([this.cancel]);
   };
 }

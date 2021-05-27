@@ -52,11 +52,19 @@
       </div>
     </div>
   </div>
-  <div class="section-container">
+  <div class="section-container buttons">
     <app-button
       [text]="mode"
       (clicked)="submitForm($event)"
       class="submit-button"
     ></app-button>
+    <app-button
+      cancel="true"
+      *ngIf="cancel"
+      text="Cancel"
+      (clicked)="onCancel()"
+      class="cancel-button"
+    >
+    </app-button>
   </div>
 </div>

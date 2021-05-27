@@ -478,7 +478,6 @@ export class ReportsComponent implements OnInit {
         delete request.Qual;
       }
     }
-    console.dir(this.selectedQualification);
     return request;
   };
 
