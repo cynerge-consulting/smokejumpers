@@ -36,7 +36,7 @@
       </div>
       <div class="datum">
         <div class="input-container">
-          <span class="input-label">Owner: </span>
+          <span class="input-label">Aircraft Owner: </span>
           <input
             type="text"
             [(ngModel)]="aircraft.Aircraft_Owner"
@@ -51,6 +51,15 @@
         </div>
       </div>
     </div>
-    <app-button (clicked)="submitForm($event)" text="Submit"></app-button>
+    <div class="buttons">
+      <app-button (clicked)="submitForm($event)" text="Submit"></app-button>
+      <app-button
+        style="margin-left: 20px"
+        (clicked)="goToAircraft()"
+        cancel="true"
+        text="Cancel"
+        class="cancel-button"
+      ></app-button>
+    </div>
   </div>
 </div>

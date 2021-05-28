@@ -55,6 +55,10 @@ export class NewAircraftComponent implements OnInit {
     }
   }
 
+  goToAircraft = () => {
+    this.router.navigate(['aircraft']);
+  };
+
   beginUpdateMode = async (id) => {
     this.mode = 'Update';
     let token = window.sessionStorage.getItem('token');
