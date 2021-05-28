@@ -211,4 +211,8 @@ export class NewChuteComponent implements OnInit {
         });
     }
   };
+
+  goToChutes = () => {
+    this.router.navigate(['chutes']);
+  };
 }

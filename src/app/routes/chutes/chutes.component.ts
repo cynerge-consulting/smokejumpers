@@ -63,20 +63,38 @@ export class ChutesComponent implements OnInit {
       }
     );
     this.chutes = mainChutes.data.value;
+
+    // sort main chutes
+    this.chutes = this.sort(this.chutes, 'main');
+    this.chutes = this.reverseSort(this.chutes, 'inService');
+
     let drogueChutes = await axios.get(
       environment.API_URL + '/chutedrogue?baseCode=' + baseCode,
       {
         headers: { Authorization: 'Bearer ' + token }
       }
     );
-    this.chutes = this.chutes.concat(drogueChutes.data.value);
+    drogueChutes = drogueChutes.data.value;
+
+    // sort drogue chutes
+    drogueChutes = this.sort(drogueChutes, 'drogue');
+    drogueChutes = this.reverseSort(drogueChutes, 'inService');
+
+    this.chutes = this.chutes.concat(drogueChutes);
+
     let reserveChutes = await axios.get(
       environment.API_URL + '/chutereserve?baseCode=' + baseCode,
       {
         headers: { Authorization: 'Bearer ' + token }
       }
     );
-    this.chutes = this.chutes.concat(reserveChutes.data.value);
+    reserveChutes = reserveChutes.data.value;
+
+    // sort reserve chutes
+    reserveChutes = this.sort(reserveChutes, 'reserve');
+    reserveChutes = this.reverseSort(reserveChutes, 'inService');
+
+    this.chutes = this.chutes.concat(reserveChutes);
 
     this.chutes.forEach((chute) => {
       if (chute.main) {
@@ -96,6 +114,36 @@ export class ChutesComponent implements OnInit {
 
     // for filtering
     this.originalChutes = this.chutes;
+  };
+
+  sort = (array, key) => {
+    array.sort((a, b) => {
+      var keyA = a[key];
+      var keyB = b[key];
+      if (keyA < keyB) {
+        return -1;
+      }
+      if (keyA > keyB) {
+        return 1;
+      }
+      return 0;
+    });
+    return array;
+  };
+
+  reverseSort = (array, key) => {
+    array.sort((a, b) => {
+      var keyA = a[key];
+      var keyB = b[key];
+      if (keyA > keyB) {
+        return -1;
+      }
+      if (keyA < keyB) {
+        return 1;
+      }
+      return 0;
+    });
+    return array;
   };
 
   delete = (chute) => {
