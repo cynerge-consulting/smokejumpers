@@ -1320,4 +1320,8 @@ export class NewIncidentComponent implements OnInit {
       this.jumperArrivalTime = null;
     }
   };
+
+  goToIncidents = () => {
+    this.router.navigate(['incidents']);
+  };
 }
