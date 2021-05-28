@@ -1,0 +1,88 @@
+<app-modal
+  [active]="modal.active"
+  [data]="modal.data"
+  (confirmed)="delete($event)"
+  (denied)="modal.active = false"
+>
+</app-modal>
+<div *ngIf="!updating" class="filter-container">
+  <input
+    *ngIf="searching"
+    (keyup)="onKey($event)"
+    type="text"
+    placeholder="Filter by Name"
+    [(ngModel)]="query"
+  />
+  <app-button
+    [disabled]="
+      usersWithBaseChange.length +
+        usersWithRoleChange.length +
+        usersWithActiveChange.length >
+      0
+        ? false
+        : true
+    "
+    (clicked)="updateUsers()"
+    text="Update"
+  ></app-button>
+</div>
+<div class="user-table" *ngIf="!updating">
+  <div class="headers row">
+    <div class="header">
+      <span>Name</span>
+    </div>
+    <div class="header">
+      <span>Base</span>
+    </div>
+    <div class="header">
+      <span>Active</span>
+    </div>
+    <div class="header">
+      <span>User Role</span>
+    </div>
+    <div style="width: 50px" class="cell"></div>
+  </div>
+  <div class="rows">
+    <div class="row" *ngFor="let user of users">
+      <div class="cell">
+        <span>{{ user.firstname + ' ' + user.lastname }}</span>
+      </div>
+      <div class="cell">
+        <app-dropdown
+          [choice]="user"
+          [options]="bases"
+          key="userBaseCode"
+          label="Base"
+          (selectedDropdownItem)="selectBase($event, user)"
+        ></app-dropdown>
+      </div>
+      <div class="cell">
+        <input
+          type="checkbox"
+          (click)="selectActive(user)"
+          [(ngModel)]="user.active"
+        />
+      </div>
+      <div class="cell">
+        <app-dropdown
+          [choice]="user"
+          [options]="[
+            { role: 'user', value: 'user' },
+            { role: 'baseadmin', value: 'baseadmin' },
+            { role: 'sysadmin', value: 'sysadmin' }
+          ]"
+          key="role"
+          label="Role"
+          (selectedDropdownItem)="selectRole($event, user)"
+        ></app-dropdown>
+      </div>
+      <div (click)="showDeleteModal(user)" class="cell trash">🗑</div>
+    </div>
+  </div>
+</div>
+<div class="updating" *ngIf="updating">
+  <p class="update-text">{{ getUpdateText() }}</p>
+  <div class="progress-bar">
+    <div class="progress" [ngStyle]="{ width: percent + '%' }"></div>
+  </div>
+</div>

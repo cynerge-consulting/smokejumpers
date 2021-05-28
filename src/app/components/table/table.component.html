@@ -1,30 +1,79 @@
-<div class="table">
-  <div class="row headings">
-    <div *ngFor="let column of columns" class="cell heading">
+<div
+  class="table"
+  [ngClass]="showingDetails ? 'showing-details' : ''"
+  [ngClass]="hasActions ? 'has-random-actions' : ''"
+>
+  <div class="row headings" [ngClass]="showingDetails ? 'showing-details' : ''">
+    <div
+      (click)="sort(column)"
+      *ngFor="let column of columns"
+      class="cell heading"
+    >
       <span>{{ column.label }}</span>
     </div>
-    <div (click)="showSettings(); rowMenu = 'settings'" class="heading settings-button">+</div>
-    <div class="settings-menu" *ngIf="rowMenu === 'settings'">
-      <span (click)="action(setting)" *ngFor="let setting of settings">{{setting.label}}</span>
+    <div
+      (click)="searching = !searching"
+      class="heading search-button"
+      [ngClass]="searching ? 'searching' : ''"
+    >
+      {{ searching ? 'X' : '🔍' }}
+    </div>
+    <div class="search-bar" [ngClass]="searching ? 'searching' : ''">
+      <input
+        (keyup)="onKey($event)"
+        [ngClass]="searching ? 'searching' : ''"
+        class="search-input"
+        placeholder="Search"
+        [(ngModel)]="query"
+      />
+    </div>
+    <div
+      (click)="rowMenu = 'settings'"
+      class="heading settings-button"
+      [ngClass]="showingDetails ? 'showing-details' : ''"
+    >
+      ⋮
     </div>
   </div>
-  <div class="rows">
+  <div
+    class="settings-menu"
+    *ngIf="rowMenu === 'settings'"
+    [ngClass]="showingDetails ? 'showing-details' : ''"
+  >
+    <div
+      class="menu-item"
+      (click)="showingDetails = !showingDetails; rowMenu = 'clickmask'"
+      [ngClass]="showingDetails ? 'showing-details' : ''"
+    >
+      {{ showingDetails ? 'Hide' : 'Show' }} Details
+    </div>
+    <div class="menu-item" (click)="new()">New {{ settings.name }}</div>
+    <div class="menu-item" *ngIf="selected" (click)="edit(selected)">
+      Edit {{ settings.name }}
+    </div>
+    <div class="menu-item" *ngIf="selected" (click)="delete(selected)">
+      Delete {{ settings.name }}
+    </div>
+  </div>
+  <div class="rows" [ngClass]="showingDetails ? 'showing-details' : ''">
     <div
       *ngFor="let row of rows"
       class="row"
-      (click)="selected = row"
+      (click)="selectRow(row)"
+      (dblclick)="edit(row)"
       [ngClass]="selected === row ? 'selected' : ''"
     >
       <div *ngFor="let column of columns" class="cell">
         <span>{{ row[column.key] }}</span>
       </div>
-      <!-- TODO: replace this menu with a dropdown component -->
-      <div (click)="rowMenu = row" class="menu-button">⋮</div>
-      <div class="row-menu" *ngIf="rowMenu === row">
-        <span (click)="edit(row)">Edit</span>
-        <span (click)="delete(row)">Delete</span>
-      </div>
     </div>
+  </div>
+</div>
+<div class="details" [ngClass]="showingDetails ? 'showing-details' : ''">
+  <span class="none-selected" *ngIf="!selected">Details</span>
+  <div class="detail" *ngFor="let detail of details">
+    <span class="key">{{ detail.key }}:</span>
+    <span class="value"> {{ detail.value }}</span>
   </div>
 </div>
 <div

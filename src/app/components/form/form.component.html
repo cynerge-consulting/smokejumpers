@@ -1,0 +1,70 @@
+<div class="form">
+  <div class="section-container" *ngFor="let section of sections">
+    <div class="title">
+      <span>{{ section.title }}</span>
+    </div>
+    <div class="content">
+      <div class="datum" *ngFor="let datum of section.data">
+        <div class="input-container">
+          <span *ngIf="datum.input" class="input-label"
+            >{{ datum.placeholder }}:
+          </span>
+          <!-- checkbox -->
+          <input
+            type="checkbox"
+            *ngIf="datum.type === 'checkbox'"
+            [(ngModel)]="data[datum.key]"
+          />
+          <!-- text input -->
+          <input
+            type="text"
+            [name]="datum.key"
+            [maxlength]="datum.maxlength"
+            *ngIf="
+              datum.input && datum.type !== 'date' && datum.type !== 'checkbox'
+            "
+            [placeholder]="datum.placeholder"
+            [(ngModel)]="data[datum.key]"
+          />
+          <!-- datepicker -->
+          <input
+            type="date"
+            [name]="datum.key"
+            *ngIf="datum.type === 'date'"
+            [(ngModel)]="data[datum.key]"
+          />
+          <!-- dropdown -->
+          <app-dropdown
+            *ngIf="datum.dropdown"
+            [label]="datum.label"
+            [options]="datum.options"
+            key="name"
+            (selectedDropdownItem)="onSelectedDropdownItem($event, datum)"
+          ></app-dropdown>
+          <!-- textarea -->
+          <textarea
+            *ngIf="datum.textarea"
+            [(ngModel)]="data[datum.key]"
+            [placeholder]="datum.label"
+          ></textarea>
+          <span *ngIf="datum.required" class="required-asterisk">*</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-container buttons">
+    <app-button
+      [text]="mode"
+      (clicked)="submitForm($event)"
+      class="submit-button"
+    ></app-button>
+    <app-button
+      cancel="true"
+      *ngIf="cancel"
+      text="Cancel"
+      (clicked)="onCancel()"
+      class="cancel-button"
+    >
+    </app-button>
+  </div>
+</div>

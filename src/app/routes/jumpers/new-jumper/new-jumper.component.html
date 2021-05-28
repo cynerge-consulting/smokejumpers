@@ -1,1 +1,94 @@
-<p>new-jumper works!</p>
+<!-- <app-modal
+  [active]="modal.active"
+  [data]="modal.data"
+  (confirmed)="modalConfirmed($event)"
+  (denied)="modalDenied($event)"
+>
+</app-modal> -->
+<div class="form">
+  <div class="section-container" *ngFor="let section of sections">
+    <div class="title">
+      <span>{{ section.title }}</span>
+    </div>
+    <div class="content">
+      <div class="datum" *ngFor="let datum of section.data">
+        <div class="input-container">
+          <span *ngIf="datum.input" class="input-label"
+            >{{ datum.placeholder }}:
+          </span>
+          <!-- text input -->
+          <input
+            type="text"
+            [name]="datum.key"
+            *ngIf="datum.input && datum.type !== 'date'"
+            [placeholder]="datum.placeholder"
+            [(ngModel)]="jumper[datum.key]"
+          />
+          <!-- datepicker -->
+          <input
+            type="date"
+            [name]="datum.key"
+            *ngIf="datum.type === 'date'"
+            [(ngModel)]="jumper[datum.key]"
+          />
+          <!-- dropdown -->
+          <app-dropdown
+            [(choice)]="datum.choice"
+            *ngIf="datum.dropdown"
+            [label]="datum.label"
+            [options]="datum.options"
+            key="name"
+            (selectedDropdownItem)="onSelectedDropdownItem($event, datum)"
+          ></app-dropdown>
+          <span *ngIf="datum.required" class="required-asterisk">*</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- add qualifications section -->
+  <div class="section-container split">
+    <div class="left-section">
+      <div class="title">
+        <span>Qualifications</span>
+      </div>
+      <div
+        class="qualification datum"
+        *ngFor="let qualification of qualifications; index as i"
+      >
+        <input
+          type="checkbox"
+          [(ngModel)]="qualification.checked"
+          [name]="qualification.name"
+        />
+        <label class="label" [for]="qualification.name">{{
+          qualification.name
+        }}</label>
+      </div>
+    </div>
+    <div class="right-section">
+      <div class="title">
+        <span>Trainee Qualifications</span>
+      </div>
+      <div
+        class="qualification datum"
+        *ngFor="let qualification of traineeQualifications; index as i"
+      >
+        <input
+          type="checkbox"
+          [name]="qualification.name"
+          [(ngModel)]="qualification.checked"
+        />
+        <label class="label" [for]="qualification.qualName">{{
+          qualification.name
+        }}</label>
+      </div>
+    </div>
+  </div>
+  <div class="section-container submit-button-container">
+    <app-button
+      [text]="mode"
+      (clicked)="submitForm($event)"
+      class="new-incident-button"
+    ></app-button>
+  </div>
+</div>

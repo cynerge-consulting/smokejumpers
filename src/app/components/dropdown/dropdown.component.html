@@ -1,0 +1,23 @@
+<div class="dropdown-container">
+  <div class="dropdown">
+    <span class="label"
+      >{{ label.length ? label : ''
+      }}<span class="required-asterisk" *ngIf="required"> *</span></span
+    >
+    <span (click)="showMenu()" class="value">{{ choice[key] }}</span>
+    <svg
+      class="value"
+      (click)="showMenu()"
+      focusable="false"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+    >
+      <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path>
+    </svg>
+  </div>
+  <div class="menu" *ngIf="showingMenu">
+    <span (click)="select(option)" *ngFor="let option of options">{{
+      option[key]
+    }}</span>
+  </div>
+</div>

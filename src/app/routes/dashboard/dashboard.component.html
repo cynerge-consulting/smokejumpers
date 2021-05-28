@@ -1,0 +1,13 @@
+<div
+  class="content-header"
+  [ngStyle]="{ 'background-image': headerImage }"
+></div>
+<div class="dashboard-content">
+  <span (click)="go('booster')" class="booster-link"
+    >{{ base }}: Booster In-Brief</span
+  >
+  <div *ngFor="let card of cards" (click)="go(card.route)" class="card">
+    <span class="title">{{ card.title }}</span>
+    <div class="image" [ngStyle]="{ 'background-image': card.image }"></div>
+  </div>
+</div>

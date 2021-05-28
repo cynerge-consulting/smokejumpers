@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -10,14 +11,17 @@ export class NavbarComponent implements OnInit {
   @Output() toggledSidenav = new EventEmitter<boolean>();
   showingSidenav = true;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   toggleSidenav = () => {
     this.showingSidenav = !this.showingSidenav;
     this.toggledSidenav.emit(this.showingSidenav);
-  }
+  };
 
+  logout = () => {
+    window.sessionStorage.clear();
+    window.location.href = environment.LOGIN_PORTAL;
+  };
 }

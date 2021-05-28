@@ -1,20 +1,27 @@
+<div class="fs-header">
+  <div>
+    <img class="usda" [src]="'assets/images/usdaColor.png'" />
+    <span class="usda-text">United States Department of Agriculture</span>
+  </div>
+  <div>
+    <span class="government-site-text"
+      >An official website of the United States government</span
+    >
+    <img class="flag" [src]="'assets/images/flag.png'" />
+  </div>
+</div>
 <div class="navbar">
   <div class="background-image">
-    <img [src]="location.banner"/>
+    <img [src]="location.banner" />
   </div>
-  <div (click)="toggleSidenav()" class="menu-button">
-    ☰
-  </div>
+  <div (click)="toggleSidenav()" class="menu-button">☰</div>
   <div class="logo left">
-    <img [src]="'assets/images/FS-white.png'"/>
+    <img [src]="'assets/images/FS-white.png'" />
   </div>
-  <div class="title">
-    {{location.title}}
-  </div>
-  <div class="logout-button">
-    ➲
-  </div>
+  <div class="title">Interagency Smokejumper Master Action</div>
+  <div (click)="logout()" class="logout-button">Log Out</div>
   <div class="logo right">
-    <img [src]="'assets/images/BLM_Shield.png'"/>
+    <img [src]="'assets/images/BLM_Shield.png'" />
   </div>
+  <div class="version">2.0.0</div>
 </div>

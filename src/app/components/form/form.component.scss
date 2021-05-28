@@ -1,0 +1,71 @@
+.form {
+  position: absolute;
+  overflow: overlay;
+  box-shadow: 2px 2px 5px 5px lightgray;
+  background: white;
+  height: 100%;
+  width: 100%;
+  .section-container {
+    margin: 0px 30px;
+    padding: 30px 0px 30px 0px;
+    border-bottom: 4px solid #006632;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  .title {
+    margin-bottom: 30px;
+    span {
+      font-size: 24px;
+      color: #005d29;
+    }
+  }
+  .content {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .datum {
+    min-height: 25px;
+    margin: 20px 0px;
+    width: calc(50% - 40px);
+    display: flex;
+    align-items: center;
+  }
+  .input-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .input-label {
+      color: #090909;
+      white-space: nowrap;
+      font-size: 14px;
+      margin-right: 15px;
+    }
+    input {
+      user-select: none;
+      border: none;
+      border-bottom: 1px solid black;
+      outline: none;
+    }
+  }
+  .buttons {
+    display: flex;
+  }
+}
+app-button {
+  position: relative;
+  padding-bottom: 30px;
+  display: flex;
+  margin-right: 10px;
+}
+app-dropdown {
+  position: relative;
+  top: 0px;
+}
+textarea {
+  width: 100%;
+  height: 250px;
+}

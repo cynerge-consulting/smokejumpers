@@ -1,5 +1,10 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import {
+  Router,
+  ActivatedRoute,
+  ParamMap,
+  NavigationEnd
+} from '@angular/router';
 import * as reportsData from '../../routes/reports/reports.json';
 
 @Component({
@@ -11,136 +16,123 @@ export class SidenavComponent implements OnInit {
   @Input() expanded: boolean;
   @Output() selectedNavItem = new EventEmitter<Object>();
 
-  selected: '';
+  selected;
   menuItems = [];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        let urlParts = event.url.split('/');
+        if (urlParts[2]) {
+          if (urlParts[1] === 'incidents') {
+            this.selected = 'incidents/new';
+          }
+          if (urlParts[1] === 'jumpers') {
+            this.selected = 'jumpers';
+            if (urlParts[2] === 'transfer') {
+              this.selected = 'jumpers/transfer';
+            }
+            if (urlParts[2] === 'ldo') {
+              this.selected = 'jumpers/ldo';
+            }
+          }
+        } else {
+          this.selected = urlParts[1];
+        }
+      }
+    });
+  }
 
   ngOnInit(): void {
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    let role = userInfo.role;
+
     this.menuItems = [
       {
-        name: 'DASHBOARD',
-        route: 'dashboard',
+        name: 'Dashboard',
         banner: 'assets/images/dashBanner.png',
-        hasItems: false,
-        hasParams: false
+        route: 'dashboard'
       },
       {
-        name: 'Incident Information',
-        icon: 'incidents.png',
-        hasItems: true,
-        hasParams: false,
-        expanded: false,
+        name: 'Incidents',
+        banner: 'assets/images/incBanner.png',
         items: [
           {
             name: 'New Incident',
-            route: 'incidents/new',
-            banner: 'assets/images/incBanner.png'
+            route: 'incidents/new'
           },
           {
-            name: 'View/Edit Current Year',
-            route: 'incidents',
-            hasParams: true,
-            params: {
-              year: 'current'
-            },
-            banner: 'assets/images/incBanner.png'
-          },
-          {
-            name: 'View Previous Years',
-            route: 'incidents',
-            banner: 'assets/images/incBanner.png',
-            hasParams: true,
-            params: {
-              year: 'previous'
-            }
+            name: 'View/Edit Incidents',
+            route: 'incidents'
           }
         ]
-      }
-    ];
-    let reportsNav = {
-      name: 'View Reports',
-      icon: 'reports.png',
-      hasItems: true,
-      expanded: false,
-      items: reportsData.reports
-    };
-    this.menuItems.push(reportsNav);
-    this.menuItems.push(
+      },
       {
-        name: 'Database Management',
-        icon: 'reports.png',
-        hasItems: true,
-        expanded: false,
+        name: 'Jumpers',
+        banner: 'assets/images/MarsBanner.jpg',
         items: [
           {
-            name: 'Database Dashboard',
-            route: 'database',
-            banner: 'assets/images/incBanner.png'
+            name: 'View Jumpers',
+            route: 'jumpers'
           },
           {
-            name: 'Jumpers',
-            route: 'jumpers',
-            banner: 'assets/images/incBanner.png'
-          },
-          {
-            name: 'Retired Jumpers',
-            route: 'jumpers',
-            banner: 'assets/images/incBanner.png'
-          },
-          {
-            name: 'Transfer Jumpers',
-            route: 'jumpers',
-            banner: 'assets/images/incBanner.png'
+            name: 'Transfer Jumper',
+            route: 'jumpers/transfer'
           },
           {
             name: 'Edit LDO',
-            route: 'jumpers',
-            banner: 'assets/images/incBanner.png'
+            route: 'jumpers/ldo'
           }
         ]
       },
       {
-        name: 'Mapped Actions',
-        icon: 'map.png',
-        route: 'map',
-        hasItems: false
+        name: 'Pilots',
+        banner: 'assets/images/dbmBanner.png',
+        route: 'pilots'
       },
       {
-        name: 'Booster in Brief',
-        icon: 'map.png',
-        route: 'booster',
-        hasItems: false
+        name: 'Aircraft',
+        banner: 'assets/images/dashBanner.png',
+        route: 'aircraft'
       },
       {
-        name: 'Base Admin',
-        icon: 'admin.png',
-        route: 'base',
-        hasItems: true,
-        expanded: false,
-        items: [
-          {
-            name: 'User Management',
-            route: 'admin/users',
-            banner: 'assets/images/incBanner.png'
-          },
-          {
-            name: 'Download Data',
-            route: 'reports',
-            banner: 'assets/images/incBanner.png'
-          }
-        ]
+        name: 'Parachutes',
+        banner: 'assets/images/dbmBanner.png',
+        route: 'chutes'
+      },
+      {
+        name: 'Qualifications',
+        banner: 'assets/images/dbmBanner.png',
+        route: 'qualifications'
+      },
+      {
+        name: 'Spike Bases',
+        banner: 'assets/images/MarsBanner.jpg',
+        route: 'bases'
+      },
+      {
+        name: 'Reports',
+        banner: 'assets/images/repBanner.png',
+        route: 'reports'
       }
-    );
+    ];
+
+    if (role === 'baseadmin' || role === 'sysadmin' || role === 'admin') {
+      this.menuItems.push({
+        name: 'User Management',
+        banner: 'assets/images/dbmBanner.png',
+        route: 'users'
+      });
+    }
   }
 
   select = (item) => {
-    if (item.hasItems) {
+    if (item.items) {
       item.expanded = !item.expanded;
     } else {
-      this.selected = item.name;
       if (item.route) {
-        if (item.hasParams) {
+        this.selected = item.route;
+        if (item.params) {
           this.router.navigate([item.route, item.params]);
         } else {
           this.router.navigate([item.route]);

@@ -1,0 +1,50 @@
+<div class="form">
+  <div class="section-container">
+    <div class="title">
+      <span>Edit Last Day off</span>
+    </div>
+  </div>
+  <div class="section-container split">
+    <div class="left-section">
+      <div class="datum">
+        <app-dropdown
+          [choice]="selectedBase"
+          label="Base"
+          [options]="bases"
+          key="value"
+          (selectedDropdownItem)="selectBase($event)"
+        ></app-dropdown>
+      </div>
+      <div class="datum">
+        <input
+          type="date"
+          [(ngModel)]="selectedDate"
+          placeholder="Choose Date"
+        />
+        <span class="required-asterisk">*</span>
+      </div>
+    </div>
+    <div class="right-section">
+      <div class="jumper datum" *ngFor="let jumper of jumpers; index as i">
+        <div class="checkbox-container">
+          <input
+            type="checkbox"
+            [(ngModel)]="jumper.checked"
+            [name]="jumper.name"
+          />
+          <span class="ldo-jumper-name"
+            >{{ jumper.lastName }}, {{ jumper.firstName }}</span
+          >
+        </div>
+        <span class="ldo-date">{{ jumper.ldo }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="section-container submit-button-container">
+    <app-button
+      [disabled]="isDisabled()"
+      [text]="buttonText"
+      (clicked)="transferJumper($event)"
+    ></app-button>
+  </div>
+</div>

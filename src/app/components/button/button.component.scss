@@ -1,0 +1,21 @@
+.button {
+  background: #006631;
+  padding: 20px 25px;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0px 0px 15px 0px #093b09 inset;
+  text-align: center;
+  min-width: 60px;
+  letter-spacing: 1.2px;
+  user-select: none;
+  &.disabled {
+    background: #8f8f8f;
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+}
+.cancel-button {
+  background: red;
+  box-shadow: 0px 0px 15px 0px #6d0c0c inset;
+}

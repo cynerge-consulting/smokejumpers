@@ -1,1 +1,459 @@
-<p>new-incident works!</p>
+<app-modal
+  [active]="modal.active"
+  [data]="modal.data"
+  (confirmed)="modalConfirmed($event)"
+  (denied)="modalDenied($event)"
+>
+</app-modal>
+<div [ngClass]="addingPosition ? 'active' : ''" class="modal-background"></div>
+<div [ngClass]="addingPosition ? 'active' : ''" class="modal qual-modal">
+  <div class="content">
+    <app-form
+      class="new-qualification-form"
+      [sections]="qualificationSections"
+      [data]="qualification"
+      mode="Create"
+      (submitted)="submittedPosition($event)"
+    ></app-form>
+  </div>
+  <div class="buttons">
+    <app-button
+      (clicked)="addingPosition = false"
+      text="Cancel"
+      class="cancel-qual-button"
+    ></app-button>
+  </div>
+</div>
+<div class="form">
+  <div class="main-title">
+    {{ mode === 'Update' ? 'Update' : 'Create New' }} Incident
+  </div>
+  <div class="section-container" *ngFor="let section of sections">
+    <div class="title">
+      <span>{{ section.title }}</span>
+    </div>
+    <div class="content">
+      <div
+        class="datum"
+        [ngClass]="'width-' + datum.width"
+        *ngFor="let datum of section.data"
+      >
+        <div class="input-container">
+          <span *ngIf="datum.input" class="input-label"
+            >{{ datum.placeholder }}
+            <span class="required-asterisk" *ngIf="datum.required">*</span>
+          </span>
+          <!-- text input -->
+          <div
+            class="help-container"
+            *ngIf="datum.input && datum.type !== 'date'"
+          >
+            <input
+              type="text"
+              [name]="datum.key"
+              (ngModelChange)="valueChanged($event, datum)"
+              [maxlength]="datum.maxlength"
+              [placeholder]="datum.placeholder"
+              [(ngModel)]="data[datum.key]"
+            />
+            <span
+              class="help"
+              [ngClass]="isHelpValid(datum)"
+              *ngIf="datum.help"
+              >{{ datum.help }}</span
+            >
+          </div>
+          <!-- size class -->
+          <div *ngIf="datum.sizeClass">
+            <span class="input-label">Size Class: </span>
+            <span>{{ getSizeClass() }}</span>
+          </div>
+          <!-- datepicker -->
+          <input
+            type="date"
+            [name]="datum.key"
+            *ngIf="datum.type === 'date'"
+            [(ngModel)]="data[datum.key]"
+          />
+          <!-- combobox -->
+          <app-combobox
+            *ngIf="datum.combobox"
+            [(choice)]="datum.choice"
+            [label]="datum.label"
+            [options]="datum.options"
+            key="name"
+            (selectedComboboxItem)="onSelectedComboboxItem($event, datum)"
+          >
+          </app-combobox>
+          <!-- dropdown -->
+          <app-dropdown
+            [(choice)]="datum.choice"
+            [required]="datum.required"
+            *ngIf="datum.dropdown"
+            [label]="datum.label"
+            [options]="datum.options"
+            key="name"
+            (selectedDropdownItem)="onSelectedDropdownItem($event, datum)"
+          ></app-dropdown>
+          <app-dropdown
+            [(choice)]="datum.choice"
+            *ngIf="datum.identifiers"
+            [label]="datum.label"
+            [options]="identifiers"
+            key="name"
+            (selectedDropdownItem)="onSelectedDropdownItem($event, datum)"
+          ></app-dropdown>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- add jumper section -->
+  <div class="section-container" *ngIf="mode === 'Update'">
+    <div class="title">
+      <span id="incident-jumpers">Incident Jumpers</span>
+    </div>
+    <div *ngIf="incidentJumpers.length > 0" class="incident-jumpers">
+      <div
+        [id]="jumper.JumperId"
+        class="incident-jumper"
+        *ngFor="let jumper of incidentJumpers; index as i"
+      >
+        <div class="remove-jumper-button">
+          <span style="margin-right: 10px" (click)="moveJumper('up', jumper, i)"
+            >▲</span
+          >
+          <span
+            style="margin-right: 10px"
+            (click)="moveJumper('down', jumper, i)"
+            >▼</span
+          >
+          <span style="margin-right: 10px" (click)="editJumper(jumper, i)"
+            >✎</span
+          >
+          <span (click)="confirmDeleteJumper(jumper, i)">X</span>
+        </div>
+        <div class="jumper-info">
+          <div>
+            <span class="label">Jumper #{{ i + 1 }}: </span>
+            <span class="value">{{ jumper.jumperName }}</span>
+          </div>
+          <div style="margin-bottom: 20px">
+            <span class="label">Base: </span>
+            <span class="value">{{ jumper.Base }}</span>
+          </div>
+          <div>
+            <span class="label">Main: </span>
+            <span class="value">{{ jumper.main }}</span>
+          </div>
+          <div>
+            <span class="label">Position One:</span>
+            <span class="value"> {{ jumper.position1 }}</span>
+          </div>
+          <div>
+            <span class="label">Drogue: </span>
+            <span class="value">{{ jumper.drogue }}</span>
+          </div>
+          <div>
+            <span class="label">Position Two:</span>
+            <span class="value"> {{ jumper.position2 }}</span>
+          </div>
+          <div style="margin-bottom: 20px">
+            <span class="label">Reserve: </span>
+            <span class="value">{{ jumper.reserve }}</span>
+          </div>
+          <div style="margin-bottom: 20px">
+            <span class="label">Position Three:</span>
+            <span class="value"> {{ jumper.position3 }}</span>
+          </div>
+          <div>
+            <span class="label">Date Arrived: </span>
+            <span class="value">{{ jumper.friendlyArrivalDate }}</span>
+          </div>
+          <div>
+            <span class="label">Date Returned: </span>
+            <span class="value">{{ jumper.friendlyReturnDate }}</span>
+          </div>
+          <div style="margin-bottom: 20px">
+            <span class="label">Time Arrived: </span>
+            <span class="value">{{ jumper.friendlyArrivalTime }}</span>
+          </div>
+          <div>
+            <span class="label">Time Returned: </span>
+            <span class="value">{{ jumper.friendlyReturnTime }}</span>
+          </div>
+          <div>
+            <span class="label">Trainee One:</span>
+            <span class="value"> {{ jumper.T1 }}</span>
+          </div>
+          <div>
+            <span class="label">Days (Shifts): </span>
+            <span class="value">{{ jumper.totalDays }}</span>
+          </div>
+          <div>
+            <span class="label">Trainee Two: </span>
+            <span class="value">{{ jumper.T2 }}</span>
+          </div>
+          <div>
+            <span class="label">Jumper Rating: </span>
+            <span class="value">{{ jumper.jumpRating }}</span>
+          </div>
+          <div style="margin-bottom: 20px">
+            <span class="label">Trainee Three: </span>
+            <span class="value">{{ jumper.T3 }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- add incident jumper subform -->
+    <div id="jumperForm" class="content incident-jumper-subform">
+      <div class="keep-date">
+        <input type="checkbox" [(ngModel)]="keepDate" />
+        <span class="input-label">Keep Date/Time</span>
+        <app-button
+          class="copy-to-all"
+          (clicked)="confirmCopyToAll()"
+          text="Copy to All"
+        ></app-button>
+      </div>
+      <div class="datum">
+        <app-dropdown
+          required="true"
+          [choice]="selectedBase"
+          label="Base"
+          [options]="bases"
+          key="value"
+          (selectedDropdownItem)="selectBase($event)"
+        ></app-dropdown>
+      </div>
+      <div class="datum">
+        <app-combobox
+          [choice]="selectedMainChute"
+          label="Main Chute"
+          [options]="mainChutes"
+          key="name"
+          (selectedComboboxItem)="selectMainChute($event)"
+        ></app-combobox>
+      </div>
+      <div class="datum">
+        <app-dropdown
+          required="true"
+          [choice]="selectedJumper"
+          label="Jumper"
+          [options]="jumpers"
+          key="friendly"
+          (selectedDropdownItem)="selectJumper($event)"
+        ></app-dropdown>
+      </div>
+      <div class="datum">
+        <app-combobox
+          [choice]="selectedDrogueChute"
+          label="Drogue Chute"
+          [options]="drogueChutes"
+          key="name"
+          (selectedComboboxItem)="selectDrogueChute($event)"
+        ></app-combobox>
+      </div>
+      <div class="datum">
+        <div class="input-container">
+          <span class="input-label">Shifts Worked: </span>
+          <input placeholder="Shifts Worked" [(ngModel)]="totalDays" />
+        </div>
+      </div>
+      <div class="datum">
+        <app-combobox
+          [choice]="selectedReserveChute"
+          label="Reserve Chute"
+          [options]="reserveChutes"
+          key="name"
+          (selectedComboboxItem)="selectReserveChute($event)"
+        ></app-combobox>
+      </div>
+      <div class="datum">
+        <div class="input-container">
+          <span class="input-label">Arrival Date: </span>
+          <input
+            type="date"
+            [(ngModel)]="jumperArrivalDate"
+            placeholder="Arrival Date"
+          />
+        </div>
+      </div>
+      <div class="datum">
+        <div class="input-container">
+          <span class="input-label">Arrival Time: </span>
+          <input
+            maxlength="5"
+            (ngModelChange)="onTimeChange($event, 'arrival')"
+            [ngModel]="jumperArrivalTime"
+            placeholder="Arrival Time"
+          />
+        </div>
+      </div>
+      <div class="datum">
+        <div class="input-container">
+          <span class="input-label">Return Date: </span>
+          <input
+            type="date"
+            [(ngModel)]="jumperReturnDate"
+            placeholder="Return Date"
+          />
+        </div>
+      </div>
+      <div class="datum">
+        <div class="input-container">
+          <span class="input-label">Return Time: </span>
+          <input
+            maxlength="5"
+            (ngModelChange)="onTimeChange($event, 'return')"
+            [ngModel]="jumperReturnTime"
+            placeholder="Return Time"
+          />
+        </div>
+      </div>
+      <div class="datum">
+        <app-dropdown
+          [choice]="selectedPosition1"
+          label="Position 1"
+          [options]="qualifications"
+          key="name"
+          (selectedDropdownItem)="selectJumperPosition($event, 1)"
+        ></app-dropdown>
+      </div>
+      <div class="datum">
+        <input type="checkbox" [(ngModel)]="T1" />
+        <span class="input-label">Trainee?</span>
+      </div>
+      <div class="datum">
+        <app-dropdown
+          [choice]="selectedPosition2"
+          label="Position 2"
+          [options]="qualifications"
+          key="name"
+          (selectedDropdownItem)="selectJumperPosition($event, 2)"
+        ></app-dropdown>
+      </div>
+      <div class="datum">
+        <input type="checkbox" [(ngModel)]="T2" />
+        <span class="input-label">Trainee?</span>
+      </div>
+      <div class="datum">
+        <app-dropdown
+          [choice]="selectedPosition3"
+          label="Position 3"
+          [options]="qualifications"
+          key="name"
+          (selectedDropdownItem)="selectJumperPosition($event, 3)"
+        ></app-dropdown>
+      </div>
+      <div class="datum">
+        <input type="checkbox" [(ngModel)]="T3" />
+        <span class="input-label">Trainee?</span>
+      </div>
+      <div class="datum add-position-container">
+        <app-button
+          text="Add Position"
+          (clicked)="addingPosition = true"
+          class="add-position-button"
+        ></app-button>
+      </div>
+      <div class="datum">
+        <app-dropdown
+          [choice]="jumpRating"
+          label="Jumper Rating"
+          [options]="[
+            {
+              name: '10',
+              value: 10
+            },
+            {
+              name: '9',
+              value: 9
+            },
+            {
+              name: '8',
+              value: 8
+            },
+            {
+              name: '7',
+              value: 7
+            },
+            {
+              name: '6',
+              value: 6
+            },
+            {
+              name: '5',
+              value: 5
+            },
+            {
+              name: '4',
+              value: 4
+            },
+            {
+              name: '3',
+              value: 3
+            },
+            {
+              name: '2',
+              value: 2
+            },
+            {
+              name: '1',
+              value: 1
+            },
+            {
+              name: '0',
+              value: 0
+            }
+          ]"
+          key="name"
+          (selectedDropdownItem)="selectJumpRating($event)"
+        ></app-dropdown>
+      </div>
+      <div class="jumper-buttons">
+        <app-button
+          [text]="editingJumper ? 'Update Jumper' : 'Add Jumper'"
+          [disabled]="isAddJumperInvalid()"
+          (clicked)="editingJumper ? updateFormJumper() : addJumper()"
+          class="add-jumper-button"
+        ></app-button>
+        <app-button
+          style="margin-left: 20px"
+          *ngIf="editingJumper"
+          text="Cancel"
+          (clicked)="cancelJumperEdit()"
+          class="add-jumper-button"
+        ></app-button>
+      </div>
+    </div>
+  </div>
+  <div class="section-container">
+    <div class="title">
+      <span>Notes</span>
+    </div>
+    <div class="content">
+      <div class="datum" style="width: 100%">
+        <textarea
+          [(ngModel)]="data._notes"
+          placeholder="Enter notes here"
+        ></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="section-container submit-button-container">
+    <app-button
+      [disabled]="isInvalid()"
+      [text]="mode"
+      (clicked)="submitForm($event)"
+      class="new-incident-button"
+    ></app-button>
+    <app-button
+      style="margin-left: 10px"
+      cancel="incidents"
+      (clicked)="goToIncidents()"
+      text="Cancel"
+      class="cancel-button"
+    >
+    </app-button>
+  </div>
+</div>

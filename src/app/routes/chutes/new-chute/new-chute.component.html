@@ -1,0 +1,101 @@
+<div class="form new-chute-form">
+  <div class="section-container">
+    <div class="title">
+      <span>{{ this.mode }} Parachute</span>
+    </div>
+    <div class="content">
+      <div class="datum" *ngIf="mode === 'Create'">
+        <app-dropdown
+          [(choice)]="selectedChuteStyle"
+          label="Type"
+          [options]="chuteStyles"
+          key="name"
+          (selectedDropdownItem)="selectChuteStyle($event)"
+        ></app-dropdown>
+        <span class="required-asterisk">*</span>
+      </div>
+      <div
+        class="datum"
+        *ngIf="
+          selectedChuteStyle.value === 'Drogue' ||
+          selectedChuteStyle.value === 'Reserve'
+        "
+      >
+        <div class="input-container">
+          <span class="input-label">Parachute: </span>
+          <input
+            class="text"
+            [(ngModel)]="this.chute[this.chute.style.toLowerCase()]"
+            placeholder="Parachute"
+          />
+          <span class="required-asterisk">*</span>
+        </div>
+      </div>
+      <div class="datum" *ngIf="selectedChuteStyle.value === 'Main'">
+        <app-dropdown
+          [(choice)]="selectedChuteModel"
+          label="Model"
+          [options]="[
+            {
+              name: 'DC-7',
+              value: 'DC-7'
+            },
+            {
+              name: 'FS-14',
+              value: 'FS-14'
+            },
+            {
+              name: 'FS-14 Plus',
+              value: 'FS-14 Plus'
+            },
+            {
+              name: 'CR-360',
+              value: 'CR-360'
+            },
+            {
+              name: 'Prototype',
+              value: 'Prototype'
+            }
+          ]"
+          key="name"
+          (selectedDropdownItem)="selectChuteModel($event)"
+        ></app-dropdown>
+      </div>
+      <div class="datum" *ngIf="selectedChuteStyle.value === 'Main'">
+        <app-dropdown
+          [(choice)]="selectedChuteSize"
+          label="Size"
+          [options]="[
+            { name: 'L', value: 'L' },
+            { name: 'M', value: 'M' },
+            { name: 'S', value: 'S' }
+          ]"
+          key="name"
+          (selectedDropdownItem)="selectChuteSize($event)"
+        ></app-dropdown>
+      </div>
+      <div class="datum" *ngIf="selectedChuteStyle.value === 'Main'">
+        <div class="input-container">
+          <span class="input-label">Chute Number: </span>
+          <input
+            class="text"
+            [(ngModel)]="chute.main"
+            placeholder="Chute Number"
+          />
+          <span class="required-asterisk">*</span>
+        </div>
+      </div>
+      <div class="datum" *ngIf="mode === 'Update'">
+        <label for="active">Active: </label>
+        <input type="checkbox" [(ngModel)]="chute.inService" />
+      </div>
+    </div>
+    <div class="section-container submit-button-container">
+      <app-button
+        [text]="mode"
+        (clicked)="submitForm($event)"
+        class="new-chute-button"
+      ></app-button>
+    </div>
+  </div>
+</div>

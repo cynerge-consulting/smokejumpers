@@ -1,0 +1,10 @@
+<div class="random-actions">
+  <span class="title">Qualifications</span>
+</div>
+<app-table
+  hasActions="true"
+  [settings]="settings"
+  [rows]="qualifications"
+  [columns]="headings"
+  (deleted)="delete($event)"
+></app-table>

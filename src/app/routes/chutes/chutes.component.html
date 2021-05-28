@@ -1,0 +1,24 @@
+<div class="random-actions">
+  <span class="title">Parachutes</span>
+  <span class="base" style="margin-left: 20px"> Base: {{ userBase }}</span>
+  <app-dropdown
+    *ngIf="true"
+    [(choice)]="type"
+    label="Chute Type"
+    [options]="[
+      { name: 'All', value: 'All' },
+      { name: 'Main', value: 'Main' },
+      { name: 'Drogue', value: 'Drogue' },
+      { name: 'Reserve', value: 'Reserve' }
+    ]"
+    key="value"
+    (selectedDropdownItem)="selectType($event)"
+  ></app-dropdown>
+</div>
+<app-table
+  hasActions="true"
+  [settings]="settings"
+  [rows]="chutes"
+  [columns]="headings"
+  (deleted)="delete($event)"
+></app-table>

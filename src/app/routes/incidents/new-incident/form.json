@@ -1,0 +1,481 @@
+{
+  "sections": [
+    {
+      "title": "General Information",
+      "data": [
+        {
+          "width": 50,
+          "input": true,
+          "required": true,
+          "placeholder": "Incident Name",
+          "key": "_nameofIncident"
+        },
+        {
+          "width": 25,
+          "input": true,
+          "required": true,
+          "type": "date",
+          "placeholder": "Date",
+          "key": "_incidentDate"
+        },
+        {
+          "width": 25,
+          "dropdown": true,
+          "required": true,
+          "endpoint": "states",
+          "label": "State",
+          "key": "_stateId",
+          "choice": {},
+          "options": [
+            {
+              "name": "",
+              "value": ""
+            }
+          ]
+        },
+        {
+          "width": 50,
+          "dropdown": true,
+          "required": true,
+          "label": "Dispatched From",
+          "endpoint": "dispandreturn",
+          "key": "_dispatchedFrom_Code",
+          "choice": {},
+          "options": [{}]
+        },
+        {
+          "width": 50,
+          "dropdown": true,
+          "required": true,
+          "label": "To Area",
+          "endpoint": "area",
+          "key": "_areaId",
+          "choice": {},
+          "options": [
+            {
+              "name": "",
+              "value": ""
+            }
+          ]
+        },
+        {
+          "width": 50,
+          "dropdown": true,
+          "endpoint": "dispandreturn",
+          "choice": {},
+          "label": "Returned To",
+          "key": "_returnedTo_Code",
+          "options": [{}]
+        },
+        {
+          "width": 50,
+          "choice": {},
+          "dropdown": true,
+          "endpoint": "agency",
+          "label": "Agency",
+          "key": "_agencyId",
+          "options": [
+            {
+              "name": "",
+              "value": ""
+            }
+          ]
+        },
+        {
+          "width": 25,
+          "input": true,
+          "placeholder": "USFS Job Codes",
+          "key": "_usfsNum"
+        },
+        {
+          "width": 25,
+          "input": true,
+          "placeholder": "BLM Job Codes",
+          "key": "_blmNum"
+        },
+        {
+          "width": 50,
+          "choice": {},
+          "identifiers": true,
+          "label": "Unit Identifier",
+          "key": "_identifierId",
+          "endpoint": "identifiers",
+          "options": [
+            {
+              "name": "",
+              "value": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Time and Travel",
+      "data": [
+        {
+          "choice": {},
+          "dropdown": true,
+          "required": true,
+          "endpoint": "travelmodes",
+          "label": "Method of Travel",
+          "key": "_methodOfTravel_Id",
+          "options": [
+            {
+              "name": "",
+              "value": ""
+            }
+          ]
+        },
+        {
+          "input": true,
+          "maxlength": 6,
+          "placeholder": "Hobbs Time",
+          "help": "Needs to be in valid format (ex: 12.8)",
+          "key": "_hobbsTime"
+        },
+        {
+          "help": "Needs to be in HH:MM format (ex: 12:15)",
+          "input": true,
+          "required": true,
+          "maxlength": 5,
+          "placeholder": "Dispatched Time",
+          "key": "_departTimeMilitary"
+        },
+        {
+          "input": true,
+          "placeholder": "Time Over Fire",
+          "key": "_timeOverFire"
+        }
+      ]
+    },
+    {
+      "title": "Crew Information",
+      "data": [
+        {
+          "choice": {},
+          "endpoint": "pilots",
+          "combobox": true,
+          "label": "Pilot",
+          "key": "_pilotId",
+          "options": [{}]
+        },
+        {
+          "choice": {},
+          "endpoint": "pilots",
+          "combobox": true,
+          "label": "Spotter 1",
+          "key": "_spotterId",
+          "options": [{}]
+        },
+        {
+          "choice": {},
+          "endpoint": "pilots",
+          "combobox": true,
+          "label": "CoPilot",
+          "key": "_copilotId",
+          "options": [{}]
+        },
+        {
+          "choice": {},
+          "combobox": true,
+          "label": "Spotter 2",
+          "endpoint": "pilots",
+          "key": "_asstSpotterId",
+          "options": [{}]
+        },
+        {},
+        {
+          "choice": {},
+          "combobox": true,
+          "label": "Spotter Trainee",
+          "endpoint": "pilots",
+          "key": "_spotterTraineeId",
+          "options": [{}]
+        }
+      ]
+    },
+    {
+      "title": "Incident Details",
+      "data": [
+        {
+          "width": 50,
+          "choice": {},
+          "dropdown": true,
+          "required": true,
+          "label": "Mode",
+          "key": "_mode",
+          "options": [
+            {
+              "name": "Proficiency Jump",
+              "value": "Proficiency Jump"
+            },
+            {
+              "name": "Proficiency / Training Jump",
+              "value": "Proficiency / Training Jump"
+            },
+            {
+              "name": "Fire Jump",
+              "value": "Fire Jump"
+            },
+            {
+              "name": "Single Resource",
+              "value": "Single Resource"
+            },
+            {
+              "name": "Ground Crew",
+              "value": "Ground Crew"
+            },
+            {
+              "name": "Booster In",
+              "value": "Booster In"
+            },
+            {
+              "name": "Booster Out",
+              "value": "Booster Out"
+            },
+            {
+              "name": "Point To Point",
+              "value": "Point To Point"
+            },
+            {
+              "name": "Preposition",
+              "value": "Preposition"
+            },
+            {
+              "name": "Dry Run",
+              "value": "Dry Run"
+            },
+            {
+              "name": "Other Jump",
+              "value": "Other Jump"
+            },
+            {
+              "name": "Rescue Jump",
+              "value": "Rescue Jump"
+            },
+            {
+              "name": "Paracargo",
+              "value": "Paracargo"
+            },
+            {
+              "name": "Admin Detail",
+              "value": "Admin Detail"
+            },
+            {
+              "name": "Recon/Patrol",
+              "value": "Recon/Patrol"
+            },
+            {
+              "name": "On Jump List",
+              "value": "On Jump List"
+            },
+            {
+              "name": "Demobilization",
+              "value": "Demobilization"
+            },
+            {
+              "name": "Training",
+              "value": "Training"
+            },
+            {
+              "name": "Other",
+              "value": "Other"
+            },
+            {
+              "name": "Day Off",
+              "value": "Day Off"
+            }
+          ]
+        },
+        {
+          "width": 25,
+          "dropdown": true,
+          "choice": {},
+          "label": "Initial Attack",
+          "key": "_initialAttack",
+          "options": [
+            {
+              "name": "Yes",
+              "value": "yes"
+            },
+            {
+              "name": "No",
+              "value": "no"
+            }
+          ]
+        },
+        {
+          "width": 25,
+          "dropdown": true,
+          "label": "Type",
+          "key": "_type",
+          "choice": {},
+          "options": [
+            {
+              "name": "1",
+              "value": "1"
+            },
+            {
+              "name": "2",
+              "value": "2"
+            },
+            {
+              "name": "3",
+              "value": "3"
+            },
+            {
+              "name": "4",
+              "value": "4"
+            },
+            {
+              "name": "5",
+              "value": "5"
+            }
+          ]
+        },
+        {
+          "choice": {},
+          "dropdown": true,
+          "label": "Mission",
+          "required": true,
+          "key": "_mission",
+          "options": [
+            {
+              "name": "Training",
+              "value": "Training"
+            },
+            {
+              "name": "Wildland Fire",
+              "value": "Wildland Fire"
+            },
+            {
+              "name": "Prescribed Fire",
+              "value": "Prescribed Fire"
+            },
+            {
+              "name": "Mech Fuels Treatment",
+              "value": "Mech Fuels Treatment"
+            },
+            {
+              "name": "Structure Protection",
+              "value": "Structure Protection"
+            },
+            {
+              "name": "Logistics",
+              "value": "Logistics"
+            },
+            {
+              "name": "Other Action",
+              "value": "Other Action"
+            }
+          ]
+        },
+        {
+          "input": true,
+          "placeholder": "Latitude",
+          "key": "_latitude",
+          "maxlength": 11,
+          "help": "Needs to be in Degree Decimal Minutes i.e. DD MM.MMMM"
+        },
+        {
+          "width": 25,
+          "input": true,
+          "placeholder": "Acres",
+          "key": "_acres"
+        },
+        {
+          "width": 25,
+          "sizeClass": true
+        },
+        {
+          "input": true,
+          "placeholder": "Longitude",
+          "key": "_longitude",
+          "maxlength": 11,
+          "help": "Needs to be in Degree Decimal Minutes i.e. DD MM.MMMM"
+        },
+        {
+          "dropdown": true,
+          "label": "Fuel Type",
+          "key": "_fuelType",
+          "choice": {},
+          "options": [
+            {
+              "name": "Grass",
+              "value": "grass"
+            },
+            {
+              "name": "Shrub",
+              "value": "shrub"
+            },
+            {
+              "name": "Slash",
+              "value": "slash"
+            },
+            {
+              "name": "Tinder",
+              "value": "tinder"
+            }
+          ]
+        },
+        {
+          "dropdown": true,
+          "choice": {},
+          "label": "Yards Of Drift",
+          "key": "_yardsofDrift",
+          "options": [
+            {
+              "name": "50",
+              "value": 50
+            },
+            {
+              "name": "100",
+              "value": 100
+            },
+            {
+              "name": "150",
+              "value": 150
+            },
+            {
+              "name": "200",
+              "value": 200
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Paracargo Details",
+      "data": [
+        {
+          "width": 25,
+          "input": true,
+          "placeholder": "# of Bundles",
+          "key": "_pcNumberBundles"
+        },
+        {
+          "width": 25,
+          "dropdown": true,
+          "choice": {},
+          "label": "Malfunction",
+          "key": "_pcMalfunction",
+          "options": [
+            {
+              "name": "Yes",
+              "value": true
+            },
+            {
+              "name": "No",
+              "value": false
+            }
+          ]
+        },
+        {
+          "input": true,
+          "placeholder": "Total Weight",
+          "key": "_pcTotalWeight"
+        }
+      ]
+    }
+  ]
+}

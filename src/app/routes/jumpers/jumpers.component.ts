@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
+import { ToastService } from '../../services/toast.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-jumpers',
@@ -8,35 +10,76 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./jumpers.component.scss']
 })
 export class JumpersComponent implements OnInit {
+  userBase;
   jumpers = [];
   headings = [
     {
-      label: 'First Name',
-      key: 'firstName'
+      label: 'Name',
+      key: 'name'
     },
     {
-      label: 'Last Name',
-      key: 'lastName'
+      label: 'Phone #',
+      key: 'phoneNumber'
     },
     {
-      label: 'Grade',
-      key: 'grade'
-    },
-    {
-      label: 'Position',
-      key: 'basePosition'
+      label: 'Active',
+      key: 'active'
     }
   ];
-  settings = [{
+  settings = {
+    route: 'jumpers',
     label: 'New Jumper',
     action: 'create',
     target: 'jumper'
-  }]
+  };
 
-  constructor() { }
+  constructor(private toast: ToastService, private router: Router) {}
 
-  async ngOnInit() {
-    let jumpers = await axios.get(environment.API_URL + '/api/jumpers');
-    this.jumpers = jumpers.data.value;
+  ngOnInit() {
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    this.userBase = userInfo.basecode;
+    this.refreshJumpers();
   }
+
+  delete = async (row) => {
+    let token = window.sessionStorage.getItem('token');
+    let id = '';
+    if (row.id) {
+      id = row.id;
+    } else if (row.href) {
+      id = row.href.slice(row.href.lastIndexOf('/') + 1, row.href.length);
+    }
+    let deleted = await axios
+      .delete(environment.API_URL + '/jumpers/' + id + '/delete', {
+        headers: { Authorization: 'Bearer ' + token }
+      })
+      .then((response) => {
+        this.toast.show('Deleted Jumper', 'success');
+        this.refreshJumpers();
+      })
+      .catch((error) => {
+        this.toast.show('Error deleting jumper', 'error');
+      });
+  };
+
+  refreshJumpers = () => {
+    // check session storage for a token
+    let token = window.sessionStorage.getItem('token');
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    let baseId = userInfo.baseId;
+    axios
+      .get(environment.API_URL + '/jumpers?baseId=' + baseId, {
+        headers: { Authorization: 'Bearer ' + token }
+      })
+      .then((response) => {
+        this.jumpers = response.data.value;
+        this.jumpers.forEach((jumper) => {
+          jumper.name = jumper.lastName + ', ' + jumper.firstName;
+          jumper.active = jumper.activeStatus ? 'Yes' : 'No';
+        });
+      })
+      .catch((error) => {
+        this.toast.show('Unable to retreive jumpers list.', 'error');
+      });
+  };
 }

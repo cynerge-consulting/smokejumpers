@@ -1,0 +1,64 @@
+<div class="form">
+  <div class="section-container" *ngFor="let section of sections">
+    <div class="title">
+      <span>{{ section.title }}</span>
+    </div>
+    <div class="content">
+      <div class="datum">
+        <div class="input-container">
+          <span class="input-label">First Name: </span>
+          <input
+            type="text"
+            [name]="firstName"
+            placeholder="First Name"
+            [(ngModel)]="pilot.firstName"
+          />
+          <span class="required-asterisk">*</span>
+        </div>
+      </div>
+      <div class="datum">
+        <div class="input-container">
+          <span class="input-label">Last Name: </span>
+          <input
+            type="text"
+            [name]="lastName"
+            placeholder="Last Name"
+            [(ngModel)]="pilot.lastName"
+          />
+          <span class="required-asterisk">*</span>
+        </div>
+      </div>
+      <div class="datum">
+        <app-dropdown
+          [(choice)]="selectedAffiliation"
+          label="Affiliation"
+          [options]="[
+            { name: 'Agency', value: 'Agency' },
+            { name: 'Contract', value: 'Contract' }
+          ]"
+          key="name"
+          (selectedDropdownItem)="selectAffiliation($event)"
+        ></app-dropdown>
+      </div>
+      <div class="datum">
+        <app-dropdown
+          [(choice)]="selectedActive"
+          label="Active"
+          [options]="[
+            { name: 'Yes', value: true },
+            { name: 'No', value: false }
+          ]"
+          key="name"
+          (selectedDropdownItem)="selectActive($event)"
+        ></app-dropdown>
+      </div>
+    </div>
+  </div>
+  <div class="section-container">
+    <app-button
+      [text]="mode"
+      (clicked)="submitForm($event)"
+      class="submit-button"
+    ></app-button>
+  </div>
+</div>
