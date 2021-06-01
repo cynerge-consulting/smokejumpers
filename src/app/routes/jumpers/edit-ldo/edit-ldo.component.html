@@ -1,12 +1,17 @@
 <div class="form">
   <div class="section-container">
     <div class="title">
-      <span>Edit Last Day off</span>
+      <span>Jumpers - Edit Last Day off</span>
     </div>
+    <p class="active-jumper-warning">
+      This jumper list shows only active jumpers. If a jumper does not appear in
+      the list, visit 'Jumpers' to change the status of a jumper to active.
+    </p>
   </div>
   <div class="section-container split">
     <div class="left-section">
       <div class="datum">
+        <span class="number one">1</span>
         <app-dropdown
           [choice]="selectedBase"
           label="Base"
@@ -16,6 +21,7 @@
         ></app-dropdown>
       </div>
       <div class="datum">
+        <span class="number two">2</span>
         <input
           type="date"
           [(ngModel)]="selectedDate"
@@ -23,6 +29,10 @@
         />
         <span class="required-asterisk">*</span>
       </div>
+    </div>
+    <div class="jumper-box-title-container">
+      <span class="number three">3</span>
+      <span class="jumper-box-title">Jumpers</span>
     </div>
     <div class="right-section">
       <div class="jumper datum" *ngFor="let jumper of jumpers; index as i">

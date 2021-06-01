@@ -3,10 +3,36 @@
     border-bottom: none;
   }
 
+  .active-jumper-warning {
+    padding-top: 20px;
+    border-top: 1px solid black;
+  }
+
   .split {
     display: flex;
     height: 50%;
     overflow: hidden;
+    border-bottom: none !important;
+    .number {
+      position: relative;
+      background: #7cff60;
+      color: white;
+      min-height: 50px;
+      min-width: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 100%;
+      font-size: 25px;
+      margin: 10px;
+    }
+    .jumper-box-title-container {
+      display: flex;
+      align-items: center;
+      position: relative;
+      top: -50%;
+      left: 120px;
+    }
     .left-section {
       width: 40%;
       .datum {
@@ -33,8 +59,8 @@
           display: flex;
           align-items: center;
           input[type='checkbox'] {
-            width: 15px;
-            height: 15px;
+            min-width: 15px;
+            min-height: 15px;
             margin-right: 10px;
           }
         }
