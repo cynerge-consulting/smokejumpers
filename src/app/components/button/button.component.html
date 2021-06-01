@@ -1,8 +1,11 @@
 <div
-  [ngClass]="disabled ? 'disabled' : ''"
   (click)="clickedButton($event)"
   class="button"
-  [ngClass]="cancel ? 'cancel-button' : ''"
+  [ngClass]="[
+    cancel ? 'cancel-button' : '',
+    disabled ? 'disabled' : '',
+    fab ? 'fab' : ''
+  ]"
 >
   <span class="text">
     {{ text }}

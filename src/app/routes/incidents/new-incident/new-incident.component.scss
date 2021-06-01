@@ -193,7 +193,7 @@ input[type='checkbox'] {
 .modal {
   &.qual-modal {
     background: transparent;
-    // width: 535px;
+    width: 500px;
     height: 280px;
     .cancel-qual-button {
       bottom: 3px;
@@ -201,4 +201,12 @@ input[type='checkbox'] {
       right: 0px;
     }
   }
+}
+.new-qualification-form {
+  width: 400px;
+}
+.add-position-label {
+  position: relative;
+  top: -15px;
+  left: 10px;
 }

@@ -13,6 +13,7 @@ import {
   styleUrls: ['./button.component.scss']
 })
 export class ButtonComponent implements OnInit {
+  @Input() fab: any;
   @Input() cancel: any;
   @Input() text: any;
   @Input() disabled = false;
