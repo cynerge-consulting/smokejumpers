@@ -5,7 +5,66 @@
 .section-container.split {
   display: flex;
   justify-content: space-evenly;
+  .left-section {
+    width: 300px;
+    height: 500px;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+  }
+  .right-section {
+    width: 300px;
+    height: 500px;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+  }
+  .quals-container {
+    overflow-x: hidden;
+    height: 380px;
+    margin-top: 40px;
+  }
   .qualification {
     width: 100%;
   }
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  [type='checkbox'] {
+    width: 15px !important;
+  }
+}
+
+.qualifications-text {
+  margin: 30px;
+  font-size: 12px;
+}
+
+.quals-query {
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+}
+
+.add-position-container {
+  position: relative;
+  left: 117px;
+  top: -42px;
+}
+.modal {
+  &.qual-modal {
+    background: transparent;
+    width: 500px;
+    height: 280px;
+    .cancel-qual-button {
+      bottom: 3px;
+      position: absolute;
+      right: 0px;
+    }
+  }
+}
+.new-qualification-form {
+  width: 400px;
 }

@@ -8,12 +8,49 @@ import { ToastService } from '../../../services/toast.service';
   selector: 'app-new-jumper',
   templateUrl: './new-jumper.component.html',
   styleUrls: [
+    '../../incidents/new-incident/new-incident.component.scss',
     './new-jumper.component.scss',
-    '../../../components/form/form.component.scss'
+    '../../../components/modal/modal.component.scss'
   ]
 })
 export class NewJumperComponent implements OnInit {
   mode = 'Create';
+  userBase = '';
+
+  // "Add Qualification" vars
+  addingQualification = false;
+  qualification = {
+    id: '',
+    edit: false,
+    functionArea: '',
+    show: false
+  };
+  qualificationSections = [
+    {
+      title: 'Qualification Information',
+      data: [
+        {
+          required: true,
+          input: true,
+          placeholder: 'Title',
+          key: 'title'
+        },
+        {
+          required: true,
+          input: true,
+          maxlength: 4,
+          placeholder: 'Acronym',
+          key: 'Acronym'
+        }
+      ]
+    }
+  ];
+
+  // qualification filter vars
+  qualsQuery;
+  tqualsQuery;
+  originalQuals = [];
+  originalTQuals = [];
 
   // define base jumper object
   jumper = {
@@ -37,60 +74,9 @@ export class NewJumperComponent implements OnInit {
           key: 'firstName'
         },
         {
-          input: true,
-          required: true,
-          placeholder: 'Last Name',
-          key: 'lastName'
-        },
-        {
-          input: true,
-          placeholder: 'Phone Number',
-          key: 'phoneNumber'
-        },
-        {
-          input: true,
-          placeholder: 'Grade',
-          key: 'grade'
-        },
-        {
           choice: {},
           dropdown: true,
-          label: 'Tour',
-          key: 'tour',
-          options: [
-            {
-              name: 'PFT',
-              value: 'PFT'
-            },
-            {
-              name: '18/8',
-              value: '18/8'
-            },
-            {
-              name: '13/13',
-              value: '13/13'
-            },
-            {
-              name: 'Temp',
-              value: 'TEMP'
-            }
-          ]
-        },
-        {
-          input: true,
-          type: 'date',
-          key: 'lastDayOff',
-          placeholder: 'Last Day Off'
-        },
-        {
-          input: true,
-          key: 'weight',
-          placeholder: 'Jumper Weight'
-        },
-        {
-          choice: {},
-          dropdown: true,
-          label: 'Base Position',
+          label: 'Position',
           key: 'basePosition',
           options: [
             {
@@ -120,6 +106,12 @@ export class NewJumperComponent implements OnInit {
           ]
         },
         {
+          input: true,
+          required: true,
+          placeholder: 'Last Name',
+          key: 'lastName'
+        },
+        {
           choice: {},
           dropdown: true,
           label: 'Spotter',
@@ -134,6 +126,19 @@ export class NewJumperComponent implements OnInit {
               value: 'Trainee'
             }
           ]
+        },
+        {
+          width: 25,
+          required: true,
+          input: true,
+          placeholder: 'Phone Number',
+          key: 'phoneNumber'
+        },
+        {
+          width: 25,
+          input: true,
+          placeholder: 'Grade',
+          key: 'grade'
         },
         {
           choice: {},
@@ -164,6 +169,38 @@ export class NewJumperComponent implements OnInit {
           ]
         },
         {
+          width: 25,
+          choice: {},
+          dropdown: true,
+          label: 'Tour',
+          key: 'tour',
+          options: [
+            {
+              name: 'PFT',
+              value: 'PFT'
+            },
+            {
+              name: '18/8',
+              value: '18/8'
+            },
+            {
+              name: '13/13',
+              value: '13/13'
+            },
+            {
+              name: 'Temp',
+              value: 'TEMP'
+            }
+          ]
+        },
+        {
+          width: 25,
+          input: true,
+          type: 'date',
+          key: 'lastDayOff',
+          placeholder: 'Last Day Off'
+        },
+        {
           choice: {},
           dropdown: true,
           label: 'Rigger',
@@ -182,6 +219,24 @@ export class NewJumperComponent implements OnInit {
               value: 'Trainee'
             }
           ]
+        },
+        {
+          width: 25,
+          checkbox: true,
+          label: 'Active Status ?',
+          key: 'activeStatus'
+        },
+        {
+          width: 25,
+          checkbox: true,
+          label: 'Retired ?',
+          key: 'retired'
+        },
+        {},
+        {
+          input: true,
+          key: 'weight',
+          placeholder: 'Jumper Weight'
         }
       ]
     }
@@ -194,36 +249,11 @@ export class NewJumperComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    this.userBase = userInfo.basecode;
     let token = window.sessionStorage.getItem('token');
 
-    // get endpoint data for form options
-    let qualifications = await axios.get(environment.API_URL + '/Quals', {
-      headers: { Authorization: 'Bearer ' + token }
-    });
-    qualifications.data.value.forEach((qual) => {
-      let q = qual;
-      let tq = qual;
-      q.type = 'Q';
-      tq.type = 'T';
-      this.qualifications.push({
-        acronym: qual.Acronym,
-        type: 'Q',
-        name: qual.title + ' | ' + qual.Acronym,
-        id: qual.id,
-        title: qual.title,
-        value: qual.value,
-        checked: false
-      });
-      this.traineeQualifications.push({
-        acronym: qual.Acronym,
-        type: 'T',
-        name: qual.title + ' | ' + qual.Acronym,
-        id: qual.id,
-        title: qual.title,
-        value: qual.value,
-        checked: false
-      });
-    });
+    this.refreshQualifications();
 
     // if we see an '/:id' instead of '/new' in the URL,
     // we are in "update" mode instead of "create" mode
@@ -288,6 +318,63 @@ export class NewJumperComponent implements OnInit {
     });
   }
 
+  sort = (array, key) => {
+    array.sort((a, b) => {
+      var keyA = a[key];
+      var keyB = b[key];
+      if (keyA < keyB) {
+        return -1;
+      }
+      if (keyA > keyB) {
+        return 1;
+      }
+      return 0;
+    });
+    return array;
+  };
+
+  refreshQualifications = async () => {
+    this.qualifications = [];
+    this.traineeQualifications = [];
+    let token = window.sessionStorage.getItem('token');
+
+    // get endpoint data for form options
+    let qualifications = await axios.get(environment.API_URL + '/Quals', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    qualifications.data.value.forEach((qual) => {
+      let q = qual;
+      let tq = qual;
+      q.type = 'Q';
+      tq.type = 'T';
+      this.qualifications.push({
+        acronym: qual.Acronym,
+        type: 'Q',
+        name: qual.title + ' | ' + qual.Acronym,
+        id: qual.id,
+        title: qual.title,
+        value: qual.value,
+        checked: false
+      });
+      this.traineeQualifications.push({
+        acronym: qual.Acronym,
+        type: 'T',
+        name: qual.title + ' | ' + qual.Acronym,
+        id: qual.id,
+        title: qual.title,
+        value: qual.value,
+        checked: false
+      });
+    });
+
+    this.qualifications = this.sort(this.qualifications, 'title');
+    this.traineeQualifications = this.sort(this.traineeQualifications, 'title');
+
+    // for filtering
+    this.originalQuals = this.qualifications;
+    this.originalTQuals = this.traineeQualifications;
+  };
+
   // dropdown handler
   onSelectedDropdownItem = (event, datum) => {
     this.jumper[datum.key] = event.value;
@@ -328,6 +415,40 @@ export class NewJumperComponent implements OnInit {
       });
   };
 
+  filterQuals = (event) => {
+    this.qualifications = this.originalQuals;
+
+    // find quals that match query
+    let filteredQuals = [];
+    this.qualifications.forEach((qual) => {
+      let title = qual.title.toLowerCase();
+      if (title.includes(this.qualsQuery.toLowerCase())) {
+        filteredQuals.push(qual);
+      }
+    });
+
+    // dedupe quals
+    let uniqueQuals = [...new Set(filteredQuals)];
+    this.qualifications = uniqueQuals;
+  };
+
+  filterTQuals = (event) => {
+    this.traineeQualifications = this.originalTQuals;
+
+    // find quals that match query
+    let filteredQuals = [];
+    this.traineeQualifications.forEach((qual) => {
+      let title = qual.title.toLowerCase();
+      if (title.includes(this.tqualsQuery.toLowerCase())) {
+        filteredQuals.push(qual);
+      }
+    });
+
+    // dedupe quals
+    let uniqueQuals = [...new Set(filteredQuals)];
+    this.traineeQualifications = uniqueQuals;
+  };
+
   submitForm = (data) => {
     let token = window.sessionStorage.getItem('token');
     const options = {
@@ -359,5 +480,31 @@ export class NewJumperComponent implements OnInit {
           console.dir(error);
         });
     }
+  };
+
+  // handle the "Add Position" form being submitted
+  submittedPosition = (data) => {
+    let token = window.sessionStorage.getItem('token');
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+    let userId = userInfo.id;
+    const options = {
+      headers: { Authorization: 'Bearer ' + token }
+    };
+    let url = environment.API_URL + '/Quals/add';
+    delete this.qualification.id;
+    this.qualification.edit = false;
+    axios
+      .post(url, this.qualification, options)
+      .then((response) => {
+        // pop success toast and close modal
+        this.toast.show('Created Qualification', 'success');
+        this.addingQualification = false;
+        this.refreshQualifications();
+      })
+      .catch((error) => {
+        this.toast.show('Unable to Create Qualification', 'error');
+        this.addingQualification = false;
+        console.dir(error);
+      });
   };
 }

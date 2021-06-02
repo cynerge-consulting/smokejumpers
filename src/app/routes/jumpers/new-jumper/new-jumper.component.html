@@ -1,20 +1,45 @@
-<!-- <app-modal
-  [active]="modal.active"
-  [data]="modal.data"
-  (confirmed)="modalConfirmed($event)"
-  (denied)="modalDenied($event)"
->
-</app-modal> -->
+<div
+  [ngClass]="addingQualification ? 'active' : ''"
+  class="modal-background"
+></div>
+<div [ngClass]="addingQualification ? 'active' : ''" class="modal qual-modal">
+  <div class="content">
+    <app-form
+      class="new-qualification-form"
+      [sections]="qualificationSections"
+      [data]="qualification"
+      mode="Create"
+      (submitted)="submittedPosition($event)"
+    ></app-form>
+  </div>
+  <div class="buttons">
+    <app-button
+      cancel="true"
+      (clicked)="addingQualification = false"
+      text="Cancel"
+      class="cancel-qual-button"
+    ></app-button>
+  </div>
+</div>
 <div class="form">
   <div class="section-container" *ngFor="let section of sections">
     <div class="title">
       <span>{{ section.title }}</span>
     </div>
-    <div class="content">
-      <div class="datum" *ngFor="let datum of section.data">
+    <span class="base">Base: {{ userBase }}</span>
+    <div class="content" style="margin-top: 20px">
+      <div
+        class="datum"
+        [ngClass]="'width-' + datum.width"
+        *ngFor="let datum of section.data"
+      >
         <div class="input-container">
           <span *ngIf="datum.input" class="input-label"
-            >{{ datum.placeholder }}:
+            >{{ datum.placeholder }}
+            <span *ngIf="datum.required" class="required-asterisk">*</span>
+            <span *ngIf="!datum.required" class="required-asterisk"
+              ><br
+            /></span>
           </span>
           <!-- text input -->
           <input
@@ -24,6 +49,11 @@
             [placeholder]="datum.placeholder"
             [(ngModel)]="jumper[datum.key]"
           />
+          <!-- checkbox -->
+          <div class="checkbox-container" *ngIf="datum.checkbox">
+            <input type="checkbox" [(ngModel)]="jumper[datum.key]" />
+            <span class="input-label">{{ datum.label }}</span>
+          </div>
           <!-- datepicker -->
           <input
             type="date"
@@ -40,49 +70,78 @@
             key="name"
             (selectedDropdownItem)="onSelectedDropdownItem($event, datum)"
           ></app-dropdown>
-          <span *ngIf="datum.required" class="required-asterisk">*</span>
         </div>
       </div>
     </div>
   </div>
   <!-- add qualifications section -->
-  <div class="section-container split">
+  <p class="qualifications-text">
+    The qualifications list shows "typical" qualifications utilized by
+    smokejumpers. If a qualification is not listed that you need, click on the
+    Add Qualification button at the bottom of the page to add the qualification.
+  </p>
+  <div class="section-container split" style="border-bottom: none">
     <div class="left-section">
       <div class="title">
         <span>Qualifications</span>
       </div>
-      <div
-        class="qualification datum"
-        *ngFor="let qualification of qualifications; index as i"
-      >
-        <input
-          type="checkbox"
-          [(ngModel)]="qualification.checked"
-          [name]="qualification.name"
-        />
-        <label class="label" [for]="qualification.name">{{
-          qualification.name
-        }}</label>
+      <input
+        (keyup)="filterQuals($event)"
+        class="quals-query"
+        placeholder="Search/Filter"
+        [(ngModel)]="qualsQuery"
+      />
+      <div class="quals-container">
+        <div
+          class="qualification datum"
+          *ngFor="let qualification of qualifications; index as i"
+        >
+          <input
+            type="checkbox"
+            [(ngModel)]="qualification.checked"
+            [name]="qualification.name"
+          />
+          <label class="label" [for]="qualification.name">{{
+            qualification.name
+          }}</label>
+        </div>
       </div>
     </div>
     <div class="right-section">
       <div class="title">
         <span>Trainee Qualifications</span>
       </div>
-      <div
-        class="qualification datum"
-        *ngFor="let qualification of traineeQualifications; index as i"
-      >
-        <input
-          type="checkbox"
-          [name]="qualification.name"
-          [(ngModel)]="qualification.checked"
-        />
-        <label class="label" [for]="qualification.qualName">{{
-          qualification.name
-        }}</label>
+      <input
+        (keyup)="filterTQuals($event)"
+        class="quals-query"
+        placeholder="Search/Filter"
+        [(ngModel)]="tqualsQuery"
+      />
+      <div class="quals-container">
+        <div
+          class="qualification datum"
+          *ngFor="let qualification of traineeQualifications; index as i"
+        >
+          <input
+            type="checkbox"
+            [name]="qualification.name"
+            [(ngModel)]="qualification.checked"
+          />
+          <label class="label" [for]="qualification.qualName">{{
+            qualification.name
+          }}</label>
+        </div>
       </div>
     </div>
+  </div>
+  <div class="datum add-position-container">
+    <app-button
+      fab="true"
+      text="+"
+      (clicked)="addingQualification = true"
+      class="add-position-button"
+    ></app-button>
+    <span class="add-position-label">Add Qualification</span>
   </div>
   <div class="section-container submit-button-container">
     <app-button

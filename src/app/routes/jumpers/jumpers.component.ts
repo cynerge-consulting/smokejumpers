@@ -41,6 +41,36 @@ export class JumpersComponent implements OnInit {
     this.refreshJumpers();
   }
 
+  sort = (array, key) => {
+    array.sort((a, b) => {
+      var keyA = a[key];
+      var keyB = b[key];
+      if (keyA < keyB) {
+        return -1;
+      }
+      if (keyA > keyB) {
+        return 1;
+      }
+      return 0;
+    });
+    return array;
+  };
+
+  reverseSort = (array, key) => {
+    array.sort((a, b) => {
+      var keyA = a[key];
+      var keyB = b[key];
+      if (keyA < keyB) {
+        return 1;
+      }
+      if (keyA > keyB) {
+        return -1;
+      }
+      return 0;
+    });
+    return array;
+  };
+
   delete = async (row) => {
     let token = window.sessionStorage.getItem('token');
     let id = '';
@@ -77,6 +107,8 @@ export class JumpersComponent implements OnInit {
           jumper.name = jumper.lastName + ', ' + jumper.firstName;
           jumper.active = jumper.activeStatus ? 'Yes' : 'No';
         });
+        this.jumpers = this.sort(this.jumpers, 'name');
+        this.jumpers = this.reverseSort(this.jumpers, 'active');
       })
       .catch((error) => {
         this.toast.show('Unable to retreive jumpers list.', 'error');
