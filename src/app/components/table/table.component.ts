@@ -22,6 +22,13 @@ export class TableComponent implements OnInit {
   hasBeenFiltered;
   originalRows;
 
+  // pagination vars
+  start = 0;
+  numberOfRows = {
+    name: '10',
+    value: 10
+  };
+
   constructor(private router: Router) {}
 
   ngOnInit(): void {}
@@ -107,5 +114,22 @@ export class TableComponent implements OnInit {
       }
     }
     this.selected = row;
+  };
+
+  pageLeft = () => {
+    this.start = this.start - this.numberOfRows.value;
+    if (this.start < 0) {
+      this.start = 0;
+    }
+  };
+  pageRight = () => {
+    if (this.start + this.numberOfRows.value * 2 >= this.rows.length) {
+      this.start = this.rows.length - this.numberOfRows.value;
+      if (this.start < 0) {
+        this.start = 0;
+      }
+    } else {
+      this.start = this.start + this.numberOfRows.value;
+    }
   };
 }

@@ -40,13 +40,6 @@
     *ngIf="rowMenu === 'settings'"
     [ngClass]="showingDetails ? 'showing-details' : ''"
   >
-    <div
-      class="menu-item"
-      (click)="showingDetails = !showingDetails; rowMenu = 'clickmask'"
-      [ngClass]="showingDetails ? 'showing-details' : ''"
-    >
-      {{ showingDetails ? 'Hide' : 'Show' }} Details
-    </div>
     <div class="menu-item" (click)="new()">New {{ settings.name }}</div>
     <div class="menu-item" *ngIf="selected" (click)="edit(selected)">
       Edit {{ settings.name }}
@@ -57,7 +50,10 @@
   </div>
   <div class="rows" [ngClass]="showingDetails ? 'showing-details' : ''">
     <div
-      *ngFor="let row of rows"
+      *ngFor="
+        let row of rows | slice: start:start + numberOfRows.value;
+        let i = index
+      "
       class="row"
       (click)="selectRow(row)"
       (dblclick)="edit(row)"
@@ -68,12 +64,44 @@
       </div>
     </div>
   </div>
-</div>
-<div class="details" [ngClass]="showingDetails ? 'showing-details' : ''">
-  <span class="none-selected" *ngIf="!selected">Details</span>
-  <div class="detail" *ngFor="let detail of details">
-    <span class="key">{{ detail.key }}:</span>
-    <span class="value"> {{ detail.value }}</span>
+  <div class="pagination-container">
+    <app-dropdown
+      [choice]="numberOfRows"
+      label="Items per page"
+      [options]="[
+        {
+          name: '10',
+          value: 10
+        },
+        {
+          name: '25',
+          value: 25
+        },
+        {
+          name: '50',
+          value: 50
+        }
+      ]"
+      key="name"
+      (selectedDropdownItem)="numberOfRows = $event"
+    ></app-dropdown>
+    <span class="showing"
+      >{{ start + 1 }} -
+      {{
+        start + numberOfRows.value > rows.length
+          ? rows.length
+          : start + numberOfRows.value
+      }}
+      of {{ rows.length }}</span
+    >
+    <div class="page-arrows">
+      <span style="cursor: pointer; margin-right: 5px" (click)="pageLeft()"
+        >←</span
+      >
+      <span style="cursor: pointer; margin-left: 5px" (click)="pageRight()"
+        >→</span
+      >
+    </div>
   </div>
 </div>
 <div
