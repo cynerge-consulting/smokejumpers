@@ -194,7 +194,7 @@ export class IncidentsComponent implements OnInit {
       // parse friendly date
       let date = incident._incidentDate.split('-');
       incident.friendlyDate =
-        date[0] + '-' + date[1] + '-' + date[2].substr(0, 2);
+        date[1] + '/' + date[2].substr(0, 2) + '/' + date[0];
 
       // get incident state
       this.states.filter((state) => {
