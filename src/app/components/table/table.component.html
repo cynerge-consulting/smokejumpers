@@ -3,6 +3,15 @@
   [ngClass]="showingDetails ? 'showing-details' : ''"
   [ngClass]="hasActions ? 'has-random-actions' : ''"
 >
+  <div class="search-bar searching" [ngClass]="searching ? 'searching' : ''">
+    <input
+      (keyup)="onKey($event)"
+      [ngClass]="searching ? 'searching' : ''"
+      class="search-input searching"
+      placeholder="Search"
+      [(ngModel)]="query"
+    />
+  </div>
   <div class="row headings" [ngClass]="showingDetails ? 'showing-details' : ''">
     <div
       (click)="sort(column)"
@@ -11,22 +20,7 @@
     >
       <span>{{ column.label }}</span>
     </div>
-    <div
-      (click)="searching = !searching"
-      class="heading search-button"
-      [ngClass]="searching ? 'searching' : ''"
-    >
-      {{ searching ? 'X' : '🔍' }}
-    </div>
-    <div class="search-bar" [ngClass]="searching ? 'searching' : ''">
-      <input
-        (keyup)="onKey($event)"
-        [ngClass]="searching ? 'searching' : ''"
-        class="search-input"
-        placeholder="Search"
-        [(ngModel)]="query"
-      />
-    </div>
+
     <div
       (click)="rowMenu = 'settings'"
       class="heading settings-button"

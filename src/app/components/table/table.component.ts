@@ -17,7 +17,7 @@ export class TableComponent implements OnInit {
   rowMenu = 'clickmask';
   details = [];
   sorted = true;
-  searching = false;
+  searching = true;
   query;
   hasBeenFiltered;
   originalRows;
