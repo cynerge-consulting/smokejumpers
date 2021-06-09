@@ -1,6 +1,16 @@
 <div class="random-actions">
   <span class="title">Jumpers</span>
   <span style="margin-left: 10px" class="base">Base: {{ userBase }}</span>
+  <app-dropdown
+    [(choice)]="selectedRetired"
+    label=""
+    [options]="[
+      { name: 'Current Jumpers', value: 'current' },
+      { name: 'Retired Jumpers', value: 'retired' }
+    ]"
+    key="name"
+    (selectedDropdownItem)="selectRetired($event)"
+  ></app-dropdown>
 </div>
 <app-table
   hasActions="true"

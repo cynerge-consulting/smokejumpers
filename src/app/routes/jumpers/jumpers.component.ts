@@ -12,6 +12,12 @@ import { Router } from '@angular/router';
 export class JumpersComponent implements OnInit {
   userBase;
   jumpers = [];
+  workingJumpers = [];
+  retiredJumpers = [];
+  selectedRetired = {
+    name: 'Current Jumpers',
+    value: 'current'
+  };
   headings = [
     {
       label: 'Name',
@@ -97,21 +103,42 @@ export class JumpersComponent implements OnInit {
     let token = window.sessionStorage.getItem('token');
     let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
     let baseId = userInfo.baseId;
+    let jumpers = [];
+    this.workingJumpers = [];
+    this.retiredJumpers = [];
+
     axios
       .get(environment.API_URL + '/jumpers?baseId=' + baseId, {
         headers: { Authorization: 'Bearer ' + token }
       })
       .then((response) => {
-        this.jumpers = response.data.value;
-        this.jumpers.forEach((jumper) => {
+        jumpers = response.data.value;
+        jumpers.forEach((jumper) => {
           jumper.name = jumper.lastName + ', ' + jumper.firstName;
           jumper.active = jumper.activeStatus ? 'Yes' : 'No';
         });
-        this.jumpers = this.sort(this.jumpers, 'name');
-        this.jumpers = this.reverseSort(this.jumpers, 'active');
+        jumpers = this.sort(jumpers, 'name');
+        jumpers = this.reverseSort(jumpers, 'active');
+        jumpers.forEach((jumper) => {
+          if (jumper.retired) {
+            this.retiredJumpers.push(jumper);
+          } else {
+            this.workingJumpers.push(jumper);
+          }
+        });
+        if (this.selectedRetired.value === 'current') {
+          this.jumpers = this.workingJumpers;
+        } else {
+          this.jumpers = this.retiredJumpers;
+        }
       })
       .catch((error) => {
         this.toast.show('Unable to retreive jumpers list.', 'error');
       });
+  };
+
+  selectRetired = (event) => {
+    this.selectedRetired = event;
+    this.refreshJumpers();
   };
 }
