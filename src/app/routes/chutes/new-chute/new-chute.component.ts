@@ -163,6 +163,7 @@ export class NewChuteComponent implements OnInit {
   };
 
   submitForm = async (data) => {
+    let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
     let token = window.sessionStorage.getItem('token');
     const options = {
       headers: { Authorization: 'Bearer ' + token }
@@ -170,9 +171,8 @@ export class NewChuteComponent implements OnInit {
 
     let type = this.selectedChuteStyle.value.toLowerCase();
     let chute = {
-      baseCode: this.selectedBase.name,
-      base: this.selectedBase.name,
-      baseId: this.selectedBase.value,
+      base: userInfo.baseCode,
+      baseId: userInfo.baseId,
       chuteType: this.chute.chuteType,
       chuteSize: '',
       inService: this.chute.inService,
