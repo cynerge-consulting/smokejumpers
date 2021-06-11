@@ -113,98 +113,6 @@
     <div class="title">
       <span id="incident-jumpers">Incident Jumpers</span>
     </div>
-    <div *ngIf="incidentJumpers.length > 0" class="incident-jumpers">
-      <div
-        [id]="jumper.JumperId"
-        class="incident-jumper"
-        *ngFor="let jumper of incidentJumpers; index as i"
-      >
-        <div class="remove-jumper-button">
-          <span style="margin-right: 10px" (click)="moveJumper('up', jumper, i)"
-            >▲</span
-          >
-          <span
-            style="margin-right: 10px"
-            (click)="moveJumper('down', jumper, i)"
-            >▼</span
-          >
-          <span style="margin-right: 10px" (click)="editJumper(jumper, i)"
-            >✎</span
-          >
-          <span (click)="confirmDeleteJumper(jumper, i)">X</span>
-        </div>
-        <div class="jumper-info">
-          <div>
-            <span class="label">Jumper #{{ i + 1 }}: </span>
-            <span class="value">{{ jumper.jumperName }}</span>
-          </div>
-          <div style="margin-bottom: 20px">
-            <span class="label">Base: </span>
-            <span class="value">{{ jumper.Base }}</span>
-          </div>
-          <div>
-            <span class="label">Main: </span>
-            <span class="value">{{ jumper.main }}</span>
-          </div>
-          <div>
-            <span class="label">Position One:</span>
-            <span class="value"> {{ jumper.position1 }}</span>
-          </div>
-          <div>
-            <span class="label">Drogue: </span>
-            <span class="value">{{ jumper.drogue }}</span>
-          </div>
-          <div>
-            <span class="label">Position Two:</span>
-            <span class="value"> {{ jumper.position2 }}</span>
-          </div>
-          <div style="margin-bottom: 20px">
-            <span class="label">Reserve: </span>
-            <span class="value">{{ jumper.reserve }}</span>
-          </div>
-          <div style="margin-bottom: 20px">
-            <span class="label">Position Three:</span>
-            <span class="value"> {{ jumper.position3 }}</span>
-          </div>
-          <div>
-            <span class="label">Date Arrived: </span>
-            <span class="value">{{ jumper.friendlyArrivalDate }}</span>
-          </div>
-          <div>
-            <span class="label">Date Returned: </span>
-            <span class="value">{{ jumper.friendlyReturnDate }}</span>
-          </div>
-          <div style="margin-bottom: 20px">
-            <span class="label">Time Arrived: </span>
-            <span class="value">{{ jumper.friendlyArrivalTime }}</span>
-          </div>
-          <div>
-            <span class="label">Time Returned: </span>
-            <span class="value">{{ jumper.friendlyReturnTime }}</span>
-          </div>
-          <div>
-            <span class="label">Trainee One:</span>
-            <span class="value"> {{ jumper.T1 }}</span>
-          </div>
-          <div>
-            <span class="label">Days (Shifts): </span>
-            <span class="value">{{ jumper.totalDays }}</span>
-          </div>
-          <div>
-            <span class="label">Trainee Two: </span>
-            <span class="value">{{ jumper.T2 }}</span>
-          </div>
-          <div>
-            <span class="label">Jumper Rating: </span>
-            <span class="value">{{ jumper.jumpRating }}</span>
-          </div>
-          <div style="margin-bottom: 20px">
-            <span class="label">Trainee Three: </span>
-            <span class="value">{{ jumper.T3 }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- add incident jumper subform -->
     <div id="jumperForm" class="content incident-jumper-subform">
       <div class="keep-date">
@@ -240,7 +148,7 @@
           required="true"
           [choice]="selectedJumper"
           label="Jumper"
-          [options]="jumpers"
+          [(options)]="jumpers"
           key="friendly"
           (selectedDropdownItem)="selectJumper($event)"
         ></app-dropdown>
@@ -427,6 +335,98 @@
           (clicked)="cancelJumperEdit()"
           class="add-jumper-button"
         ></app-button>
+      </div>
+    </div>
+    <div *ngIf="incidentJumpers.length > 0" class="incident-jumpers">
+      <div
+        [id]="jumper.JumperId"
+        class="incident-jumper"
+        *ngFor="let jumper of incidentJumpers; index as i"
+      >
+        <div class="remove-jumper-button">
+          <span style="margin-right: 10px" (click)="moveJumper('up', jumper, i)"
+            >▲</span
+          >
+          <span
+            style="margin-right: 10px"
+            (click)="moveJumper('down', jumper, i)"
+            >▼</span
+          >
+          <span style="margin-right: 10px" (click)="editJumper(jumper, i)"
+            >✎</span
+          >
+          <span (click)="confirmDeleteJumper(jumper, i)">X</span>
+        </div>
+        <div class="jumper-info">
+          <div>
+            <span class="label">Jumper #{{ i + 1 }}: </span>
+            <span class="value">{{ jumper.jumperName }}</span>
+          </div>
+          <div style="margin-bottom: 20px">
+            <span class="label">Base: </span>
+            <span class="value">{{ jumper.Base }}</span>
+          </div>
+          <div>
+            <span class="label">Main: </span>
+            <span class="value">{{ jumper.main }}</span>
+          </div>
+          <div>
+            <span class="label">Position One:</span>
+            <span class="value"> {{ jumper.position1 }}</span>
+          </div>
+          <div>
+            <span class="label">Drogue: </span>
+            <span class="value">{{ jumper.drogue }}</span>
+          </div>
+          <div>
+            <span class="label">Position Two:</span>
+            <span class="value"> {{ jumper.position2 }}</span>
+          </div>
+          <div style="margin-bottom: 20px">
+            <span class="label">Reserve: </span>
+            <span class="value">{{ jumper.reserve }}</span>
+          </div>
+          <div style="margin-bottom: 20px">
+            <span class="label">Position Three:</span>
+            <span class="value"> {{ jumper.position3 }}</span>
+          </div>
+          <div>
+            <span class="label">Date Arrived: </span>
+            <span class="value">{{ jumper.friendlyArrivalDate }}</span>
+          </div>
+          <div>
+            <span class="label">Date Returned: </span>
+            <span class="value">{{ jumper.friendlyReturnDate }}</span>
+          </div>
+          <div style="margin-bottom: 20px">
+            <span class="label">Time Arrived: </span>
+            <span class="value">{{ jumper.friendlyArrivalTime }}</span>
+          </div>
+          <div>
+            <span class="label">Time Returned: </span>
+            <span class="value">{{ jumper.friendlyReturnTime }}</span>
+          </div>
+          <div>
+            <span class="label">Trainee One:</span>
+            <span class="value"> {{ jumper.T1 }}</span>
+          </div>
+          <div>
+            <span class="label">Days (Shifts): </span>
+            <span class="value">{{ jumper.totalDays }}</span>
+          </div>
+          <div>
+            <span class="label">Trainee Two: </span>
+            <span class="value">{{ jumper.T2 }}</span>
+          </div>
+          <div>
+            <span class="label">Jumper Rating: </span>
+            <span class="value">{{ jumper.jumpRating }}</span>
+          </div>
+          <div style="margin-bottom: 20px">
+            <span class="label">Trainee Three: </span>
+            <span class="value">{{ jumper.T3 }}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

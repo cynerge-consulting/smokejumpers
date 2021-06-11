@@ -195,9 +195,25 @@ export class NewIncidentComponent implements OnInit {
     });
     this.data = incident.data;
     this.data.id = id;
+
+    // show date in friendly format
     let date = this.data._incidentDate.split('-');
     this.data._incidentDate =
       date[0] + '-' + date[1] + '-' + date[2].substr(0, 2);
+
+    // parse depart time that we get as a malformed string from the backend -_-
+    if (this.data._departTimeMilitary.length === 4) {
+      this.data._departTimeMilitary =
+        this.data._departTimeMilitary.slice(0, 2) +
+        ':' +
+        this.data._departTimeMilitary.slice(2, 4);
+    }
+    if (this.data._departTimeMilitary.length === 3) {
+      this.data._departTimeMilitary =
+        this.data._departTimeMilitary.slice(0, 1) +
+        ':' +
+        this.data._departTimeMilitary.slice(1, 3);
+    }
 
     // get any jumpers associated with the incident
     this.refreshIncidentJumpers();
@@ -218,13 +234,7 @@ export class NewIncidentComponent implements OnInit {
     });
     this.originalIdentifiers = this.identifiers;
 
-    let jumpers = await axios.get(environment.API_URL + '/jumpers', {
-      headers: { Authorization: 'Bearer ' + token }
-    });
-    this.jumpers = jumpers.data.value;
-    this.jumpers.forEach((jumper) => {
-      jumper.friendly = jumper.firstName + ' ' + jumper.lastName;
-    });
+    this.getJumpers();
 
     let bases = await axios.get(environment.API_URL + '/base/dropdown/main', {
       headers: { Authorization: 'Bearer ' + token }
@@ -338,11 +348,15 @@ export class NewIncidentComponent implements OnInit {
             chute.href.length
           );
           id = Number(id.slice(0, id.lastIndexOf('?')));
-          chute.name = chute.chuteType + ' ' + chute.main + ' | ' + chute.Base;
+          chute.name = chute.main + ' | ' + chute.Base;
           chute.value = id;
           chute.id = id;
         });
-        this.mainChutes = chutes;
+        this.mainChutes = this.sort(chutes, 'main');
+        this.mainChutes = this.sort(this.mainChutes, 'Base');
+        this.mainChutes = this.mainChutes.filter((chute) => {
+          return chute.inService === true;
+        });
       })
       .catch((error) => {
         console.dir(error);
@@ -363,7 +377,11 @@ export class NewIncidentComponent implements OnInit {
           chute.value = id;
           chute.id = id;
         });
-        this.drogueChutes = chutes;
+        this.drogueChutes = this.sort(chutes, 'drogue');
+        this.drogueChutes = this.sort(chutes, 'Base');
+        this.drogueChutes = this.drogueChutes.filter((chute) => {
+          return chute.inService === true;
+        });
       })
       .catch((error) => {
         console.dir(error);
@@ -384,7 +402,11 @@ export class NewIncidentComponent implements OnInit {
           chute.value = id;
           chute.id = id;
         });
-        this.reserveChutes = chutes;
+        this.reserveChutes = this.sort(chutes, 'reserve');
+        this.reserveChutes = this.sort(chutes, 'Base');
+        this.reserveChutes = this.reserveChutes.filter((chute) => {
+          return chute.inService === true;
+        });
       })
       .catch((error) => {
         console.dir(error);
@@ -418,6 +440,26 @@ export class NewIncidentComponent implements OnInit {
     this.filterIdentifiers();
   };
 
+  getJumpers = async () => {
+    let token = window.sessionStorage.getItem('token');
+    let jumpers = await axios.get(environment.API_URL + '/jumpers', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    this.jumpers = jumpers.data.value;
+    this.jumpers.forEach((jumper) => {
+      jumper.friendly =
+        jumper.lastName + ', ' + jumper.firstName + ' | ' + jumper.base.code;
+
+      jumper.basecode = jumper.base.code;
+    });
+
+    this.jumpers = this.sort(this.jumpers, 'friendly');
+    this.jumpers = this.sort(this.jumpers, 'basecode');
+    this.jumpers = this.jumpers.filter((jumper) => {
+      return jumper.basecode === this.selectedBase.baseCode;
+    });
+  };
+
   clearForm = () => {
     this.sections.forEach((section) => {
       section.data.forEach((datum) => {
@@ -442,8 +484,6 @@ export class NewIncidentComponent implements OnInit {
       delete this.data._hobbsTime;
     }
 
-    console.log(this.data._departTimeMilitary);
-
     // submit a new incident
     if (this.mode === 'Create') {
       axios
@@ -467,7 +507,6 @@ export class NewIncidentComponent implements OnInit {
 
       // submit an updated incident
     } else if (this.mode === 'Update') {
-      console.dir(this.data);
       url =
         environment.API_URL +
         '/incidents' +
@@ -1015,22 +1054,27 @@ export class NewIncidentComponent implements OnInit {
         });
 
         // sort jumpers by jump jumpOrder
-        this.incidentJumpers.sort((a, b) => {
-          var keyA = a['jumpOrder'];
-          var keyB = b['jumpOrder'];
-          if (keyA < keyB) {
-            return -1;
-          }
-          if (keyA > keyB) {
-            return 1;
-          }
-          return 0;
-        });
+        this.incidentJumpers = this.sort(this.incidentJumpers, 'jumpOrder');
       })
 
       .catch((error) => {
         console.dir(error);
       });
+  };
+
+  sort = (array, key) => {
+    array.sort((a, b) => {
+      var keyA = a[key];
+      var keyB = b[key];
+      if (keyA < keyB) {
+        return -1;
+      }
+      if (keyA > keyB) {
+        return 1;
+      }
+      return 0;
+    });
+    return array;
   };
 
   selectMainChute = (event) => {
@@ -1047,6 +1091,7 @@ export class NewIncidentComponent implements OnInit {
   };
   selectBase = (event) => {
     this.selectedBase = event;
+    this.getJumpers();
   };
   selectJumpRating = (event) => {
     this.jumpRating = event;
@@ -1180,16 +1225,27 @@ export class NewIncidentComponent implements OnInit {
   };
 
   // load an incident jumper into the IJ form
-  editJumper = (jumper, index) => {
+  editJumper = async (jumper, index) => {
     // clear the form of any prior data
     this.cancelJumperEdit();
 
+    // get all the jumpers in order to find the one we're trying to edit
+    let token = window.sessionStorage.getItem('token');
+    let jumpers = await axios.get(environment.API_URL + '/jumpers', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    this.jumpers = jumpers.data.value;
+    this.jumpers.forEach((jumper) => {
+      jumper.friendly =
+        jumper.lastName + ', ' + jumper.firstName + ' | ' + jumper.base.code;
+
+      jumper.basecode = jumper.base.code;
+    });
+
     // get the full jumper data for the incident jumper display
-    let splitName = jumper.jumperName.split(',');
-    let friendlyName = splitName[1] + ' ' + splitName[0];
-    friendlyName = friendlyName.slice(1, friendlyName.length);
+    let friendlyName = jumper.jumperName + ' | ' + jumper.Base;
     let jumperData = this.jumpers.filter((j) => {
-      return j.friendly === friendlyName;
+      return j.id === jumper.JumperId;
     });
     jumperData = jumperData[0];
 
