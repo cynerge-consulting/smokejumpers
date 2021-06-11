@@ -84,9 +84,27 @@ export class PilotsComponent implements OnInit {
           pilot.fullName = pilot.lastName + ', ' + pilot.firstName;
           pilot.friendlyActive = pilot.active ? 'Yes' : 'No';
         });
+
+        this.pilots = this.sort(this.pilots, 'active');
+        this.pilots = this.sort(this.pilots, 'fullName');
       })
       .catch((error) => {
         this.toast.show('Unable to retreive pilots list.', 'error');
       });
+  };
+
+  sort = (array, key) => {
+    array.sort((a, b) => {
+      var keyA = a[key];
+      var keyB = b[key];
+      if (keyA < keyB) {
+        return -1;
+      }
+      if (keyA > keyB) {
+        return 1;
+      }
+      return 0;
+    });
+    return array;
   };
 }
