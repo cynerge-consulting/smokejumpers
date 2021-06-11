@@ -168,4 +168,8 @@ export class NewPilotComponent implements OnInit {
         });
     }
   };
+
+  cancel = () => {
+    this.router.navigate(['/pilots']);
+  };
 }

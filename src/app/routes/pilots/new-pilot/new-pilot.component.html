@@ -54,11 +54,17 @@
       </div>
     </div>
   </div>
-  <div class="section-container">
+  <div class="section-container" style="display: flex">
     <app-button
       [text]="mode"
       (clicked)="submitForm($event)"
       class="submit-button"
+    ></app-button>
+    <app-button
+      text="Cancel"
+      cancel="true"
+      class="cancel-button"
+      (clicked)="cancel()"
     ></app-button>
   </div>
 </div>
