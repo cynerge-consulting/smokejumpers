@@ -507,4 +507,8 @@ export class NewJumperComponent implements OnInit {
         console.dir(error);
       });
   };
+
+  cancel = () => {
+    this.router.navigate(['/jumpers']);
+  };
 }
