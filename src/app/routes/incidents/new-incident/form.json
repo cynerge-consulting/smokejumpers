@@ -114,6 +114,7 @@
       "data": [
         {
           "choice": {},
+          "width": 50,
           "dropdown": true,
           "required": true,
           "endpoint": "travelmodes",
@@ -129,11 +130,13 @@
         {
           "input": true,
           "maxlength": 6,
+          "width": 50,
           "placeholder": "Hobbs Time",
           "help": "Needs to be in valid format (ex: 12.8)",
           "key": "_hobbsTime"
         },
         {
+          "width": 50,
           "help": "Needs to be in HH:MM format (ex: 12:15)",
           "input": true,
           "required": true,
@@ -142,6 +145,7 @@
           "key": "_departTimeMilitary"
         },
         {
+          "width": 50,
           "input": true,
           "placeholder": "Time Over Fire",
           "key": "_timeOverFire"
@@ -152,6 +156,7 @@
       "title": "Crew Information",
       "data": [
         {
+          "width": 50,
           "choice": {},
           "endpoint": "pilots",
           "combobox": true,
@@ -160,6 +165,7 @@
           "options": [{}]
         },
         {
+          "width": 50,
           "choice": {},
           "endpoint": "pilots",
           "combobox": true,
@@ -168,6 +174,7 @@
           "options": [{}]
         },
         {
+          "width": 50,
           "choice": {},
           "endpoint": "pilots",
           "combobox": true,
@@ -176,6 +183,7 @@
           "options": [{}]
         },
         {
+          "width": 50,
           "choice": {},
           "combobox": true,
           "label": "Spotter 2",
@@ -185,6 +193,7 @@
         },
         {},
         {
+          "width": 50,
           "choice": {},
           "combobox": true,
           "label": "Spotter Trainee",
@@ -334,6 +343,7 @@
           ]
         },
         {
+          "width": 50,
           "choice": {},
           "dropdown": true,
           "label": "Mission",
@@ -371,6 +381,7 @@
           ]
         },
         {
+          "width": 50,
           "input": true,
           "placeholder": "Latitude",
           "key": "_latitude",
@@ -388,6 +399,7 @@
           "sizeClass": true
         },
         {
+          "width": 50,
           "input": true,
           "placeholder": "Longitude",
           "key": "_longitude",
@@ -395,6 +407,7 @@
           "help": "Needs to be in Degree Decimal Minutes i.e. DD MM.MMMM"
         },
         {
+          "width": 50,
           "dropdown": true,
           "label": "Fuel Type",
           "key": "_fuelType",
@@ -419,6 +432,7 @@
           ]
         },
         {
+          "width": 50,
           "dropdown": true,
           "choice": {},
           "label": "Yards Of Drift",

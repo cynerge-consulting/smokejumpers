@@ -210,3 +210,26 @@ input[type='checkbox'] {
   top: -15px;
   left: 10px;
 }
+
+@media only screen and (max-width: 960px) {
+  .form {
+    .content {
+      .input-container {
+        width: 100%;
+      }
+      .datum {
+        min-height: 25px;
+        margin: 20px 20px;
+        width: calc(50% - 40px);
+        display: flex;
+        align-items: center;
+        &.width-25 {
+          width: calc(25% - 40px);
+        }
+        &.width-50 {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
