@@ -15,7 +15,7 @@
       <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path>
     </svg>
   </div>
-  <div class="menu" *ngIf="showingMenu">
+  <div id="menu" class="menu" *ngIf="showingMenu">
     <span (click)="select(option)" *ngFor="let option of options">{{
       option[key]
     }}</span>

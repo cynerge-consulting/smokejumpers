@@ -33,6 +33,20 @@ export class DropdownComponent implements OnInit {
 
   showMenu = () => {
     this.showingMenu = true;
+
+    // make sure dropdown fits vertically within visible viewport
+    let elements = this.elementRef.nativeElement.children[0].children;
+    let menu = elements[1];
+    if (menu === undefined) {
+      setTimeout(() => {
+        this.showMenu();
+      }, 10);
+    } else {
+      let rect = menu.getBoundingClientRect();
+      if (rect.y + rect.height > window.innerHeight) {
+        menu.style.height = window.innerHeight - rect.y - 50 + 'px';
+      }
+    }
   };
 
   select = (option) => {
