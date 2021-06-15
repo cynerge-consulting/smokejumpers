@@ -43,6 +43,15 @@
       border: 1px solid #006632;
       border-radius: 3px;
 
+      .fields-container {
+        width: calc(100% - 20px);
+        display: flex;
+        .right-side {
+          display: flex;
+          flex-wrap: wrap;
+        }
+      }
+
       .datum {
         width: calc(50% - 130px);
         padding: 0 40px;
@@ -119,6 +128,10 @@
     align-items: center;
     &.width-25 {
       width: calc(25% - 40px);
+    }
+    &.width-33 {
+      padding: 0 !important;
+      width: calc(33% - 40px) !important;
     }
     &.width-50 {
       width: calc(50% - 40px);
@@ -211,7 +224,7 @@ input[type='checkbox'] {
   left: 10px;
 }
 
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 1025px) {
   .form {
     .content {
       .input-container {
@@ -229,6 +242,20 @@ input[type='checkbox'] {
         &.width-50 {
           width: 100%;
         }
+      }
+    }
+    .fields-container {
+      width: calc(100% - 20px);
+      display: flex;
+      flex-wrap: wrap;
+      .left-side {
+        width: 100%;
+      }
+      .right-side {
+        width: calc(100% - 100px);
+        margin-left: 40px;
+        display: flex;
+        flex-wrap: wrap;
       }
     }
   }
