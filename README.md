@@ -1,3 +1,5 @@
+This is the backup repo, for those who cannot access the other.  Please go to https://code.fs.usda.gov/forest-service/MasterActionDB-FrontEnd-UI to access the most-up-to-date version.
+
 # Smokejumpers
 
 Smokejumpers
